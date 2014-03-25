@@ -14,25 +14,25 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-CryptoppAuthenticatedSymmetricCipherGeneric::Base::Base(CryptoPP::SymmetricCipher *cipher, CryptoPP::MessageAuthenticationCode *mac)
+CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Base::Base(CryptoPP::SymmetricCipher *cipher, CryptoPP::MessageAuthenticationCode *mac)
 {
     m_cipher    = cipher;
     m_mac       = mac;
 }
 
-CryptoppAuthenticatedSymmetricCipherGeneric::Encryption::Encryption(CryptoPP::SymmetricCipher *cipher, CryptoPP::MessageAuthenticationCode *mac)
+CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Encryption::Encryption(CryptoPP::SymmetricCipher *cipher, CryptoPP::MessageAuthenticationCode *mac)
     : Base(cipher, mac)
 {
     assert(cipher->IsForwardTransformation());
 }
 
-CryptoppAuthenticatedSymmetricCipherGeneric::Decryption::Decryption(CryptoPP::SymmetricCipher *cipher, CryptoPP::MessageAuthenticationCode *mac)
+CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Decryption::Decryption(CryptoPP::SymmetricCipher *cipher, CryptoPP::MessageAuthenticationCode *mac)
     : Base(cipher, mac)
 {
     // can't assert that the cipher is not a forward transformation, because some ciphers use the same transformation for both encryption and decryption
 }
 
-void CryptoppAuthenticatedSymmetricCipherGeneric::Base::ProcessData(byte *outString, const byte *inString, size_t length)
+void CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Base::ProcessData(byte *outString, const byte *inString, size_t length)
 {
     m_cipher->ProcessData(outString, inString, length);
 
@@ -57,8 +57,8 @@ AuthenticatedSymmetricCipherGeneric::AuthenticatedSymmetricCipherGeneric(Symmetr
     setName(name);
 
     // create cipher object
-    m_encryptor = new CryptoppAuthenticatedSymmetricCipherGeneric::Encryption(mode->getEncryptor(), mac->getCryptoppObject());
-    m_decryptor = new CryptoppAuthenticatedSymmetricCipherGeneric::Decryption(mode->getDecryptor(), mac->getCryptoppObject());
+    m_encryptor = new CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Encryption(mode->getEncryptor(), mac->getCryptoppObject());
+    m_decryptor = new CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Decryption(mode->getDecryptor(), mac->getCryptoppObject());
     setCryptoppObjects(m_encryptor, m_decryptor);
 }
 
@@ -74,8 +74,8 @@ AuthenticatedSymmetricCipherGeneric::AuthenticatedSymmetricCipherGeneric(StreamC
     setName(name);
 
     // create cipher object
-    m_encryptor = new CryptoppAuthenticatedSymmetricCipherGeneric::Encryption(cipher->getEncryptor(), mac->getCryptoppObject());
-    m_decryptor = new CryptoppAuthenticatedSymmetricCipherGeneric::Decryption(cipher->getDecryptor(), mac->getCryptoppObject());
+    m_encryptor = new CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Encryption(cipher->getEncryptor(), mac->getCryptoppObject());
+    m_decryptor = new CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Decryption(cipher->getDecryptor(), mac->getCryptoppObject());
     setCryptoppObjects(m_encryptor, m_decryptor);
 }
 

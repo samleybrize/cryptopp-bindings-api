@@ -22,8 +22,8 @@ AuthenticatedSymmetricCipherEax::AuthenticatedSymmetricCipherEax(BlockCipherInte
     setName(name);
 
     // create cipher object
-    m_encryptor = new CryptoppEax::Encryption(cipher->getEncryptor());
-    m_decryptor = new CryptoppEax::Decryption(cipher->getEncryptor());
+    m_encryptor = new CryptoppApiInternal::CryptoppEax::Encryption(cipher->getEncryptor());
+    m_decryptor = new CryptoppApiInternal::CryptoppEax::Decryption(cipher->getEncryptor());
     setCryptoppObjects(m_encryptor, m_decryptor);
     setCipherObject(cipher);
 }

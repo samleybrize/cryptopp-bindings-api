@@ -36,8 +36,8 @@ AuthenticatedSymmetricCipherCcm::AuthenticatedSymmetricCipherCcm(BlockCipherInte
     }
 
     // create cipher object
-    m_encryptor = new CryptoppCcm::Encryption(cipher->getEncryptor());
-    m_decryptor = new CryptoppCcm::Decryption(cipher->getEncryptor());
+    m_encryptor = new CryptoppApiInternal::CryptoppCcm::Encryption(cipher->getEncryptor());
+    m_decryptor = new CryptoppApiInternal::CryptoppCcm::Decryption(cipher->getEncryptor());
     setCryptoppObjects(m_encryptor, m_decryptor);
     setCipherObject(cipher);
 
@@ -170,7 +170,7 @@ void AuthenticatedSymmetricCipherCcm::restart()
     m_processedDecryptionAadSize    = 0;
 }
 
-void CryptoppCcm::Base::SetDigestSize(int digestSize)
+void CryptoppApiInternal::CryptoppCcm::Base::SetDigestSize(int digestSize)
 {
     if (digestSize % 2 > 0 || digestSize < 4 || digestSize > 16) {
         throw Exception("digest size must be 4, 6, 8, 10, 12, 14, or 16");

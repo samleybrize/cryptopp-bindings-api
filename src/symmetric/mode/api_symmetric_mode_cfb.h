@@ -18,6 +18,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 class CryptoppCfbEncryption : public CryptoPP::CFB_Mode_ExternalCipher::Encryption
 {
 public:
@@ -32,6 +35,8 @@ public:
     void SetCipher(CryptoPP::BlockCipher &cipher);
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class SymmetricModeCfb : public SymmetricModeAbstract
 {
 public:
@@ -39,8 +44,8 @@ public:
     ~SymmetricModeCfb();
 
 private:
-    CryptoppCfbEncryption *m_encryptor;
-    CryptoppCfbDecryption *m_decryptor;
+    CryptoppApiInternal::CryptoppCfbEncryption *m_encryptor;
+    CryptoppApiInternal::CryptoppCfbDecryption *m_decryptor;
 };
 
 NAMESPACE_END

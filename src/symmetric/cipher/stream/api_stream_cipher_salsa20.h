@@ -17,6 +17,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 class CryptoppSalsa20Encryption : public CryptoPP::Salsa20::Encryption
 {
 public:
@@ -31,6 +34,8 @@ public:
     void CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length);
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class StreamCipherSalsa20 : public StreamCipherAbstract
 {
 public:
@@ -39,8 +44,8 @@ public:
     void setRounds(int rounds);
 
 private:
-    CryptoppSalsa20Encryption m_encryptor;
-    CryptoppSalsa20Decryption m_decryptor;
+    CryptoppApiInternal::CryptoppSalsa20Encryption m_encryptor;
+    CryptoppApiInternal::CryptoppSalsa20Decryption m_decryptor;
     int m_rounds;
 };
 

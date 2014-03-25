@@ -18,6 +18,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 class CryptoppCcm
 {
 public:
@@ -56,6 +59,8 @@ public:
     };
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class AuthenticatedSymmetricCipherCcm : public AuthenticatedSymmetricCipherAbstract
 {
 public:
@@ -80,8 +85,8 @@ private:
     size_t m_processedDecryptionDataSize;
     size_t m_processedEncryptionAadSize;
     size_t m_processedDecryptionAadSize;
-    CryptoppCcm::Encryption *m_encryptor;
-    CryptoppCcm::Decryption *m_decryptor;
+    CryptoppApiInternal::CryptoppCcm::Encryption *m_encryptor;
+    CryptoppApiInternal::CryptoppCcm::Decryption *m_decryptor;
 };
 
 NAMESPACE_END

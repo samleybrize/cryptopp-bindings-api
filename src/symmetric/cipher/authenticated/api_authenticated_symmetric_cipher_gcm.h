@@ -18,6 +18,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 class CryptoppGcm
 {
 public:
@@ -55,6 +58,8 @@ public:
     };
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class AuthenticatedSymmetricCipherGcm : public AuthenticatedSymmetricCipherAbstract
 {
 public:
@@ -62,8 +67,8 @@ public:
     ~AuthenticatedSymmetricCipherGcm();
 
 private:
-    CryptoppGcm::Encryption *m_encryptor;
-    CryptoppGcm::Decryption *m_decryptor;
+    CryptoppApiInternal::CryptoppGcm::Encryption *m_encryptor;
+    CryptoppApiInternal::CryptoppGcm::Decryption *m_decryptor;
 };
 
 NAMESPACE_END

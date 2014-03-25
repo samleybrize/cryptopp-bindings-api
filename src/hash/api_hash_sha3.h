@@ -22,6 +22,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 class CryptoppSha3_224 : public CryptoPP::SHA3_224
 {
 public:
@@ -46,13 +49,15 @@ public:
     unsigned int BlockSize() const {return 144;}
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class HashSha3_224 : public HashAbstract
 {
 public:
     HashSha3_224();
 
 private:
-    CryptoppSha3_224 m_hash;
+    CryptoppApiInternal::CryptoppSha3_224 m_hash;
 };
 
 class HashSha3_256 : public HashAbstract
@@ -61,7 +66,7 @@ public:
     HashSha3_256();
 
 private:
-    CryptoppSha3_256 m_hash;
+    CryptoppApiInternal::CryptoppSha3_256 m_hash;
 };
 
 class HashSha3_384 : public HashAbstract
@@ -70,7 +75,7 @@ public:
     HashSha3_384();
 
 private:
-    CryptoppSha3_384 m_hash;
+    CryptoppApiInternal::CryptoppSha3_384 m_hash;
 };
 
 class HashSha3_512 : public HashAbstract
@@ -79,7 +84,7 @@ public:
     HashSha3_512();
 
 private:
-    CryptoppSha3_512 m_hash;
+    CryptoppApiInternal::CryptoppSha3_512 m_hash;
 };
 
 NAMESPACE_END

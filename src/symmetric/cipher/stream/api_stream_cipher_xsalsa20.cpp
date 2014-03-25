@@ -38,17 +38,17 @@ void StreamCipherXSalsa20::setRounds(int rounds)
     restart();
 }
 
-void CryptoppXSalsa20Encryption::SetRounds(int rounds)
+void CryptoppApiInternal::CryptoppXSalsa20Encryption::SetRounds(int rounds)
 {
     m_rounds = rounds;
 }
 
-void CryptoppXSalsa20Decryption::SetRounds(int rounds)
+void CryptoppApiInternal::CryptoppXSalsa20Decryption::SetRounds(int rounds)
 {
     m_rounds = rounds;
 }
 
-void CryptoppXSalsa20Encryption::CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length)
+void CryptoppApiInternal::CryptoppXSalsa20Encryption::CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length)
 {
     int rounds = m_rounds;
     CryptoPP::XSalsa20::Encryption::CipherSetKey(params, key, length);
@@ -58,7 +58,7 @@ void CryptoppXSalsa20Encryption::CipherSetKey(const CryptoPP::NameValuePairs &pa
     }
 }
 
-void CryptoppXSalsa20Decryption::CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length)
+void CryptoppApiInternal::CryptoppXSalsa20Decryption::CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length)
 {
     int rounds = m_rounds;
     CryptoPP::XSalsa20::Decryption::CipherSetKey(params, key, length);

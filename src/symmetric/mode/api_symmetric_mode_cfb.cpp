@@ -20,8 +20,8 @@ SymmetricModeCfb::SymmetricModeCfb(BlockCipherInterface *cipher)
     setName("cfb", cipher->getName());
 
     // create mode object
-    m_encryptor = new CryptoppCfbEncryption();
-    m_decryptor = new CryptoppCfbDecryption();
+    m_encryptor = new CryptoppApiInternal::CryptoppCfbEncryption();
+    m_decryptor = new CryptoppApiInternal::CryptoppCfbDecryption();
     m_encryptor->SetCipher(*cipher->getEncryptor());
     m_decryptor->SetCipher(*cipher->getEncryptor());
     setCryptoppObjects(cipher, m_encryptor, m_decryptor);
@@ -33,13 +33,13 @@ SymmetricModeCfb::~SymmetricModeCfb()
     delete m_decryptor;
 }
 
-void CryptoppCfbEncryption::SetCipher(CryptoPP::BlockCipher &cipher)
+void CryptoppApiInternal::CryptoppCfbEncryption::SetCipher(CryptoPP::BlockCipher &cipher)
 {
     m_cipher = &cipher;
     ResizeBuffers();
 }
 
-void CryptoppCfbDecryption::SetCipher(CryptoPP::BlockCipher &cipher)
+void CryptoppApiInternal::CryptoppCfbDecryption::SetCipher(CryptoPP::BlockCipher &cipher)
 {
     m_cipher = &cipher;
     ResizeBuffers();

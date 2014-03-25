@@ -33,7 +33,7 @@ MacHmac::MacHmac(HashInterface *hash)
     }
 
     // create mac object
-    m_mac = new CryptoppHmac(hash->getCryptoppObject());
+    m_mac = new CryptoppApiInternal::CryptoppHmac(hash->getCryptoppObject());
     setCryptoppObject(m_mac);
 
     // set an empty to avoid segfaults

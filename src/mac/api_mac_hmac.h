@@ -18,6 +18,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 class CryptoppHmac : public CryptoPP::MessageAuthenticationCodeImpl<CryptoPP::HMAC_Base, CryptoppHmac>
 {
 public:
@@ -33,6 +36,8 @@ private:
     CryptoPP::HashTransformation *m_hash;
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class MacHmac : public MacAbstract
 {
 public:
@@ -40,7 +45,7 @@ public:
     ~MacHmac();
 
 private:
-    CryptoppHmac *m_mac;
+    CryptoppApiInternal::CryptoppHmac *m_mac;
 };
 
 NAMESPACE_END

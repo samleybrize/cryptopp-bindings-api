@@ -18,6 +18,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 class CryptoppCmac : public CryptoPP::CMAC_Base
 {
 public:
@@ -43,6 +46,8 @@ private:
     CryptoPP::BlockCipher *m_cipher;
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class MacCmac : public MacAbstract
 {
 public:
@@ -55,7 +60,7 @@ public:
     void finalize(byte *output);
 
 private:
-    CryptoppCmac *m_mac;
+    CryptoppApiInternal::CryptoppCmac *m_mac;
     BlockCipherAbstract *m_cipher;
 };
 

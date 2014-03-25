@@ -18,6 +18,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 class CryptoppEaxCmac : public CryptoPP::CMAC_Base
 {
 public:
@@ -73,6 +76,8 @@ public:
     };
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class AuthenticatedSymmetricCipherEax : public AuthenticatedSymmetricCipherAbstract
 {
 public:
@@ -80,8 +85,8 @@ public:
     ~AuthenticatedSymmetricCipherEax();
 
 private:
-    CryptoppEax::Encryption *m_encryptor;
-    CryptoppEax::Decryption *m_decryptor;
+    CryptoppApiInternal::CryptoppEax::Encryption *m_encryptor;
+    CryptoppApiInternal::CryptoppEax::Decryption *m_decryptor;
 };
 
 NAMESPACE_END

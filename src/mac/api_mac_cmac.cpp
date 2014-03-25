@@ -14,12 +14,12 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-bool CryptoppCmac::IsValidKeyLength(size_t n) const
+bool CryptoppApiInternal::CryptoppCmac::IsValidKeyLength(size_t n) const
 {
     return m_cipher->IsValidKeyLength(n);
 }
 
-void CryptoppCmac::UncheckedSetKey(const byte *key, unsigned int keylength, const CryptoPP::NameValuePairs &params)
+void CryptoppApiInternal::CryptoppCmac::UncheckedSetKey(const byte *key, unsigned int keylength, const CryptoPP::NameValuePairs &params)
 {
     CryptoPP::CMAC_Base::UncheckedSetKey(key, keylength, params);
 
@@ -38,7 +38,7 @@ MacCmac::MacCmac(BlockCipherAbstract *cipher)
     setName(name);
 
     // create mac object
-    m_mac = new CryptoppCmac(cipher->getEncryptor());
+    m_mac = new CryptoppApiInternal::CryptoppCmac(cipher->getEncryptor());
     setCryptoppObject(m_mac);
 }
 

@@ -20,6 +20,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// internal namespace
+NAMESPACE_BEGIN(CryptoppApiInternal)
+
 // AuthenticatedSymmetricCipher that take an instance of CryptoPP::SymmetricCipher and an instance of CryptoPP::MessageAuthenticationCode
 class CryptoppAuthenticatedSymmetricCipherGeneric
 {
@@ -99,6 +102,8 @@ public:
     };
 };
 
+NAMESPACE_END // CryptoppApiInternal
+
 class AuthenticatedSymmetricCipherGeneric : public AuthenticatedSymmetricCipherAbstract
 {
 public:
@@ -132,8 +137,8 @@ protected:
 private:
     SymmetricTransformationInterface *m_cipher;
     MacInterface *m_mac;
-    CryptoppAuthenticatedSymmetricCipherGeneric::Encryption *m_encryptor;
-    CryptoppAuthenticatedSymmetricCipherGeneric::Decryption *m_decryptor;
+    CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Encryption *m_encryptor;
+    CryptoppApiInternal::CryptoppAuthenticatedSymmetricCipherGeneric::Decryption *m_decryptor;
 };
 
 NAMESPACE_END
