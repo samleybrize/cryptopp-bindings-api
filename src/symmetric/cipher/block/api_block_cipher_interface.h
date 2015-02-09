@@ -12,19 +12,15 @@
 #define API_CRYPTOPP_BLOCK_CIPHER_INTERFACE_H
 
 #include "src/api_cryptopp.h"
+#include "src/symmetric/cipher/api_symmetric_cipher_interface.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-class BlockCipherInterface
+class BlockCipherInterface : public SymmetricCipherInterface
 {
 public:
     virtual ~BlockCipherInterface() {}
 
-    virtual const char *getName() const =0;
-    virtual size_t getBlockSize() const =0;
-    virtual bool isValidKeyLength(size_t length) const =0;
-    virtual void setKey(const byte *key, const size_t keyLength) =0;
-    virtual void getKey(byte **key, size_t &length) =0;
     virtual void encrypt(const byte *input, byte *output, const size_t length) =0;
     virtual void decrypt(const byte *input, byte *output, const size_t length) =0;
     virtual void encryptBlock(const byte *input, byte *output, const size_t length) =0;
