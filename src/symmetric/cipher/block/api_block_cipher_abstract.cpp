@@ -9,6 +9,7 @@
  */
 
 #include "api_block_cipher_abstract.h"
+#include "src/exception/api_exception.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
 
@@ -43,15 +44,22 @@ bool BlockCipherAbstract::isValidKeyLength(size_t length) const
 
 void BlockCipherAbstract::setKey(const byte *key, const size_t keyLength)
 {
+    // verify that the key is valid
     if (!isValidKeyLength(keyLength)) {
-        // TODO exception
+        if (0 == keyLength) {
+            throw new Exception("a key is required");
+        } else {
+            throw new Exception(keyLength << " is not a valid key length");
+        }
     }
 
+    // copy the key
     m_keyLength = keyLength;
     m_key       = new byte[keyLength];
     memcpy(m_key, key, keyLength);
 
     m_encryptor->SetKey(key, keyLength);
+    m_decryptor->SetKey(key, keyLength);
 }
 
 void BlockCipherAbstract::getKey(byte **key, size_t &length)
@@ -70,10 +78,12 @@ void BlockCipherAbstract::encrypt(const byte *input, byte *output, const size_t 
 {
     size_t blockSize = getBlockSize();
 
+    // data size must be a multiple of the block size
     if (0 != length % blockSize) {
-        // TODO exception
+        throw new Exception("data size (" << length << ") is not a multiple of block size (" << blockSize << ")");
     }
 
+    // encrypt each blocks
     int blocks = length / blockSize;
 
     for (int i = 0; i < blocks; i++) {
@@ -85,10 +95,12 @@ void BlockCipherAbstract::decrypt(const byte *input, byte *output, const size_t 
 {
     size_t blockSize = getBlockSize();
 
+    // data size must be a multiple of the block size
     if (0 != length % blockSize) {
-        // TODO exception
+        throw new Exception("data size (" << length << ") is not a multiple of block size (" << blockSize << ")");
     }
 
+    // decrypt each blocks
     int blocks = length / blockSize;
 
     for (int i = 0; i < blocks; i++) {
@@ -98,8 +110,11 @@ void BlockCipherAbstract::decrypt(const byte *input, byte *output, const size_t 
 
 void BlockCipherAbstract::encryptBlock(const byte *block, byte *output, const size_t length)
 {
-    if (length != getBlockSize()) {
-        // TODO exception
+    size_t blockSize = getBlockSize();
+
+    // data size must be exactly equals to the block size
+    if (length != blockSize) {
+        throw new Exception("data size (" << length << ") is not equal to cipher block size (" << blockSize << ")");
     }
 
     m_encryptor->ProcessAndXorBlock(block, NULL, output);
@@ -107,8 +122,11 @@ void BlockCipherAbstract::encryptBlock(const byte *block, byte *output, const si
 
 void BlockCipherAbstract::decryptBlock(const byte *block, byte *output, const size_t length)
 {
-    if (length != getBlockSize()) {
-        // TODO exception
+    size_t blockSize = getBlockSize();
+
+    // data size must be exactly equals to the block size
+    if (length != blockSize) {
+        throw new Exception("data size (" << length << ") is not equal to cipher block size (" << blockSize << ")");
     }
 
     m_decryptor->ProcessAndXorBlock(block, NULL, output);
