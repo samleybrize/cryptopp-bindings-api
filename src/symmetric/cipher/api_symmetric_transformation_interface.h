@@ -8,8 +8,8 @@
  * file that was distributed with this source code.
  */
 
-#ifndef API_CRYPTOPP_SYMMETRIC_CIPHER_INTERFACE_H
-#define API_CRYPTOPP_SYMMETRIC_CIPHER_INTERFACE_H
+#ifndef API_CRYPTOPP_SYMMETRIC_TRANSFORMATION_INTERFACE_H
+#define API_CRYPTOPP_SYMMETRIC_TRANSFORMATION_INTERFACE_H
 
 #include "src/api_cryptopp.h"
 #include "src/keying/api_symmetric_iv_abstract.h"
@@ -29,4 +29,4 @@ public:
 
 NAMESPACE_END
 
-#endif /* API_CRYPTOPP_SYMMETRIC_CIPHER_INTERFACE_H */
+#endif /* API_CRYPTOPP_SYMMETRIC_TRANSFORMATION_INTERFACE_H */
