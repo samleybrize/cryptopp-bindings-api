@@ -20,7 +20,8 @@ class Exception
 {
 public:
     Exception(const std::string message)
-        : Exception(message, 0) {}
+        : m_msg(message)
+        , m_code(0) {}
     Exception(const std::string message, const int code)
         : m_msg(message)
         , m_code(code) {}
