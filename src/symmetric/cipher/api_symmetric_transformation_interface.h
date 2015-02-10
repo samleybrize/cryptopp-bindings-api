@@ -12,17 +12,19 @@
 #define API_CRYPTOPP_SYMMETRIC_CIPHER_INTERFACE_H
 
 #include "src/api_cryptopp.h"
-#include "src/keying/api_symmetric_key_abstract.h"
+#include "src/keying/api_symmetric_iv_abstract.h"
+#include "api_symmetric_cipher_interface.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-class SymmetricCipherInterface : public SymmetricKeyAbstract
+class SymmetricTransformationInterface : public SymmetricCipherInterface, public SymmetricIvAbstract
 {
 public:
-    virtual ~SymmetricCipherInterface() {}
+    virtual ~SymmetricTransformationInterface() {}
 
-    virtual const char *getName() const =0;
-    virtual size_t getBlockSize() const =0;
+    virtual void encrypt(const byte *input, byte *output, const size_t length) =0;
+    virtual void decrypt(const byte *input, byte *output, const size_t length) =0;
+    virtual void restart() =0;
 };
 
 NAMESPACE_END

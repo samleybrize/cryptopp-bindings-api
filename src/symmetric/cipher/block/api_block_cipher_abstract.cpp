@@ -8,8 +8,8 @@
  * file that was distributed with this source code.
  */
 
-#include "api_block_cipher_abstract.h"
 #include "src/exception/api_exception.h"
+#include "api_block_cipher_abstract.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
 
@@ -45,13 +45,7 @@ bool BlockCipherAbstract::isValidKeyLength(size_t length) const
 void BlockCipherAbstract::setKey(const byte *key, const size_t keyLength)
 {
     // verify that the key is valid
-    if (!isValidKeyLength(keyLength)) {
-        if (0 == keyLength) {
-            throw new Exception("a key is required");
-        } else {
-            throw new Exception(keyLength << " is not a valid key length");
-        }
-    }
+    isValidKeyLength(keyLength, true);
 
     // copy the key
     m_keyLength = keyLength;
@@ -83,6 +77,9 @@ void BlockCipherAbstract::encrypt(const byte *input, byte *output, const size_t 
         throw new Exception("data size (" << length << ") is not a multiple of block size (" << blockSize << ")");
     }
 
+    // verify that the key is valid
+    hasValidKey(true);
+
     // encrypt each blocks
     int blocks = length / blockSize;
 
@@ -99,6 +96,9 @@ void BlockCipherAbstract::decrypt(const byte *input, byte *output, const size_t 
     if (0 != length % blockSize) {
         throw new Exception("data size (" << length << ") is not a multiple of block size (" << blockSize << ")");
     }
+
+    // verify that the key is valid
+    hasValidKey(true);
 
     // decrypt each blocks
     int blocks = length / blockSize;
@@ -117,6 +117,9 @@ void BlockCipherAbstract::encryptBlock(const byte *block, byte *output, const si
         throw new Exception("data size (" << length << ") is not equal to cipher block size (" << blockSize << ")");
     }
 
+    // verify that the key is valid
+    hasValidKey(true);
+
     m_encryptor->ProcessAndXorBlock(block, NULL, output);
 }
 
@@ -128,6 +131,9 @@ void BlockCipherAbstract::decryptBlock(const byte *block, byte *output, const si
     if (length != blockSize) {
         throw new Exception("data size (" << length << ") is not equal to cipher block size (" << blockSize << ")");
     }
+
+    // verify that the key is valid
+    hasValidKey(true);
 
     m_decryptor->ProcessAndXorBlock(block, NULL, output);
 }
