@@ -20,6 +20,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 class BlockCipherAbstract : public BlockCipherInterface
 {
 public:
+    using SymmetricKeyAbstract::isValidKeyLength;
     ~BlockCipherAbstract();
 
     const char *getName() const;

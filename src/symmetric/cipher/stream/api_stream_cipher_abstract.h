@@ -20,6 +20,8 @@ NAMESPACE_BEGIN(CryptoppApi)
 class StreamCipherAbstract : public StreamCipherInterface
 {
 public:
+    using SymmetricKeyAbstract::isValidKeyLength;
+    using SymmetricIvAbstract::isValidIvLength;
     ~StreamCipherAbstract();
 
     const char *getName() const;
