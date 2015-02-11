@@ -37,7 +37,8 @@ public:
     void restart();
 
 protected:
-    StreamCipherAbstract(CryptoPP::SymmetricCipher &encryptor, CryptoPP::SymmetricCipher &decryptor);
+    StreamCipherAbstract();
+    void setCryptoppObjects(CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor);
     void setName(const std::string name);
     size_t getKeyLength() {return m_keyLength;}
     size_t getIvLength() {return m_ivLength;}

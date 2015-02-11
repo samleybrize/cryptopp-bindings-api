@@ -14,9 +14,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-BlockCipherAbstract::BlockCipherAbstract(CryptoPP::BlockCipher &encryptor, CryptoPP::BlockCipher &decryptor)
-    : m_encryptor(&encryptor)
-    , m_decryptor(&decryptor)
+BlockCipherAbstract::BlockCipherAbstract()
+    : m_encryptor(NULL)
+    , m_decryptor(NULL)
     , m_name(NULL)
     , m_key(NULL)
     , m_keyLength(0)
@@ -26,6 +26,12 @@ BlockCipherAbstract::BlockCipherAbstract(CryptoPP::BlockCipher &encryptor, Crypt
 BlockCipherAbstract::~BlockCipherAbstract()
 {
     delete[] m_key;
+}
+
+void BlockCipherAbstract::setCryptoppObjects(CryptoPP::BlockCipher *encryptor, CryptoPP::BlockCipher *decryptor)
+{
+    m_encryptor = encryptor;
+    m_decryptor = decryptor;
 }
 
 const char *BlockCipherAbstract::getName() const

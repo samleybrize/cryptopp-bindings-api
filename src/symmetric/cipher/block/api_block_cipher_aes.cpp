@@ -13,9 +13,10 @@
 NAMESPACE_BEGIN(CryptoppApi)
 
 BlockCipherAes::BlockCipherAes()
-    : BlockCipherAbstract(m_encryptor, m_decryptor)
+    : BlockCipherAbstract()
 {
     setName("aes");
+    setCryptoppObjects(&m_encryptor, &m_decryptor);
 }
 
 NAMESPACE_END

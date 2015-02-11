@@ -14,9 +14,9 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-StreamCipherAbstract::StreamCipherAbstract(CryptoPP::SymmetricCipher &encryptor, CryptoPP::SymmetricCipher &decryptor)
-    : m_encryptor(&encryptor)
-    , m_decryptor(&decryptor)
+StreamCipherAbstract::StreamCipherAbstract()
+    : m_encryptor(NULL)
+    , m_decryptor(NULL)
     , m_name(NULL)
     , m_key(NULL)
     , m_keyLength(0)
@@ -29,6 +29,12 @@ StreamCipherAbstract::~StreamCipherAbstract()
 {
     delete[] m_key;
     delete[] m_iv;
+}
+
+void StreamCipherAbstract::setCryptoppObjects(CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor)
+{
+    m_encryptor = encryptor;
+    m_decryptor = decryptor;
 }
 
 const char *StreamCipherAbstract::getName() const

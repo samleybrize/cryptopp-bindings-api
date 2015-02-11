@@ -34,7 +34,8 @@ public:
     void decryptBlock(const byte *input, byte *output, const size_t length);
 
 protected:
-    BlockCipherAbstract(CryptoPP::BlockCipher &encryptor, CryptoPP::BlockCipher &decryptor);
+    BlockCipherAbstract();
+    void setCryptoppObjects(CryptoPP::BlockCipher *encryptor, CryptoPP::BlockCipher *decryptor);
     void setName(const std::string name);
     size_t getKeyLength() {return m_keyLength;}
 
