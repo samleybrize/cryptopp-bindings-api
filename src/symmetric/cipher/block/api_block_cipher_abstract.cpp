@@ -54,6 +54,11 @@ void BlockCipherAbstract::setKey(const byte *key, const size_t keyLength)
     // verify that the key is valid
     isValidKeyLength(keyLength, true);
 
+    // free key
+    if (NULL != m_key) {
+        delete[] m_key;
+    }
+
     // copy the key
     m_keyLength = keyLength;
     m_key       = new byte[keyLength];

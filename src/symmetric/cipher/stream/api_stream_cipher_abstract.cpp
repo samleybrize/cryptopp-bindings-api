@@ -70,6 +70,11 @@ void StreamCipherAbstract::setKey(const byte *key, const size_t keyLength)
     // verify that the key is valid
     isValidKeyLength(keyLength, true);
 
+    // free key
+    if (NULL != m_key) {
+        delete[] m_key;
+    }
+
     // copy the key
     m_keyLength = keyLength;
     m_key       = new byte[keyLength];
@@ -83,6 +88,11 @@ void StreamCipherAbstract::setIv(const byte *iv, const size_t ivLength)
 {
     // verify that the iv is valid
     isValidIvLength(ivLength, true);
+
+    // free iv
+    if (NULL != m_iv) {
+        delete[] m_iv;
+    }
 
     // copy the iv
     m_ivLength  = ivLength;
