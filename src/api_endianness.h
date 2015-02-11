@@ -7,6 +7,9 @@
  * file that was distributed with this source code.
  */
 
+#ifndef API_CRYPTOPP_ENDIANNESS_H
+#define API_CRYPTOPP_ENDIANNESS_H
+
 #include "api_cryptopp.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
@@ -17,3 +20,5 @@ enum Endianness {
 };
 
 NAMESPACE_END
+
+#endif /* API_CRYPTOPP_ENDIANNESS_H */
