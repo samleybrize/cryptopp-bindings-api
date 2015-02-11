@@ -10,6 +10,7 @@
 
 #include "src/exception/api_exception.h"
 #include "api_stream_cipher_abstract.h"
+#include <sstream>
 
 NAMESPACE_BEGIN(CryptoppApi)
 
@@ -111,7 +112,9 @@ void StreamCipherAbstract::encrypt(const byte *input, byte *output, const size_t
 
     // data size must be a multiple of the block size
     if (0 != length % blockSize) {
-        throw new Exception("data size (" << length << ") is not a multiple of block size (" << blockSize << ")");
+        std::stringstream msg;
+        msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
+        throw new Exception(msg.str());
     }
 
     // verify that key/iv are valid
@@ -128,7 +131,9 @@ void StreamCipherAbstract::decrypt(const byte *input, byte *output, const size_t
 
     // data size must be a multiple of the block size
     if (0 != length % blockSize) {
-        throw new Exception("data size (" << length << ") is not a multiple of block size (" << blockSize << ")");
+        std::stringstream msg;
+        msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
+        throw new Exception(msg.str());
     }
 
     // verify that key/iv are valid

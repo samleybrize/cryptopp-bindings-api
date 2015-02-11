@@ -10,6 +10,7 @@
 
 #include "src/exception/api_exception.h"
 #include "api_block_cipher_abstract.h"
+#include <sstream>
 
 NAMESPACE_BEGIN(CryptoppApi)
 
@@ -74,7 +75,9 @@ void BlockCipherAbstract::encrypt(const byte *input, byte *output, const size_t 
 
     // data size must be a multiple of the block size
     if (0 != length % blockSize) {
-        throw new Exception("data size (" << length << ") is not a multiple of block size (" << blockSize << ")");
+        std::stringstream msg;
+        msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
+        throw new Exception(msg.str());
     }
 
     // verify that the key is valid
@@ -94,7 +97,9 @@ void BlockCipherAbstract::decrypt(const byte *input, byte *output, const size_t 
 
     // data size must be a multiple of the block size
     if (0 != length % blockSize) {
-        throw new Exception("data size (" << length << ") is not a multiple of block size (" << blockSize << ")");
+        std::stringstream msg;
+        msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
+        throw new Exception(msg.str());
     }
 
     // verify that the key is valid
@@ -114,7 +119,9 @@ void BlockCipherAbstract::encryptBlock(const byte *block, byte *output, const si
 
     // data size must be exactly equals to the block size
     if (length != blockSize) {
-        throw new Exception("data size (" << length << ") is not equal to cipher block size (" << blockSize << ")");
+        std::stringstream msg;
+        msg << "data size (" << length << ") is not equal to cipher block size (" << blockSize << ")";
+        throw new Exception(msg.str());
     }
 
     // verify that the key is valid
@@ -129,7 +136,9 @@ void BlockCipherAbstract::decryptBlock(const byte *block, byte *output, const si
 
     // data size must be exactly equals to the block size
     if (length != blockSize) {
-        throw new Exception("data size (" << length << ") is not equal to cipher block size (" << blockSize << ")");
+        std::stringstream msg;
+        msg << "data size (" << length << ") is not equal to cipher block size (" << blockSize << ")";
+        throw new Exception(msg.str());
     }
 
     // verify that the key is valid
