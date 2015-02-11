@@ -3,6 +3,11 @@ def getSourceFileList(cryptoppVersion):
     sourceFileList.append("src/keying/api_symmetric_iv_abstract.cpp")
     sourceFileList.append("src/keying/api_symmetric_key_abstract.cpp")
 
+    sourceFileList.append("src/hash/api_hash_abstract.cpp")
+    sourceFileList.append("src/hash/api_hash_md5.cpp")
+    sourceFileList.append("src/hash/api_hash_sha1.cpp")
+    sourceFileList.append("src/hash/api_hash_sha3.cpp")
+
     sourceFileList.append("src/symmetric/cipher/block/api_block_cipher_abstract.cpp")
     sourceFileList.append("src/symmetric/cipher/block/api_block_cipher_aes.cpp")
 
