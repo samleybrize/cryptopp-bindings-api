@@ -20,7 +20,4 @@
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include <cryptlib.h>
 
-#define API_CRYPTOPP_LITTLE_ENDIAN  1
-#define API_CRYPTOPP_BIG_ENDIAN     2
-
 #endif /* API_CRYPTOPP_H */
