@@ -23,10 +23,10 @@ public:
     virtual bool isValidIvLength(size_t length) const =0;
     bool isValidIvLength(size_t length, bool throwIfFalse) const;
     virtual void setIv(const byte *iv, const size_t ivLength) =0;
-    virtual void getIv(byte **iv, size_t &length) =0;
+    virtual void getIv(byte *iv) =0;
+    virtual size_t getIvLength() =0;
 
 protected:
-    virtual size_t getIvLength() =0;
     bool hasValidIv(bool throwIfFalse);
 };
 

@@ -27,7 +27,8 @@ public:
     size_t getBlockSize() const;
     bool isValidKeyLength(size_t length) const;
     void setKey(const byte *key, const size_t keyLength);
-    void getKey(byte **key, size_t &length);
+    void getKey(byte *key);
+    size_t getKeyLength() {return m_keyLength;}
     void encrypt(const byte *input, byte *output, const size_t length);
     void decrypt(const byte *input, byte *output, const size_t length);
     void encryptBlock(const byte *input, byte *output, const size_t length);
@@ -37,7 +38,6 @@ protected:
     BlockCipherAbstract();
     void setCryptoppObjects(CryptoPP::BlockCipher *encryptor, CryptoPP::BlockCipher *decryptor);
     void setName(const std::string name);
-    size_t getKeyLength() {return m_keyLength;}
 
 private:
     char *m_name;

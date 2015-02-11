@@ -93,18 +93,14 @@ void StreamCipherAbstract::setIv(const byte *iv, const size_t ivLength)
     restart();
 }
 
-void StreamCipherAbstract::getKey(byte **key, size_t &length)
+void StreamCipherAbstract::getKey(byte *key)
 {
-    *key    = new byte[m_keyLength];
-    length  = m_keyLength;
-    memcpy(*key, m_key, length);
+    memcpy(key, m_key, m_keyLength);
 }
 
-void StreamCipherAbstract::getIv(byte **iv, size_t &length)
+void StreamCipherAbstract::getIv(byte *iv)
 {
-    *iv     = new byte[m_ivLength];
-    length  = m_ivLength;
-    memcpy(*iv, m_iv, length);
+    memcpy(iv, m_iv, m_ivLength);
 }
 
 void StreamCipherAbstract::setName(const std::string name)

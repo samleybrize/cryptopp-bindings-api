@@ -63,11 +63,9 @@ void BlockCipherAbstract::setKey(const byte *key, const size_t keyLength)
     m_decryptor->SetKey(key, keyLength);
 }
 
-void BlockCipherAbstract::getKey(byte **key, size_t &length)
+void BlockCipherAbstract::getKey(byte *key)
 {
-    *key    = new byte[m_keyLength];
-    length  = m_keyLength;
-    memcpy(*key, m_key, length);
+    memcpy(key, m_key, m_keyLength);
 }
 
 void BlockCipherAbstract::setName(const std::string name)

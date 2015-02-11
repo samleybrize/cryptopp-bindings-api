@@ -41,9 +41,9 @@ void StreamCipherSalsa20::restart()
     StreamCipherAbstract::restart();
 
     // set the number of rounds
-    byte *key;
-    size_t keyLength;
-    getKey(&key, keyLength);
+    size_t keyLength = getKeyLength();
+    byte key[keyLength];
+    getKey(key);
     m_encryptor.SetKeyWithRounds(key, keyLength, m_rounds);
     m_decryptor.SetKeyWithRounds(key, keyLength, m_rounds);
 }
