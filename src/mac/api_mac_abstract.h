@@ -11,7 +11,7 @@
 #ifndef API_CRYPTOPP_MAC_ABSTRACT_H
 #define API_CRYPTOPP_MAC_ABSTRACT_H
 
-#include "api_cryptopp.h"
+#include "src/api_cryptopp.h"
 #include "api_mac_interface.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
