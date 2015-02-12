@@ -18,17 +18,7 @@ StreamCipherAbstract::StreamCipherAbstract()
     : m_encryptor(NULL)
     , m_decryptor(NULL)
     , m_name(NULL)
-    , m_key(NULL)
-    , m_keyLength(0)
-    , m_iv(NULL)
-    , m_ivLength(0)
 {
-}
-
-StreamCipherAbstract::~StreamCipherAbstract()
-{
-    delete[] m_key;
-    delete[] m_iv;
 }
 
 void StreamCipherAbstract::setCryptoppObjects(CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor)
@@ -67,50 +57,14 @@ bool StreamCipherAbstract::isValidIvLength(size_t length) const
 
 void StreamCipherAbstract::setKey(const byte *key, const size_t keyLength)
 {
-    // verify that the key is valid
-    isValidKeyLength(keyLength, true);
-
-    // free key
-    if (NULL != m_key) {
-        delete[] m_key;
-    }
-
-    // copy the key
-    m_keyLength = keyLength;
-    m_key       = new byte[keyLength];
-    memcpy(m_key, key, keyLength);
-
-    // restart cipher
+    SymmetricKeyAbstract::setKey(key, keyLength);
     restart();
 }
 
 void StreamCipherAbstract::setIv(const byte *iv, const size_t ivLength)
 {
-    // verify that the iv is valid
-    isValidIvLength(ivLength, true);
-
-    // free iv
-    if (NULL != m_iv) {
-        delete[] m_iv;
-    }
-
-    // copy the iv
-    m_ivLength  = ivLength;
-    m_iv        = new byte[ivLength];
-    memcpy(m_iv, iv, ivLength);
-
-    // restart cipher
+    SymmetricIvAbstract::setIv(iv, ivLength);
     restart();
-}
-
-void StreamCipherAbstract::getKey(byte *key)
-{
-    memcpy(key, m_key, m_keyLength);
-}
-
-void StreamCipherAbstract::getIv(byte *iv)
-{
-    memcpy(iv, m_iv, m_ivLength);
 }
 
 void StreamCipherAbstract::setName(const std::string name)
@@ -158,12 +112,17 @@ void StreamCipherAbstract::decrypt(const byte *input, byte *output, const size_t
 
 void StreamCipherAbstract::restart()
 {
-    if (!isValidKeyLength(m_keyLength) || !isValidIvLength(m_ivLength)) {
+    size_t keyLength    = getKeyLength();
+    size_t ivLength     = getIvLength();
+
+    if (!isValidKeyLength(keyLength) || !isValidIvLength(ivLength)) {
         return;
     }
 
-    m_encryptor->SetKeyWithIV(m_key, m_keyLength, m_iv, m_ivLength);
-    m_decryptor->SetKeyWithIV(m_key, m_keyLength, m_iv, m_ivLength);
+    byte key[keyLength];
+    byte iv[ivLength];
+    m_encryptor->SetKeyWithIV(key, keyLength, iv, ivLength);
+    m_decryptor->SetKeyWithIV(key, keyLength, iv, ivLength);
 }
 
 NAMESPACE_END

@@ -13,16 +13,10 @@
 NAMESPACE_BEGIN(CryptoppApi)
 
 MacAbstract::MacAbstract()
-    : m_mac(NULL)
+    : SymmetricKeyAbstract()
+    , m_mac(NULL)
     , m_name(NULL)
-    , m_key(NULL)
-    , m_keyLength(0)
 {
-}
-
-MacAbstract::~MacAbstract()
-{
-    delete[] m_key;
 }
 
 const char *MacAbstract::getName() const
@@ -42,25 +36,8 @@ bool MacAbstract::isValidKeyLength(size_t length) const
 
 void MacAbstract::setKey(const byte *key, const size_t keyLength)
 {
-    // verify that the key is valid
-    isValidKeyLength(keyLength, true);
-
-    // free key
-    if (NULL != m_key) {
-        delete[] m_key;
-    }
-
-    // copy the key
-    m_keyLength = keyLength;
-    m_key       = new byte[keyLength];
-    memcpy(m_key, key, keyLength);
-
+    SymmetricKeyAbstract::setKey(key, keyLength);
     m_mac->SetKey(key, keyLength);
-}
-
-void MacAbstract::getKey(byte *key)
-{
-    memcpy(key, m_key, m_keyLength);
 }
 
 void MacAbstract::setName(const std::string name)

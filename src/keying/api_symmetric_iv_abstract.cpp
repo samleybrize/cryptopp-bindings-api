@@ -32,4 +32,25 @@ bool SymmetricIvAbstract::isValidIvLength(size_t length, bool throwIfFalse) cons
     return isValid;
 }
 
+void SymmetricIvAbstract::getIv(byte *iv)
+{
+    memcpy(iv, m_iv, m_ivLength);
+}
+
+void SymmetricIvAbstract::setIv(const byte *iv, const size_t ivLength)
+{
+    // verify that the iv is valid
+    isValidIvLength(ivLength, true);
+
+    // free iv
+    if (NULL != m_iv) {
+        delete[] m_iv;
+    }
+
+    // copy the iv
+    m_ivLength  = ivLength;
+    m_iv        = new byte[ivLength];
+    memcpy(m_iv, iv, ivLength);
+}
+
 NAMESPACE_END

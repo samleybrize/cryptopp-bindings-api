@@ -18,14 +18,7 @@ BlockCipherAbstract::BlockCipherAbstract()
     : m_encryptor(NULL)
     , m_decryptor(NULL)
     , m_name(NULL)
-    , m_key(NULL)
-    , m_keyLength(0)
 {
-}
-
-BlockCipherAbstract::~BlockCipherAbstract()
-{
-    delete[] m_key;
 }
 
 void BlockCipherAbstract::setCryptoppObjects(CryptoPP::BlockCipher *encryptor, CryptoPP::BlockCipher *decryptor)
@@ -51,26 +44,10 @@ bool BlockCipherAbstract::isValidKeyLength(size_t length) const
 
 void BlockCipherAbstract::setKey(const byte *key, const size_t keyLength)
 {
-    // verify that the key is valid
-    isValidKeyLength(keyLength, true);
-
-    // free key
-    if (NULL != m_key) {
-        delete[] m_key;
-    }
-
-    // copy the key
-    m_keyLength = keyLength;
-    m_key       = new byte[keyLength];
-    memcpy(m_key, key, keyLength);
+    SymmetricKeyAbstract::setKey(key, keyLength);
 
     m_encryptor->SetKey(key, keyLength);
     m_decryptor->SetKey(key, keyLength);
-}
-
-void BlockCipherAbstract::getKey(byte *key)
-{
-    memcpy(key, m_key, m_keyLength);
 }
 
 void BlockCipherAbstract::setName(const std::string name)

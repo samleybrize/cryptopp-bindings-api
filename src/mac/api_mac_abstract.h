@@ -25,8 +25,6 @@ public:
     size_t getBlockSize() const;
     bool isValidKeyLength(size_t length) const;
     void setKey(const byte *key, const size_t keyLength);
-    void getKey(byte *key);
-    size_t getKeyLength() {return m_keyLength;}
     void calculateDigest(byte *input, size_t inputLength, byte *output);
     void update(byte *input, size_t inputLength);
     void finalize(byte *output);
@@ -40,8 +38,6 @@ protected:
 private:
     char *m_name;
     CryptoPP::MessageAuthenticationCode *m_mac;
-    byte *m_key;
-    size_t m_keyLength;
 };
 
 NAMESPACE_END

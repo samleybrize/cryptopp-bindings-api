@@ -18,16 +18,23 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricIvAbstract
 {
 public:
-    virtual ~SymmetricIvAbstract() {}
+    virtual ~SymmetricIvAbstract() {delete[] m_iv;}
 
     virtual bool isValidIvLength(size_t length) const =0;
     bool isValidIvLength(size_t length, bool throwIfFalse) const;
-    virtual void setIv(const byte *iv, const size_t ivLength) =0;
-    virtual void getIv(byte *iv) =0;
-    virtual size_t getIvLength() =0;
+    virtual void setIv(const byte *iv, const size_t ivLength);
+    void getIv(byte *iv);
+    size_t getIvLength() {return m_ivLength;}
 
 protected:
+    SymmetricIvAbstract()
+        : m_iv(NULL)
+        , m_ivLength(0) {}
     bool hasValidIv(bool throwIfFalse);
+
+private:
+    byte *m_iv;
+    size_t m_ivLength;
 };
 
 NAMESPACE_END

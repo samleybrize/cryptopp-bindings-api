@@ -18,16 +18,23 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricKeyAbstract
 {
 public:
-    virtual ~SymmetricKeyAbstract() {}
+    virtual ~SymmetricKeyAbstract() {delete[] m_key;}
 
     virtual bool isValidKeyLength(size_t length) const =0;
     bool isValidKeyLength(size_t length, bool throwIfFalse) const;
-    virtual void setKey(const byte *key, const size_t keyLength) =0;
-    virtual void getKey(byte *key) =0;
-    virtual size_t getKeyLength() =0;
+    virtual void setKey(const byte *key, const size_t keyLength);
+    void getKey(byte *key);
+    size_t getKeyLength() {return m_keyLength;}
 
 protected:
+    SymmetricKeyAbstract()
+        : m_key(NULL)
+        , m_keyLength(0) {}
     bool hasValidKey(bool throwIfFalse);
+
+private:
+    byte *m_key;
+    size_t m_keyLength;
 };
 
 NAMESPACE_END

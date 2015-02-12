@@ -32,4 +32,25 @@ bool SymmetricKeyAbstract::isValidKeyLength(size_t length, bool throwIfFalse) co
     return isValid;
 }
 
+void SymmetricKeyAbstract::getKey(byte *key)
+{
+    memcpy(key, m_key, m_keyLength);
+}
+
+void SymmetricKeyAbstract::setKey(const byte *key, const size_t keyLength)
+{
+    // verify that the key is valid
+    isValidKeyLength(keyLength, true);
+
+    // free key
+    if (NULL != m_key) {
+        delete[] m_key;
+    }
+
+    // copy the key
+    m_keyLength = keyLength;
+    m_key       = new byte[keyLength];
+    memcpy(m_key, key, keyLength);
+}
+
 NAMESPACE_END
