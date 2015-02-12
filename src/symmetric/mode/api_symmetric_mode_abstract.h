@@ -37,6 +37,7 @@ protected:
     SymmetricModeAbstract();
     void setCryptoppObjects(CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor);
     void setName(const std::string name);
+    void setName(const std::string modeName, const std::string cipherName);
 
 private:
     char *m_name;

@@ -25,6 +25,9 @@ public:
     virtual void decrypt(const byte *input, byte *output, const size_t length) =0;
     virtual void encryptBlock(const byte *input, byte *output, const size_t length) =0;
     virtual void decryptBlock(const byte *input, byte *output, const size_t length) =0;
+
+    virtual CryptoPP::BlockCipher *getEncryptor() =0;
+    virtual CryptoPP::BlockCipher *getDecryptor() =0;
 };
 
 NAMESPACE_END

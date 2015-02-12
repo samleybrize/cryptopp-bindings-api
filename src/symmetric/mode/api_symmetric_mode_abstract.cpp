@@ -72,6 +72,15 @@ void SymmetricModeAbstract::setName(const std::string name)
     m_name = const_cast<char*>(name.c_str());
 }
 
+void SymmetricModeAbstract::setName(const std::string modeName, const std::string cipherName)
+{
+    std::string name(modeName);
+    name.append("(");
+    name.append(cipherName);
+    name.append(")");
+    setName(name);
+}
+
 void SymmetricModeAbstract::encrypt(const byte *input, byte *output, const size_t length)
 {
     size_t blockSize = getBlockSize();

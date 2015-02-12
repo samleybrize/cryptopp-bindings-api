@@ -31,6 +31,9 @@ public:
     void encryptBlock(const byte *input, byte *output, const size_t length);
     void decryptBlock(const byte *input, byte *output, const size_t length);
 
+    CryptoPP::BlockCipher *getEncryptor() {return m_encryptor;}
+    CryptoPP::BlockCipher *getDecryptor() {return m_decryptor;}
+
 protected:
     BlockCipherAbstract();
     void setCryptoppObjects(CryptoPP::BlockCipher *encryptor, CryptoPP::BlockCipher *decryptor);
