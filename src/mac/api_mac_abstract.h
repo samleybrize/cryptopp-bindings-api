@@ -19,6 +19,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 class MacAbstract : public MacInterface
 {
 public:
+    using SymmetricKeyAbstract::isValidKeyLength;
     const char *getName() const;
     size_t getDigestSize() const;
     size_t getBlockSize() const;
