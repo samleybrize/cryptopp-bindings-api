@@ -28,7 +28,8 @@ public:
         static std::string StaticAlgorithmName() {return std::string("GCM");}
 
     protected:
-        Base(CryptoPP::BlockCipher *cipher);
+        Base(CryptoPP::BlockCipher *cipher)
+            : m_cipher(cipher) {}
 
     private:
         CryptoPP::GCM_TablesOption GetTablesOption() const {return CryptoPP::GCM_2K_Tables;}
