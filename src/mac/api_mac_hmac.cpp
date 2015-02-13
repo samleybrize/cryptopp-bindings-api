@@ -8,8 +8,8 @@
  * file that was distributed with this source code.
  */
 
-#include "api_mac_hmac.h"
 #include "src/exception/api_exception.h"
+#include "api_mac_hmac.h"
 #include <sstream>
 
 NAMESPACE_BEGIN(CryptoppApi)
