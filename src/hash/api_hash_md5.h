@@ -11,7 +11,7 @@
 #ifndef API_CRYPTOPP_HASH_MD5_H
 #define API_CRYPTOPP_HASH_MD5_H
 
-#include "api_cryptopp.h"
+#include "src/api_cryptopp.h"
 #include "api_hash_abstract.h"
 #include <md5.h>
 

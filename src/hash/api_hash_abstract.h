@@ -11,7 +11,7 @@
 #ifndef API_CRYPTOPP_HASH_ABSTRACT_H
 #define API_CRYPTOPP_HASH_ABSTRACT_H
 
-#include "api_cryptopp.h"
+#include "src/api_cryptopp.h"
 #include "api_hash_interface.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
@@ -26,6 +26,8 @@ public:
     void update(byte *input, size_t inputLength);
     void finalize(byte *output);
     void restart();
+
+    CryptoPP::HashTransformation *getCryptoppObject() {return m_hash;}
 
 protected:
     HashAbstract(CryptoPP::HashTransformation *hash, const char *name);

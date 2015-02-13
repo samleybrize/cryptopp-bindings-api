@@ -11,7 +11,7 @@
 #ifndef API_CRYPTOPP_HASH_SHA1_H
 #define API_CRYPTOPP_HASH_SHA1_H
 
-#include "api_cryptopp.h"
+#include "src/api_cryptopp.h"
 #include "api_hash_abstract.h"
 #include <sha.h>
 

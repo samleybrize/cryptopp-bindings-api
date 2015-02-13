@@ -15,7 +15,7 @@
 
 #define CRYPTOPP_SHA3_ENABLED 1
 
-#include "api_cryptopp.h"
+#include "src/api_cryptopp.h"
 #include "api_hash_abstract.h"
 #include <sha3.h>
 
