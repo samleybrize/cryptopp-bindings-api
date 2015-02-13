@@ -11,7 +11,7 @@
 #ifndef API_CRYPTOPP_HASH_TRANSFORMATION_INTERFACE_H
 #define API_CRYPTOPP_HASH_TRANSFORMATION_INTERFACE_H
 
-#include "api_cryptopp.h"
+#include "src/api_cryptopp.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
 

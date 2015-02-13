@@ -11,8 +11,8 @@
 #ifndef API_CRYPTOPP_MAC_INTERFACE_H
 #define API_CRYPTOPP_MAC_INTERFACE_H
 
-#include "api_cryptopp.h"
-#include "api_hash_transformation_interface.h"
+#include "src/api_cryptopp.h"
+#include "src/hash/api_hash_transformation_interface.h"
 #include "src/keying/api_symmetric_key_abstract.h"
 
 NAMESPACE_BEGIN(CryptoppApi)

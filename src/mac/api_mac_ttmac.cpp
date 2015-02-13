@@ -1,3 +1,4 @@
+
 /*
  * This file is part of cryptopp-bindings-api.
  *
@@ -7,18 +8,15 @@
  * file that was distributed with this source code.
  */
 
-#ifndef API_CRYPTOPP_ENDIANNESS_H
-#define API_CRYPTOPP_ENDIANNESS_H
-
-#include "src/api_cryptopp.h"
+#include "api_mac_ttmac.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-enum Endianness {
-    E_LITTLE_ENDIAN,
-    E_BIG_ENDIAN
-};
+MacTtmac::MacTtmac()
+    : MacAbstract()
+{
+    setName("two-track-mac");
+    setCryptoppObject(&m_mac);
+}
 
 NAMESPACE_END
-
-#endif /* API_CRYPTOPP_ENDIANNESS_H */
