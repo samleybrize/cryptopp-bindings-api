@@ -45,7 +45,9 @@ public:
         static std::string StaticAlgorithmName() {return std::string("EAX");}
 
     protected:
-        Base(CryptoPP::BlockCipher *cipher);
+        Base(CryptoPP::BlockCipher *cipher)
+            : m_cipher(cipher)
+            , m_cmac(cipher) {}
 
     private:
         CryptoPP::BlockCipher & AccessBlockCipher() {return *m_cipher;}
