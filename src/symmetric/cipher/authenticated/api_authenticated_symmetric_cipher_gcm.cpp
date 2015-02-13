@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-#include "src/exception/api_exception.h"
 #include "api_authenticated_symmetric_cipher_gcm.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
@@ -21,6 +20,11 @@ AuthenticatedSymmetricCipherGcm::AuthenticatedSymmetricCipherGcm(BlockCipherInte
     name.append(cipher->getName());
     name.append(")");
     setName(name);
+
+    // check cipher block size
+    if (16 != cipher->getBlockSize()) {
+        throw new Exception("GCM require a block cipher with a block size of 128 bits (16 bytes)");
+    }
 
     // create cipher object
     m_encryptor = new CryptoppGcm::Encryption(cipher->getEncryptor());
