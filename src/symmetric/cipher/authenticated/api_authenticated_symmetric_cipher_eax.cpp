@@ -8,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-#include "src/exception/api_exception.h"
 #include "api_authenticated_symmetric_cipher_eax.h"
 
 NAMESPACE_BEGIN(CryptoppApi)
