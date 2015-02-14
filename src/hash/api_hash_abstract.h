@@ -30,7 +30,7 @@ public:
     CryptoPP::HashTransformation *getCryptoppObject() {return m_hash;}
 
 protected:
-    HashAbstract(CryptoPP::HashTransformation *hash, const char *name);
+    HashAbstract(CryptoPP::HashTransformation *hash, char *name);
 
 private:
     char *m_name;

@@ -12,7 +12,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-HashAbstract::HashAbstract(CryptoPP::HashTransformation *hash, const char *name)
+HashAbstract::HashAbstract(CryptoPP::HashTransformation *hash, char *name)
     : m_hash(hash)
     , m_name(name)
 {
