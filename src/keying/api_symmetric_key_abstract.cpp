@@ -9,6 +9,7 @@
 
 #include "src/exception/api_exception.h"
 #include "api_symmetric_key_abstract.h"
+#include <sstream>
 
 NAMESPACE_BEGIN(CryptoppApi)
 
@@ -25,7 +26,9 @@ bool SymmetricKeyAbstract::isValidKeyLength(size_t length, bool throwIfFalse) co
         if (0 == length) {
             throw new Exception("a key is required");
         } else {
-            throw new Exception(length << " is not a valid key length");
+            std::stringstream msg;
+            msg << length << " is not a valid key length";
+            throw new Exception(msg.str());
         }
     }
 

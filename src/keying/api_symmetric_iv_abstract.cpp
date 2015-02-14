@@ -9,6 +9,7 @@
 
 #include "src/exception/api_exception.h"
 #include "api_symmetric_iv_abstract.h"
+#include <sstream>
 
 NAMESPACE_BEGIN(CryptoppApi)
 
@@ -25,7 +26,9 @@ bool SymmetricIvAbstract::isValidIvLength(size_t length, bool throwIfFalse) cons
         if (0 == length) {
             throw new Exception("an initialization vector is required");
         } else {
-            throw new Exception(length << " is not a valid initialization vector length");
+            std::stringstream msg;
+            msg << length << " is not a valid initialization vector length";
+            throw new Exception(msg.str());
         }
     }
 
