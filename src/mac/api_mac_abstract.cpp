@@ -13,8 +13,7 @@
 NAMESPACE_BEGIN(CryptoppApi)
 
 MacAbstract::MacAbstract()
-    : SymmetricKeyAbstract()
-    , m_mac(NULL)
+    : m_mac(NULL)
     , m_name(NULL)
 {
 }
