@@ -44,11 +44,6 @@ void MacAbstract::setName(const std::string name)
     m_name = const_cast<char*>(name.c_str());
 }
 
-const char *BlockCipherAbstract::getName() const
-{
-    return m_name;
-}
-
 size_t MacAbstract::getDigestSize() const
 {
     return m_mac->DigestSize();
