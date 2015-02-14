@@ -20,8 +20,8 @@ SymmetricModeEcb::SymmetricModeEcb(BlockCipherInterface *cipher)
     setName("ecb", cipher->getName());
 
     // create mode object
-    m_encryptor = new CryptoPP::ECB_Mode_ExternalCipher::Encryption(cipher->getEncryptor());
-    m_decryptor = new CryptoPP::ECB_Mode_ExternalCipher::Decryption(cipher->getDecryptor());
+    m_encryptor = new CryptoPP::ECB_Mode_ExternalCipher::Encryption(*cipher->getEncryptor());
+    m_decryptor = new CryptoPP::ECB_Mode_ExternalCipher::Decryption(*cipher->getDecryptor());
     setCryptoppObjects(m_encryptor, m_decryptor);
 }
 

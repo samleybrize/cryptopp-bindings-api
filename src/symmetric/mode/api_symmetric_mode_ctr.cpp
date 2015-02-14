@@ -23,8 +23,8 @@ SymmetricModeCtr::SymmetricModeCtr(BlockCipherInterface *cipher)
     size_t blockSize = cipher->getBlockSize();
     byte dummyIv[blockSize];
 
-    m_encryptor = new CryptoPP::CTR_Mode_ExternalCipher::Encryption(cipher->getEncryptor(), dummyIv, blockSize);
-    m_decryptor = new CryptoPP::CTR_Mode_ExternalCipher::Decryption(cipher->getEncryptor(), dummyIv, blockSize);
+    m_encryptor = new CryptoPP::CTR_Mode_ExternalCipher::Encryption(*cipher->getEncryptor(), dummyIv, blockSize);
+    m_decryptor = new CryptoPP::CTR_Mode_ExternalCipher::Decryption(*cipher->getEncryptor(), dummyIv, blockSize);
     setCryptoppObjects(m_encryptor, m_decryptor);
 }
 
