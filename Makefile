@@ -99,17 +99,69 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named libcryptopp-bindings-api
+# Target rules for targets named cryptopp-bindings-api
 
 # Build rule for target.
-libcryptopp-bindings-api: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 libcryptopp-bindings-api
-.PHONY : libcryptopp-bindings-api
+cryptopp-bindings-api: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cryptopp-bindings-api
+.PHONY : cryptopp-bindings-api
 
 # fast build rule for target.
-libcryptopp-bindings-api/fast:
-	$(MAKE) -f build/CMakeFiles/libcryptopp-bindings-api.dir/build.make build/CMakeFiles/libcryptopp-bindings-api.dir/build
-.PHONY : libcryptopp-bindings-api/fast
+cryptopp-bindings-api/fast:
+	$(MAKE) -f build/lib/CMakeFiles/cryptopp-bindings-api.dir/build.make build/lib/CMakeFiles/cryptopp-bindings-api.dir/build
+.PHONY : cryptopp-bindings-api/fast
+
+#=============================================================================
+# Target rules for targets named check
+
+# Build rule for target.
+check: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 check
+.PHONY : check
+
+# fast build rule for target.
+check/fast:
+	$(MAKE) -f build/tests/CMakeFiles/check.dir/build.make build/tests/CMakeFiles/check.dir/build
+.PHONY : check/fast
+
+#=============================================================================
+# Target rules for targets named cryptopp-bindings-api-tests
+
+# Build rule for target.
+cryptopp-bindings-api-tests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cryptopp-bindings-api-tests
+.PHONY : cryptopp-bindings-api-tests
+
+# fast build rule for target.
+cryptopp-bindings-api-tests/fast:
+	$(MAKE) -f build/tests/CMakeFiles/cryptopp-bindings-api-tests.dir/build.make build/tests/CMakeFiles/cryptopp-bindings-api-tests.dir/build
+.PHONY : cryptopp-bindings-api-tests/fast
+
+#=============================================================================
+# Target rules for targets named gtest
+
+# Build rule for target.
+gtest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gtest
+.PHONY : gtest
+
+# fast build rule for target.
+gtest/fast:
+	$(MAKE) -f build/tests/lib/gtest-1.7.0/CMakeFiles/gtest.dir/build.make build/tests/lib/gtest-1.7.0/CMakeFiles/gtest.dir/build
+.PHONY : gtest/fast
+
+#=============================================================================
+# Target rules for targets named gtest_main
+
+# Build rule for target.
+gtest_main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gtest_main
+.PHONY : gtest_main
+
+# fast build rule for target.
+gtest_main/fast:
+	$(MAKE) -f build/tests/lib/gtest-1.7.0/CMakeFiles/gtest_main.dir/build.make build/tests/lib/gtest-1.7.0/CMakeFiles/gtest_main.dir/build
+.PHONY : gtest_main/fast
 
 # Help Target
 help:
@@ -119,7 +171,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... libcryptopp-bindings-api"
+	@echo "... cryptopp-bindings-api"
+	@echo "... check"
+	@echo "... cryptopp-bindings-api-tests"
+	@echo "... gtest"
+	@echo "... gtest_main"
 .PHONY : help
 
 

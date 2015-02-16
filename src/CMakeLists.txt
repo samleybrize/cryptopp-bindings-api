@@ -40,7 +40,7 @@ SET(CRYPTOPP_API_SRC
 )
 
 add_library(
-    libcryptopp-bindings-api
+    cryptopp-bindings-api
     STATIC
     ${CRYPTOPP_API_SRC}
 )
@@ -48,4 +48,4 @@ add_library(
 # add crypto++ library
 find_package(Crypto++ REQUIRED)
 include_directories(${CRYPTO++_INCLUDE_DIR})
-target_link_libraries (libcryptopp-bindings-api ${CRYPTO++_LIBRARIES})
+target_link_libraries(cryptopp-bindings-api ${CRYPTO++_LIBRARIES})
