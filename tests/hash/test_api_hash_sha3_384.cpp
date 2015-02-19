@@ -14,36 +14,32 @@
 
 #if CRYPTOPP_SHA3_ENABLED == 1
 
-// TODO 256
-// TODO 384
-// TODO 512
-
-TEST(HashSha3_224Test, inheritance) {
-    CryptoppApi::HashSha3_224 hash;
+TEST(HashSha3_384Test, inheritance) {
+    CryptoppApi::HashSha3_384 hash;
 
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::HashTransformationInterface*>(&hash));
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::HashInterface*>(&hash));
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::HashAbstract*>(&hash));
 }
 
-TEST(HashSha3_224Test, infos) {
-    CryptoppApi::HashSha3_224 hash;
+TEST(HashSha3_384Test, infos) {
+    CryptoppApi::HashSha3_384 hash;
 
-    EXPECT_STREQ("sha3_224", hash.getName());
-    EXPECT_EQ(72, hash.getBlockSize());
-    EXPECT_EQ(28, hash.getDigestSize());
+    EXPECT_STREQ("sha3_384", hash.getName());
+    EXPECT_EQ(136, hash.getBlockSize());
+    EXPECT_EQ(48, hash.getDigestSize());
 }
 
-TEST(HashSha3_224Test, calculateDigest) {
-    CryptoppApi::HashSha3_224 hash;
+TEST(HashSha3_384Test, calculateDigest) {
+    CryptoppApi::HashSha3_384 hash;
 
     // build expected digests
     byte *expected1;
     byte *expected2;
     size_t expected1Length = 0;
     size_t expected2Length = 0;
-    CryptoppApi::HexUtils::hex2bin("2fa05a669e02a13295588c05a1e91b56d889cf5004f9971789a464bf", 56, &expected1, expected1Length);
-    CryptoppApi::HexUtils::hex2bin("39ba050e26e31d0b3e1293a33dfbdecba37e2f0a6e851dd4bed8ccfc", 56, &expected2, expected2Length);
+    CryptoppApi::HexUtils::hex2bin("979f984c6de6d69d4137c8a92d4c2509a7adcc4d40e9880f761dcc45498408fa475ab56f656fc9f41b05d5f0c42bb92a", 96, &expected1, expected1Length);
+    CryptoppApi::HexUtils::hex2bin("e27d047d91207046d60f405ced5d0f177d81374b6cfa7851a81966f36434e4b1c65b8e1eb6dc7965b782abdfba986bea", 96, &expected2, expected2Length);
 
     // calculate actual digests
     char *input1        = "qwertyuiop";
@@ -63,13 +59,13 @@ TEST(HashSha3_224Test, calculateDigest) {
     delete[] expected2;
 }
 
-TEST(HashSha3_224Test, update) {
-    CryptoppApi::HashSha3_224 hash;
+TEST(HashSha3_384Test, update) {
+    CryptoppApi::HashSha3_384 hash;
 
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    CryptoppApi::HexUtils::hex2bin("2fa05a669e02a13295588c05a1e91b56d889cf5004f9971789a464bf", 56, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("979f984c6de6d69d4137c8a92d4c2509a7adcc4d40e9880f761dcc45498408fa475ab56f656fc9f41b05d5f0c42bb92a", 96, &expected, expectedLength);
 
     // calculate actual digest
     char *input1        = "qwerty";
@@ -90,13 +86,13 @@ TEST(HashSha3_224Test, update) {
     delete[] expected;
 }
 
-TEST(HashSha3_224Test, restartNotNecessaryAfterFinalize) {
-    CryptoppApi::HashSha3_224 hash;
+TEST(HashSha3_384Test, restartNotNecessaryAfterFinalize) {
+    CryptoppApi::HashSha3_384 hash;
 
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    CryptoppApi::HexUtils::hex2bin("2fa05a669e02a13295588c05a1e91b56d889cf5004f9971789a464bf", 56, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("979f984c6de6d69d4137c8a92d4c2509a7adcc4d40e9880f761dcc45498408fa475ab56f656fc9f41b05d5f0c42bb92a", 96, &expected, expectedLength);
 
     // calculate actual digest
     char *input1        = "qwerty";
@@ -121,13 +117,13 @@ TEST(HashSha3_224Test, restartNotNecessaryAfterFinalize) {
     delete[] expected;
 }
 
-TEST(HashSha3_224Test, restart) {
-    CryptoppApi::HashSha3_224 hash;
+TEST(HashSha3_384Test, restart) {
+    CryptoppApi::HashSha3_384 hash;
 
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    CryptoppApi::HexUtils::hex2bin("2fa05a669e02a13295588c05a1e91b56d889cf5004f9971789a464bf", 56, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("979f984c6de6d69d4137c8a92d4c2509a7adcc4d40e9880f761dcc45498408fa475ab56f656fc9f41b05d5f0c42bb92a", 96, &expected, expectedLength);
 
     // calculate actual digest
     char *input1        = "qwerty";
@@ -152,8 +148,8 @@ TEST(HashSha3_224Test, restart) {
     delete[] expected;
 }
 
-TEST(HashSha3_224Test, largeData) {
-    CryptoppApi::HashSha3_224 hash;
+TEST(HashSha3_384Test, largeData) {
+    CryptoppApi::HashSha3_384 hash;
 
     size_t digestSize   = hash.getDigestSize();
     byte *input         = new byte[10485760];

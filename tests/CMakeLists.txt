@@ -6,7 +6,10 @@ add_executable(
 
     hash/test_api_hash_md5.cpp
     hash/test_api_hash_sha1.cpp
-    hash/test_api_hash_sha3.cpp
+    hash/test_api_hash_sha3_224.cpp
+    hash/test_api_hash_sha3_256.cpp
+    hash/test_api_hash_sha3_384.cpp
+    hash/test_api_hash_sha3_512.cpp
 )
 
 target_link_libraries(cryptopp-bindings-api-tests cryptopp-bindings-api)
