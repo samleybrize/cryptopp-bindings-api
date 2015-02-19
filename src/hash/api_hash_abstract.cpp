@@ -33,12 +33,12 @@ size_t HashAbstract::getBlockSize() const
     return m_hash->BlockSize();
 }
 
-void HashAbstract::calculateDigest(byte *input, size_t inputLength, byte *output)
+void HashAbstract::calculateDigest(const byte *input, size_t inputLength, byte *output)
 {
     m_hash->CalculateDigest(output, input, inputLength);
 }
 
-void HashAbstract::update(byte *input, size_t inputLength)
+void HashAbstract::update(const byte *input, size_t inputLength)
 {
     m_hash->Update(input, inputLength);
 }

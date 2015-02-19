@@ -22,8 +22,8 @@ public:
     const char *getName() const;
     size_t getDigestSize() const;
     size_t getBlockSize() const;
-    void calculateDigest(byte *input, size_t inputLength, byte *output);
-    void update(byte *input, size_t inputLength);
+    void calculateDigest(const byte *input, size_t inputLength, byte *output);
+    void update(const byte *input, size_t inputLength);
     void finalize(byte *output);
     void restart();
 

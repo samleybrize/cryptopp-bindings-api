@@ -42,14 +42,14 @@ TEST(HashSha3_256Test, calculateDigest) {
     CryptoppApi::HexUtils::hex2bin("113b396bb409b4193c303272b695cbbf9da205466dd3688a71ddc2a3966e784e", 64, &expected2, expected2Length);
 
     // calculate actual digests
-    char *input1        = "qwertyuiop";
-    char *input2        = "azerty";
+    const char *input1  = "qwertyuiop";
+    const char *input2  = "azerty";
     size_t digestSize   = hash.getDigestSize();
     byte actual1[digestSize];
     byte actual2[digestSize];
 
-    hash.calculateDigest(reinterpret_cast<byte*>(input1), strlen(input1), actual1);
-    hash.calculateDigest(reinterpret_cast<byte*>(input2), strlen(input2), actual2);
+    hash.calculateDigest(reinterpret_cast<const byte*>(input1), strlen(input1), actual1);
+    hash.calculateDigest(reinterpret_cast<const byte*>(input2), strlen(input2), actual2);
 
     // test digests
     EXPECT_BYTE_ARRAY_EQ(expected1, expected1Length, actual1, digestSize);
@@ -68,15 +68,15 @@ TEST(HashSha3_256Test, update) {
     CryptoppApi::HexUtils::hex2bin("caeaa437035747dc5931abb3cd05c0121d02e21c31c1867d01288bc9295f1365", 64, &expected, expectedLength);
 
     // calculate actual digest
-    char *input1        = "qwerty";
-    char *input2        = "uio";
-    char *input3        = "p";
+    const char *input1  = "qwerty";
+    const char *input2  = "uio";
+    const char *input3  = "p";
     size_t digestSize   = hash.getDigestSize();
     byte actual[digestSize];
 
-    hash.update(reinterpret_cast<byte*>(input1), strlen(input1));
-    hash.update(reinterpret_cast<byte*>(input2), strlen(input2));
-    hash.update(reinterpret_cast<byte*>(input3), strlen(input3));
+    hash.update(reinterpret_cast<const byte*>(input1), strlen(input1));
+    hash.update(reinterpret_cast<const byte*>(input2), strlen(input2));
+    hash.update(reinterpret_cast<const byte*>(input3), strlen(input3));
 
     hash.finalize(actual);
 
@@ -95,19 +95,19 @@ TEST(HashSha3_256Test, restartNotNecessaryAfterFinalize) {
     CryptoppApi::HexUtils::hex2bin("caeaa437035747dc5931abb3cd05c0121d02e21c31c1867d01288bc9295f1365", 64, &expected, expectedLength);
 
     // calculate actual digest
-    char *input1        = "qwerty";
-    char *input2        = "uio";
-    char *input3        = "p";
+    const char *input1  = "qwerty";
+    const char *input2  = "uio";
+    const char *input3  = "p";
     size_t digestSize   = hash.getDigestSize();
     byte actual[digestSize];
 
-    hash.update(reinterpret_cast<byte*>(input1), strlen(input1));
-    hash.update(reinterpret_cast<byte*>(input1), strlen(input1));
+    hash.update(reinterpret_cast<const byte*>(input1), strlen(input1));
+    hash.update(reinterpret_cast<const byte*>(input1), strlen(input1));
     hash.finalize(actual);
 
-    hash.update(reinterpret_cast<byte*>(input1), strlen(input1));
-    hash.update(reinterpret_cast<byte*>(input2), strlen(input2));
-    hash.update(reinterpret_cast<byte*>(input3), strlen(input3));
+    hash.update(reinterpret_cast<const byte*>(input1), strlen(input1));
+    hash.update(reinterpret_cast<const byte*>(input2), strlen(input2));
+    hash.update(reinterpret_cast<const byte*>(input3), strlen(input3));
 
     hash.finalize(actual);
 
@@ -126,19 +126,19 @@ TEST(HashSha3_256Test, restart) {
     CryptoppApi::HexUtils::hex2bin("caeaa437035747dc5931abb3cd05c0121d02e21c31c1867d01288bc9295f1365", 64, &expected, expectedLength);
 
     // calculate actual digest
-    char *input1        = "qwerty";
-    char *input2        = "uio";
-    char *input3        = "p";
+    const char *input1  = "qwerty";
+    const char *input2  = "uio";
+    const char *input3  = "p";
     size_t digestSize   = hash.getDigestSize();
     byte actual[digestSize];
 
-    hash.update(reinterpret_cast<byte*>(input1), strlen(input1));
-    hash.update(reinterpret_cast<byte*>(input1), strlen(input1));
+    hash.update(reinterpret_cast<const byte*>(input1), strlen(input1));
+    hash.update(reinterpret_cast<const byte*>(input1), strlen(input1));
     hash.restart();
 
-    hash.update(reinterpret_cast<byte*>(input1), strlen(input1));
-    hash.update(reinterpret_cast<byte*>(input2), strlen(input2));
-    hash.update(reinterpret_cast<byte*>(input3), strlen(input3));
+    hash.update(reinterpret_cast<const byte*>(input1), strlen(input1));
+    hash.update(reinterpret_cast<const byte*>(input2), strlen(input2));
+    hash.update(reinterpret_cast<const byte*>(input3), strlen(input3));
 
     hash.finalize(actual);
 

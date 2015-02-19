@@ -23,8 +23,8 @@ public:
     virtual const char *getName() const =0;
     virtual size_t getDigestSize() const =0;
     virtual size_t getBlockSize() const =0;
-    virtual void calculateDigest(byte *input, size_t inputLength, byte *output) =0;
-    virtual void update(byte *input, size_t inputLength) =0;
+    virtual void calculateDigest(const byte *input, size_t inputLength, byte *output) =0;
+    virtual void update(const byte *input, size_t inputLength) =0;
     virtual void finalize(byte *output) =0;
     virtual void restart() =0;
 };
