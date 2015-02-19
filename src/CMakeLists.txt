@@ -37,6 +37,8 @@ SET(CRYPTOPP_API_SRC
     padding/api_padding_pkcs7.cpp
 
     prng/api_rbg.cpp
+
+    utils/api_hex_utils.cpp
 )
 
 add_library(

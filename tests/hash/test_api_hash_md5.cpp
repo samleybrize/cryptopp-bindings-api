@@ -8,6 +8,7 @@
  */
 
 #include "src/hash/api_hash_md5.h"
+#include "src/utils/api_hex_utils.h"
 #include "tests/test_api_assertions.h"
 #include <gtest/gtest.h>
 
@@ -35,8 +36,8 @@ TEST(HashMd5Test, calculateDigest) {
     byte *expected2;
     size_t expected1Length = 0;
     size_t expected2Length = 0;
-    hex2bin("6eea9b7ef19179a06954edd0f6c05ceb", 32, &expected1, expected1Length);
-    hex2bin("ab4f63f9ac65152575886860dde480a1", 32, &expected2, expected2Length);
+    CryptoppApi::HexUtils::hex2bin("6eea9b7ef19179a06954edd0f6c05ceb", 32, &expected1, expected1Length);
+    CryptoppApi::HexUtils::hex2bin("ab4f63f9ac65152575886860dde480a1", 32, &expected2, expected2Length);
 
     // calculate actual digests
     char *input1        = "qwertyuiop";
@@ -62,7 +63,7 @@ TEST(HashMd5Test, update) {
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    hex2bin("6eea9b7ef19179a06954edd0f6c05ceb", 32, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("6eea9b7ef19179a06954edd0f6c05ceb", 32, &expected, expectedLength);
 
     // calculate actual digest
     char *input1        = "qwerty";
@@ -89,7 +90,7 @@ TEST(HashMd5Test, restartNotNecessaryAfterFinalize) {
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    hex2bin("6eea9b7ef19179a06954edd0f6c05ceb", 32, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("6eea9b7ef19179a06954edd0f6c05ceb", 32, &expected, expectedLength);
 
     // calculate actual digest
     char *input1        = "qwerty";
@@ -120,7 +121,7 @@ TEST(HashMd5Test, restart) {
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    hex2bin("6eea9b7ef19179a06954edd0f6c05ceb", 32, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("6eea9b7ef19179a06954edd0f6c05ceb", 32, &expected, expectedLength);
 
     // calculate actual digest
     char *input1        = "qwerty";

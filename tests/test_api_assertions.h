@@ -18,6 +18,4 @@
 
 ::testing::AssertionResult ByteArrayEquals(byte *expected, size_t expectedSize, byte *actual, size_t actualSize);
 
-void hex2bin(const char *input, size_t inputLength, byte **output, size_t &outputLength);
-
 #endif /* TEST_API_CRYPTOPP_ASSERTIONS_H */
