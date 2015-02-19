@@ -45,7 +45,5 @@ add_library(
     ${CRYPTOPP_API_SRC}
 )
 
-# add crypto++ library
-find_package(Crypto++ REQUIRED)
-include_directories(${CRYPTO++_INCLUDE_DIR})
+# link crypto++ library
 target_link_libraries(cryptopp-bindings-api ${CRYPTO++_LIBRARIES})

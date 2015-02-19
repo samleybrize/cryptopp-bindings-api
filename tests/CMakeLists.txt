@@ -2,7 +2,8 @@ enable_testing()
 
 add_executable(
     cryptopp-bindings-api-tests
-    cryptopp-bindings-api-tests.cpp
+    test_api_assertions.cpp
+    hash/test_api_hash_md5.cpp
 )
 
 target_link_libraries(cryptopp-bindings-api-tests cryptopp-bindings-api)
