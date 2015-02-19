@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-#if CRYPTOPP_VERSION >= 562
-
 #include "api_hash_sha3.h"
+
+#if CRYPTOPP_SHA3_ENABLED == 1
 
 NAMESPACE_BEGIN(CryptoppApi)
 
