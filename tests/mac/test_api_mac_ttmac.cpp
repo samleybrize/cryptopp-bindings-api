@@ -7,59 +7,43 @@
  * file that was distributed with this source code.
  */
 
-#include "src/hash/api_hash_md5.h"
-#include "src/hash/api_hash_sha1.h"
-#include "src/mac/api_mac_hmac.h"
+#include "src/exception/api_exception.h"
+#include "src/mac/api_mac_ttmac.h"
 #include "src/utils/api_hex_utils.h"
 #include "tests/test_api_assertions.h"
 #include <gtest/gtest.h>
 
-TEST(MacHmacTest, inheritance) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, inheritance) {
+    CryptoppApi::MacTtmac mac;
 
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::HashTransformationInterface*>(&mac));
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::MacInterface*>(&mac));
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::MacAbstract*>(&mac));
 }
 
-TEST(MacHmacTest, infosSha1) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, infos) {
+    CryptoppApi::MacTtmac mac;
 
-    EXPECT_STREQ("hmac(sha1)", mac.getName());
-    EXPECT_EQ(0, mac.getBlockSize());
+    EXPECT_STREQ("two-track-mac", mac.getName());
+    EXPECT_EQ(64, mac.getBlockSize());
     EXPECT_EQ(20, mac.getDigestSize());
 }
 
-TEST(MacHmacTest, infosMd5) {
-    CryptoppApi::HashMd5 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, isValidKeyLength) {
+    CryptoppApi::MacTtmac mac;
 
-    EXPECT_STREQ("hmac(md5)", mac.getName());
-    EXPECT_EQ(0, mac.getBlockSize());
-    EXPECT_EQ(16, mac.getDigestSize());
+    EXPECT_TRUE(mac.isValidKeyLength(20));
+    EXPECT_FALSE(mac.isValidKeyLength(19));
+    EXPECT_FALSE(mac.isValidKeyLength(21));
 }
 
-TEST(MacHmacTest, isValidKeyLength) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
-
-    EXPECT_TRUE(mac.isValidKeyLength(3));
-    EXPECT_TRUE(mac.isValidKeyLength(16));
-    EXPECT_TRUE(mac.isValidKeyLength(23));
-    EXPECT_TRUE(mac.isValidKeyLength(125));
-    EXPECT_TRUE(mac.isValidKeyLength(0));
-}
-
-TEST(MacHmacTest, setGetKey) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, setGetKey) {
+    CryptoppApi::MacTtmac mac;
 
     // set key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("0102030405060708090a0b0c0d0e0f10111213141516171819", 50, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("00112233445566778899aabbccddeeff01234567", 40, &key, keyLength);
 
     mac.setKey(key, keyLength);
 
@@ -75,14 +59,13 @@ TEST(MacHmacTest, setGetKey) {
     delete[] key2;
 }
 
-TEST(MacHmacTest, calculateDigestSha1) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, calculateDigest) {
+    CryptoppApi::MacTtmac mac;
 
     // set key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("0102030405060708090a0b0c0d0e0f10111213141516171819", 50, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("00112233445566778899aabbccddeeff01234567", 40, &key, keyLength);
 
     mac.setKey(key, keyLength);
     delete[] key;
@@ -92,8 +75,8 @@ TEST(MacHmacTest, calculateDigestSha1) {
     byte *expected2;
     size_t expected1Length = 0;
     size_t expected2Length = 0;
-    CryptoppApi::HexUtils::hex2bin("b7b39196ab5f9c0cf7863b8e0a0bda37aea2c93e", 40, &expected1, expected1Length);
-    CryptoppApi::HexUtils::hex2bin("286d11632a144649124bf912f2826ee80887206f", 40, &expected2, expected2Length);
+    CryptoppApi::HexUtils::hex2bin("e64c1b6d1e1b062b57bafabe75816a121c2f7b34", 40, &expected1, expected1Length);
+    CryptoppApi::HexUtils::hex2bin("b27165d2f7de41c23aabe559cad7cc592fb50194", 40, &expected2, expected2Length);
 
     // calculate actual digests
     const char *input1  = "qwertyuiop";
@@ -113,44 +96,13 @@ TEST(MacHmacTest, calculateDigestSha1) {
     delete[] expected2;
 }
 
-TEST(MacHmacTest, calculateDigestMd5) {
-    CryptoppApi::HashMd5 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, update) {
+    CryptoppApi::MacTtmac mac;
 
     // set key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b", 32, &key, keyLength);
-
-    mac.setKey(key, keyLength);
-    delete[] key;
-
-    // build expected digests
-    byte *expected;
-    size_t expectedLength = 0;
-    CryptoppApi::HexUtils::hex2bin("9294727a3638bb1c13f48ef8158bfc9d", 32, &expected, expectedLength);
-
-    // calculate actual digests
-    const char *input   = "Hi There";
-    size_t digestSize   = mac.getDigestSize();
-    byte actual[digestSize];
-
-    mac.calculateDigest(reinterpret_cast<const byte*>(input), strlen(input), actual);
-
-    // test digest
-    EXPECT_BYTE_ARRAY_EQ(expected, expectedLength, actual, digestSize);
-
-    delete[] expected;
-}
-
-TEST(MacHmacTest, update) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
-
-    // set key
-    byte *key;
-    size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("0102030405060708090a0b0c0d0e0f10111213141516171819", 50, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("00112233445566778899aabbccddeeff01234567", 40, &key, keyLength);
 
     mac.setKey(key, keyLength);
     delete[] key;
@@ -158,7 +110,7 @@ TEST(MacHmacTest, update) {
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    CryptoppApi::HexUtils::hex2bin("b7b39196ab5f9c0cf7863b8e0a0bda37aea2c93e", 40, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("e64c1b6d1e1b062b57bafabe75816a121c2f7b34", 40, &expected, expectedLength);
 
     // calculate actual digest
     const char *input1  = "qwerty";
@@ -179,14 +131,13 @@ TEST(MacHmacTest, update) {
     delete[] expected;
 }
 
-TEST(MacHmacTest, restartNotNecessaryAfterFinalize) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, restartNotNecessaryAfterFinalize) {
+    CryptoppApi::MacTtmac mac;
 
     // set key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("0102030405060708090a0b0c0d0e0f10111213141516171819", 50, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("00112233445566778899aabbccddeeff01234567", 40, &key, keyLength);
 
     mac.setKey(key, keyLength);
     delete[] key;
@@ -194,7 +145,7 @@ TEST(MacHmacTest, restartNotNecessaryAfterFinalize) {
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    CryptoppApi::HexUtils::hex2bin("b7b39196ab5f9c0cf7863b8e0a0bda37aea2c93e", 40, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("e64c1b6d1e1b062b57bafabe75816a121c2f7b34", 40, &expected, expectedLength);
 
     // calculate actual digest
     const char *input1  = "qwerty";
@@ -219,14 +170,13 @@ TEST(MacHmacTest, restartNotNecessaryAfterFinalize) {
     delete[] expected;
 }
 
-TEST(MacHmacTest, restart) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, restart) {
+    CryptoppApi::MacTtmac mac;
 
     // set key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("0102030405060708090a0b0c0d0e0f10111213141516171819", 50, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("00112233445566778899aabbccddeeff01234567", 40, &key, keyLength);
 
     mac.setKey(key, keyLength);
     delete[] key;
@@ -234,7 +184,7 @@ TEST(MacHmacTest, restart) {
     // build expected digest
     byte *expected;
     size_t expectedLength = 0;
-    CryptoppApi::HexUtils::hex2bin("b7b39196ab5f9c0cf7863b8e0a0bda37aea2c93e", 40, &expected, expectedLength);
+    CryptoppApi::HexUtils::hex2bin("e64c1b6d1e1b062b57bafabe75816a121c2f7b34", 40, &expected, expectedLength);
 
     // calculate actual digest
     const char *input1  = "qwerty";
@@ -259,14 +209,13 @@ TEST(MacHmacTest, restart) {
     delete[] expected;
 }
 
-TEST(MacHmacTest, largeData) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, largeData) {
+    CryptoppApi::MacTtmac mac;
 
     // set key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("0102030405060708090a0b0c0d0e0f10111213141516171819", 50, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("00112233445566778899aabbccddeeff01234567", 40, &key, keyLength);
 
     mac.setKey(key, keyLength);
     delete[] key;
@@ -283,32 +232,23 @@ TEST(MacHmacTest, largeData) {
     delete[] input;
 }
 
-TEST(MacHmacTest, setEmptyKey) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
+TEST(MacTtmacTest, setInvalidKey) {
+    CryptoppApi::MacTtmac mac;
 
-    mac.setKey(NULL, 0);
+    byte key[3];
+    EXPECT_THROW(mac.setKey(key, 3), CryptoppApi::Exception*);
+    EXPECT_THROW(mac.setKey(NULL, 0), CryptoppApi::Exception*);
 }
 
-TEST(MacHmacTest, calculateDigestWithoutKey) {
-    CryptoppApi::HashSha1 hash;
-    CryptoppApi::MacHmac mac(&hash);
-
-    // build expected digest
-    byte *expected;
-    size_t expectedLength = 0;
-    CryptoppApi::HexUtils::hex2bin("74cc2e382f34db671647ea987cc2e041e8740a22", 40, &expected, expectedLength);
+TEST(MacTtmacTest, calculateDigestWithoutKey) {
+    CryptoppApi::MacTtmac mac;
 
     // calculate digest without key
     size_t digestSize   = mac.getDigestSize();
     const char *input   = "qwerty";
     byte actual[digestSize];
-    mac.calculateDigest(reinterpret_cast<const byte*>(input), strlen(input), actual);
-    mac.update(reinterpret_cast<const byte*>(input), strlen(input));
-    mac.finalize(actual);
 
-    // test digest
-    EXPECT_BYTE_ARRAY_EQ(expected, expectedLength, actual, digestSize);
-
-    delete[] expected;
+    EXPECT_THROW(mac.calculateDigest(reinterpret_cast<const byte*>(input), strlen(input), actual), CryptoppApi::Exception*);
+    EXPECT_THROW(mac.update(reinterpret_cast<const byte*>(input), strlen(input)), CryptoppApi::Exception*);
+    EXPECT_THROW(mac.finalize(actual), CryptoppApi::Exception*);
 }

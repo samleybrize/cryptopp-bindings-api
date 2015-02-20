@@ -12,6 +12,7 @@ add_executable(
     hash/test_api_hash_sha3_512.cpp
 
     mac/test_api_mac_hmac.cpp
+    mac/test_api_mac_ttmac.cpp
 )
 
 target_link_libraries(cryptopp-bindings-api-tests cryptopp-bindings-api)
