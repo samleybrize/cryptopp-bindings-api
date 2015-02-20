@@ -54,13 +54,13 @@ size_t MacAbstract::getBlockSize() const
     return m_mac->BlockSize();
 }
 
-void MacAbstract::calculateDigest(byte *input, size_t inputLength, byte *output)
+void MacAbstract::calculateDigest(const byte *input, size_t inputLength, byte *output)
 {
     hasValidKey(true);
     m_mac->CalculateDigest(output, input, inputLength);
 }
 
-void MacAbstract::update(byte *input, size_t inputLength)
+void MacAbstract::update(const byte *input, size_t inputLength)
 {
     hasValidKey(true);
     m_mac->Update(input, inputLength);

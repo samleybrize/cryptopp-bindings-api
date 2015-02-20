@@ -27,8 +27,8 @@ public:
     size_t getBlockSize() const;
     bool isValidKeyLength(size_t length) const;
     void setKey(const byte *key, const size_t keyLength);
-    void calculateDigest(byte *input, size_t inputLength, byte *output);
-    void update(byte *input, size_t inputLength);
+    void calculateDigest(const byte *input, size_t inputLength, byte *output);
+    void update(const byte *input, size_t inputLength);
     void finalize(byte *output);
     void restart();
 
