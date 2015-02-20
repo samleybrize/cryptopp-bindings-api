@@ -35,6 +35,9 @@ MacHmac::MacHmac(HashAbstract *hash)
     // create mac object
     m_mac = new CryptoppHmac(hash->getCryptoppObject());
     setCryptoppObject(m_mac);
+
+    // set an empty to avoid segfaults
+    m_mac->SetKey(NULL, 0);
 }
 
 MacHmac::~MacHmac()
