@@ -39,7 +39,7 @@ protected:
     void setName(const std::string name);
 
 private:
-    char *m_name;
+    std::string m_name;
     CryptoPP::SymmetricCipher *m_encryptor;
     CryptoPP::SymmetricCipher *m_decryptor;
 };

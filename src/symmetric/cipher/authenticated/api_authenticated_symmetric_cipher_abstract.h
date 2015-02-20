@@ -44,7 +44,7 @@ protected:
     void setName(const std::string name);
 
 private:
-    char *m_name;
+    std::string m_name;
     bool m_encryptionStarted;
     bool m_decryptionStarted;
     CryptoPP::AuthenticatedSymmetricCipher *m_encryptor;

@@ -12,7 +12,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-HashAbstract::HashAbstract(CryptoPP::HashTransformation *hash, char *name)
+HashAbstract::HashAbstract(CryptoPP::HashTransformation *hash, const std::string name)
     : m_hash(hash)
     , m_name(name)
 {
@@ -20,7 +20,7 @@ HashAbstract::HashAbstract(CryptoPP::HashTransformation *hash, char *name)
 
 const char *HashAbstract::getName() const
 {
-    return m_name;
+    return m_name.c_str();
 }
 
 size_t HashAbstract::getDigestSize() const

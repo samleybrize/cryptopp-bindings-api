@@ -14,13 +14,13 @@ NAMESPACE_BEGIN(CryptoppApi)
 
 MacAbstract::MacAbstract()
     : m_mac(NULL)
-    , m_name(NULL)
+    , m_name("")
 {
 }
 
 const char *MacAbstract::getName() const
 {
-    return m_name;
+    return m_name.c_str();
 }
 
 void MacAbstract::setCryptoppObject(CryptoPP::MessageAuthenticationCode *mac)
@@ -41,7 +41,7 @@ void MacAbstract::setKey(const byte *key, const size_t keyLength)
 
 void MacAbstract::setName(const std::string name)
 {
-    m_name = const_cast<char*>(name.c_str());
+    m_name.assign(name);
 }
 
 size_t MacAbstract::getDigestSize() const

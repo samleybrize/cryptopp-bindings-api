@@ -19,7 +19,7 @@ AuthenticatedSymmetricCipherAbstract::AuthenticatedSymmetricCipherAbstract()
     , m_decryptor(NULL)
     , m_encryptionStarted(false)
     , m_decryptionStarted(false)
-    , m_name(NULL)
+    , m_name("")
 {
 }
 
@@ -31,7 +31,7 @@ void AuthenticatedSymmetricCipherAbstract::setCryptoppObjects(CryptoPP::Authenti
 
 const char *AuthenticatedSymmetricCipherAbstract::getName() const
 {
-    return m_name;
+    return m_name.c_str();
 }
 
 size_t AuthenticatedSymmetricCipherAbstract::getBlockSize() const
@@ -76,7 +76,7 @@ void AuthenticatedSymmetricCipherAbstract::setIv(const byte *iv, const size_t iv
 
 void AuthenticatedSymmetricCipherAbstract::setName(const std::string name)
 {
-    m_name = const_cast<char*>(name.c_str());
+    m_name.assign(name);
 }
 
 void AuthenticatedSymmetricCipherAbstract::addEncryptionAdditionalData(byte *data, size_t dataLength)

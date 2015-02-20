@@ -13,6 +13,7 @@
 
 #include "src/api_cryptopp.h"
 #include "api_hash_interface.h"
+#include <string.h>
 
 NAMESPACE_BEGIN(CryptoppApi)
 
@@ -30,10 +31,10 @@ public:
     CryptoPP::HashTransformation *getCryptoppObject() {return m_hash;}
 
 protected:
-    HashAbstract(CryptoPP::HashTransformation *hash, char *name);
+    HashAbstract(CryptoPP::HashTransformation *hash, const std::string name);
 
 private:
-    char *m_name;
+    std::string m_name;
     CryptoPP::HashTransformation *m_hash;
 };
 

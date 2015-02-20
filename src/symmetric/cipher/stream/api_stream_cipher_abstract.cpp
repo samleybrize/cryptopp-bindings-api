@@ -17,7 +17,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 StreamCipherAbstract::StreamCipherAbstract()
     : m_encryptor(NULL)
     , m_decryptor(NULL)
-    , m_name(NULL)
+    , m_name("")
 {
 }
 
@@ -29,7 +29,7 @@ void StreamCipherAbstract::setCryptoppObjects(CryptoPP::SymmetricCipher *encrypt
 
 const char *StreamCipherAbstract::getName() const
 {
-    return m_name;
+    return m_name.c_str();
 }
 
 size_t StreamCipherAbstract::getBlockSize() const
@@ -69,7 +69,7 @@ void StreamCipherAbstract::setIv(const byte *iv, const size_t ivLength)
 
 void StreamCipherAbstract::setName(const std::string name)
 {
-    m_name = const_cast<char*>(name.c_str());
+    m_name.assign(name);
 }
 
 void StreamCipherAbstract::encrypt(const byte *input, byte *output, const size_t length)

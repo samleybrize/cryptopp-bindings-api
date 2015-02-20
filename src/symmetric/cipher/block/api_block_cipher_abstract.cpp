@@ -17,7 +17,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 BlockCipherAbstract::BlockCipherAbstract()
     : m_encryptor(NULL)
     , m_decryptor(NULL)
-    , m_name(NULL)
+    , m_name("")
 {
 }
 
@@ -29,7 +29,7 @@ void BlockCipherAbstract::setCryptoppObjects(CryptoPP::BlockCipher *encryptor, C
 
 const char *BlockCipherAbstract::getName() const
 {
-    return m_name;
+    return m_name.c_str();
 }
 
 size_t BlockCipherAbstract::getBlockSize() const
@@ -52,7 +52,7 @@ void BlockCipherAbstract::setKey(const byte *key, const size_t keyLength)
 
 void BlockCipherAbstract::setName(const std::string name)
 {
-    m_name = const_cast<char*>(name.c_str());
+    m_name.assign(name);
 }
 
 void BlockCipherAbstract::encrypt(const byte *input, byte *output, const size_t length)

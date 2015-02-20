@@ -17,7 +17,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 SymmetricModeAbstract::SymmetricModeAbstract()
     : m_encryptor(NULL)
     , m_decryptor(NULL)
-    , m_name(NULL)
+    , m_name("")
 {
 }
 
@@ -29,7 +29,7 @@ void SymmetricModeAbstract::setCryptoppObjects(CryptoPP::SymmetricCipher *encryp
 
 const char *SymmetricModeAbstract::getName() const
 {
-    return m_name;
+    return m_name.c_str();
 }
 
 size_t SymmetricModeAbstract::getBlockSize() const
@@ -69,7 +69,7 @@ void SymmetricModeAbstract::setIv(const byte *iv, const size_t ivLength)
 
 void SymmetricModeAbstract::setName(const std::string name)
 {
-    m_name = const_cast<char*>(name.c_str());
+    m_name.assign(name);
 }
 
 void SymmetricModeAbstract::setName(const std::string modeName, const std::string cipherName)
