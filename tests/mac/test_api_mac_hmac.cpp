@@ -9,6 +9,7 @@
 
 #include "src/hash/api_hash_md5.h"
 #include "src/hash/api_hash_sha1.h"
+#include "src/keying/api_symmetric_key_abstract.h"
 #include "src/mac/api_mac_hmac.h"
 #include "src/utils/api_hex_utils.h"
 #include "tests/test_api_assertions.h"
@@ -21,6 +22,7 @@ TEST(MacHmacTest, inheritance) {
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::HashTransformationInterface*>(&mac));
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::MacInterface*>(&mac));
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::MacAbstract*>(&mac));
+    EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::SymmetricKeyAbstract*>(&mac));
 }
 
 TEST(MacHmacTest, infosSha1) {
