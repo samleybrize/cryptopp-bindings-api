@@ -29,28 +29,45 @@ static std::string bin2hex(const byte *binary, const size_t binarySize) {
     return hex;
 }
 
-static std::string byteArrayEqualsFailure(byte *expected, size_t expectedSize, byte *actual, size_t actualSize) {
+static std::string byteArrayEqualsFailure(byte *expected, size_t expectedSize, byte *actual, size_t actualSize, bool isExpected) {
+    // TODO isExpected
     // convert to hex
     std::string hexExpected = bin2hex(expected, expectedSize);
     std::string hexActual   = bin2hex(actual, actualSize);
 
     // build message
+    std::string strExpected = isExpected ? "Expected" : "Not expected";
     std::stringstream msg;
     msg << "  Actual  : (" << actualSize << ") " << hexActual;
-    msg << "\n  Expected: (" << expectedSize << ") " << hexExpected;
+    msg << "\n  " << strExpected << ": (" << expectedSize << ") " << hexExpected;
 
     return msg.str();
 }
 
 ::testing::AssertionResult ByteArrayEquals(byte *expected, size_t expectedSize, byte *actual, size_t actualSize) {
     if (expectedSize != actualSize) {
-        std::string msg = byteArrayEqualsFailure(expected, expectedSize, actual, actualSize);
+        std::string msg = byteArrayEqualsFailure(expected, expectedSize, actual, actualSize, true);
         return ::testing::AssertionFailure() << msg;
     }
 
     for (size_t i(0); i < expectedSize; ++i){
         if (expected[i] != actual[i]){
-            std::string msg = byteArrayEqualsFailure(expected, expectedSize, actual, actualSize);
+            std::string msg = byteArrayEqualsFailure(expected, expectedSize, actual, actualSize, true);
+            return ::testing::AssertionFailure() << msg;
+        }
+    }
+
+    return ::testing::AssertionSuccess();
+}
+
+::testing::AssertionResult ByteArrayNotEquals(byte *expected, size_t expectedSize, byte *actual, size_t actualSize) {
+    if (expectedSize != actualSize) {
+        return ::testing::AssertionSuccess();
+    }
+
+    for (size_t i(0); i < expectedSize; ++i){
+        if (expected[i] == actual[i]){
+            std::string msg = byteArrayEqualsFailure(expected, expectedSize, actual, actualSize, false);
             return ::testing::AssertionFailure() << msg;
         }
     }

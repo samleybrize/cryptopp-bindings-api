@@ -4,6 +4,8 @@ add_executable(
     cryptopp-bindings-api-tests
     test_api_assertions.cpp
 
+    prng/test_api_rbg.cpp
+
     hash/test_api_hash_md5.cpp
     hash/test_api_hash_sha1.cpp
     hash/test_api_hash_sha3_224.cpp
