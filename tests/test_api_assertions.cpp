@@ -65,12 +65,11 @@ static std::string byteArrayEqualsFailure(const byte *expected, const size_t exp
     }
 
     for (size_t i(0); i < expectedSize; ++i) {
-        // TODO fixme
-        if (expected[i] == actual[i]) {
-            std::string msg = byteArrayEqualsFailure(expected, expectedSize, actual, actualSize, false);
-            return ::testing::AssertionFailure() << msg;
+        if (expected[i] != actual[i]) {
+            return ::testing::AssertionSuccess();
         }
     }
 
-    return ::testing::AssertionSuccess();
+    std::string msg = byteArrayEqualsFailure(expected, expectedSize, actual, actualSize, false);
+    return ::testing::AssertionFailure() << msg;
 }
