@@ -9,13 +9,13 @@
  */
 
 #include "src/exception/api_exception.h"
-#include "api_padding_no_padding.h"
+#include "api_padding_pkcs7.h"
 #include <math.h>
 #include <sstream>
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-void PaddingNoPadding::pad(size_t blockSize, byte *input, size_t inputLength, byte **output, size_t &outputLength)
+void PaddingPkcs7::pad(const size_t blockSize, const byte *input, const size_t inputLength, byte **output, size_t &outputLength)
 {
     size_t alignedSize = ceil(static_cast<double>(inputLength) / static_cast<double>(blockSize)) * blockSize;
 
@@ -39,7 +39,7 @@ void PaddingNoPadding::pad(size_t blockSize, byte *input, size_t inputLength, by
     memset(*output + inputLength, pad, outputLength - inputLength);
 }
 
-void PaddingNoPadding::unpad(size_t blockSize, byte *input, size_t inputLength, byte **output, size_t &outputLength)
+void PaddingPkcs7::unpad(const size_t blockSize, const byte *input, const size_t inputLength, byte **output, size_t &outputLength)
 {
     if (blockSize < 1) {
         std::stringstream msg;

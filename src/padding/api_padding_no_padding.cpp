@@ -12,14 +12,14 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-void PaddingNoPadding::pad(size_t blockSize, byte *input, size_t inputLength, byte **output, size_t &outputLength)
+void PaddingNoPadding::pad(const size_t blockSize, const byte *input, const size_t inputLength, byte **output, size_t &outputLength)
 {
     outputLength    = inputLength;
     *output         = new byte[inputLength];
     memcpy(*output, input, inputLength);
 }
 
-void PaddingNoPadding::unpad(size_t blockSize, byte *input, size_t inputLength, byte **output, size_t &outputLength)
+void PaddingNoPadding::unpad(const size_t blockSize, const byte *input, const size_t inputLength, byte **output, size_t &outputLength)
 {
     outputLength    = inputLength;
     *output         = new byte[inputLength];

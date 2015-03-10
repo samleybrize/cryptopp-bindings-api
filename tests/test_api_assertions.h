@@ -18,7 +18,7 @@
 #define ASSERT_BYTE_ARRAY_EQ(expected, expectedSize, actual, actualSize) GTEST_ASSERT_(ByteArrayEquals(expected, expectedSize, actual, actualSize), GTEST_FATAL_FAILURE_);
 #define ASSERT_BYTE_ARRAY_NE(notExpected, expectedSize, actual, actualSize) GTEST_ASSERT_(ByteArrayNotEquals(notExpected, expectedSize, actual, actualSize), GTEST_FATAL_FAILURE_);
 
-::testing::AssertionResult ByteArrayEquals(byte *expected, size_t expectedSize, byte *actual, size_t actualSize);
-::testing::AssertionResult ByteArrayNotEquals(byte *expected, size_t expectedSize, byte *actual, size_t actualSize);
+::testing::AssertionResult ByteArrayEquals(const byte *expected, const size_t expectedSize, const byte *actual, const size_t actualSize);
+::testing::AssertionResult ByteArrayNotEquals(const byte *expected, const size_t expectedSize, const byte *actual, const size_t actualSize);
 
 #endif /* TEST_API_CRYPTOPP_ASSERTIONS_H */

@@ -19,8 +19,8 @@ NAMESPACE_BEGIN(CryptoppApi)
 class PaddingNoPadding : public PaddingInterface
 {
 public:
-    void pad(size_t blockSize, byte *input, size_t inputLength, byte **output, size_t &outputLength);
-    void unpad(size_t blockSize, byte *input, size_t inputLength, byte **output, size_t &outputLength);
+    void pad(const size_t blockSize, const byte *input, const size_t inputLength, byte **output, size_t &outputLength);
+    void unpad(const size_t blockSize, const byte *input, const size_t inputLength, byte **output, size_t &outputLength);
     bool canPad() {return false;}
     bool canUnpad() {return false;}
 };
