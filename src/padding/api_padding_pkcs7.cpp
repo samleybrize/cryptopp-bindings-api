@@ -64,7 +64,7 @@ void PaddingPkcs7::unpad(const size_t blockSize, const byte *input, const size_t
     // unpad
     outputLength    = inputLength - pad;
     *output         = new byte[outputLength];
-    memcpy(output, input, outputLength);
+    memcpy(*output, input, outputLength);
 }
 
 NAMESPACE_END

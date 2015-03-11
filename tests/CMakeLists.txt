@@ -5,6 +5,7 @@ add_executable(
     test_api_assertions.cpp
 
     padding/test_api_padding_no_padding.cpp
+    padding/test_api_padding_pkcs7.cpp
 
     prng/test_api_rbg.cpp
 
