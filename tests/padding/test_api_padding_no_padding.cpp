@@ -19,7 +19,7 @@ TEST(PaddingNoPaddingTest, inheritance) {
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::PaddingInterface*>(&padding));
 }
 
-TEST(PaddingNoPaddingTest, testPad) {
+TEST(PaddingNoPaddingTest, pad) {
     CryptoppApi::PaddingNoPadding padding;
 
     std::string input1Str("azerty");
@@ -41,7 +41,7 @@ TEST(PaddingNoPaddingTest, testPad) {
     delete[] output2;
 }
 
-TEST(PaddingNoPaddingTest, testUnpad) {
+TEST(PaddingNoPaddingTest, unpad) {
     CryptoppApi::PaddingNoPadding padding;
 
     std::string input1Str("wxcvbn");
@@ -63,10 +63,28 @@ TEST(PaddingNoPaddingTest, testUnpad) {
     delete[] output2;
 }
 
-TEST(PaddingNoPaddingTest, testCan) {
+TEST(PaddingNoPaddingTest, can) {
     CryptoppApi::PaddingNoPadding padding;
     EXPECT_FALSE(padding.canPad());
     EXPECT_FALSE(padding.canUnpad());
 }
 
-// TODO large
+TEST(PaddingNoPaddingTest, largeData) {
+    CryptoppApi::PaddingNoPadding padding;
+    size_t inputLength      = 10485760;
+    byte *input             = new byte[inputLength];
+    byte *output1;
+    byte *output2;
+    size_t output1Length    = 0;
+    size_t output2Length    = 0;
+
+    padding.pad(16, input, inputLength, &output1, output1Length);
+    padding.unpad(16, input, inputLength, &output2, output2Length);
+
+    EXPECT_EQ(inputLength, output1Length);
+    EXPECT_EQ(inputLength, output2Length);
+
+    delete[] input;
+    delete[] output1;
+    delete[] output2;
+}
