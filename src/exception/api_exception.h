@@ -12,11 +12,12 @@
 #define API_CRYPTOPP_EXCEPTION_H
 
 #include "src/api_cryptopp.h"
+#include <exception>
 #include <string>
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-class Exception
+class Exception : public std::exception
 {
 public:
     Exception(const std::string message)
@@ -28,6 +29,7 @@ public:
 
     std::string getMessage() {return m_msg;}
     int getCode() {return m_code;}
+    virtual const char* what() const throw() {return m_msg.c_str();}
 
 protected:
     std::string m_msg;

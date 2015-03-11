@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+#include "src/exception/api_exception.h"
 #include "src/padding/api_padding_pkcs7.h"
 #include "src/utils/api_hex_utils.h"
 #include "tests/test_api_assertions.h"
@@ -163,14 +164,29 @@ TEST(PaddingPkcs7Test, largeData) {
 }
 
 TEST(PaddingPkcs7Test, padErrors) {
-    // TODO data size 0
-    // TODO data size 257
+    CryptoppApi::PaddingPkcs7 padding;
+    byte *output;
+    size_t outputLength = 0;
+
+    EXPECT_THROW_MSG(padding.pad(0, NULL, 0, &output, outputLength), CryptoppApi::Exception, "block size cannot be lower than 1, 0 given");
+    EXPECT_THROW_MSG(padding.pad(257, NULL, 0, &output, outputLength), CryptoppApi::Exception, "PKCS #7 padding does not handle block sizes higher than 256");
 }
 
 TEST(PaddingPkcs7Test, unpadErrors) {
-    // TODO data size 0
-    // TODO data size 257
-    // TODO data size 4, data "123"
-    // TODO data size 4, data "1234"
-    // TODO data size 4, data "0x04040304"
+    CryptoppApi::PaddingPkcs7 padding;
+    byte *output;
+    size_t outputLength = 0;
+
+    EXPECT_THROW_MSG(padding.unpad(0, NULL, 0, &output, outputLength), CryptoppApi::Exception, "block size cannot be lower than 1, 0 given");
+    EXPECT_THROW_MSG(padding.unpad(257, NULL, 0, &output, outputLength), CryptoppApi::Exception, "PKCS #7 padding does not handle block sizes higher than 256");
+
+    std::string input1  = "123";
+    std::string input2  = "1234";
+    byte *input3        = NULL;
+    size_t input1Length = 0;
+    CryptoppApi::HexUtils::hex2bin("04040304", 4, &input3, input1Length);
+
+    EXPECT_THROW_MSG(padding.unpad(4, reinterpret_cast<const byte*>(input1.c_str()), input1.length(), &output, outputLength), CryptoppApi::Exception, "data length is not a multiple of block size (block size is 4, data size is 3)");
+    EXPECT_THROW_MSG(padding.unpad(4, reinterpret_cast<const byte*>(input2.c_str()), input2.length(), &output, outputLength), CryptoppApi::Exception, "invalid PKCS #7 block padding found");
+    EXPECT_THROW_MSG(padding.unpad(4, input3, 4, &output, outputLength), CryptoppApi::Exception, "invalid PKCS #7 block padding found");
 }
