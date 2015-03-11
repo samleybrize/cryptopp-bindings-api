@@ -26,7 +26,7 @@ StreamCipherPanama::StreamCipherPanama(Endianness endianness)
         m_encryptor = new CryptoPP::PanamaCipher<CryptoPP::BigEndian>::Encryption();
         m_decryptor = new CryptoPP::PanamaCipher<CryptoPP::BigEndian>::Decryption();
     } else {
-        throw new Exception("invalid endianness");
+        throw Exception("invalid endianness");
     }
 
     setCryptoppObjects(m_encryptor, m_decryptor);

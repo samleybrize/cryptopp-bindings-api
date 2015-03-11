@@ -63,7 +63,7 @@ void BlockCipherAbstract::encrypt(const byte *input, byte *output, const size_t 
     if (0 != length % blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that the key is valid
@@ -85,7 +85,7 @@ void BlockCipherAbstract::decrypt(const byte *input, byte *output, const size_t 
     if (0 != length % blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that the key is valid
@@ -107,7 +107,7 @@ void BlockCipherAbstract::encryptBlock(const byte *block, byte *output, const si
     if (length != blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not equal to cipher block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that the key is valid
@@ -124,7 +124,7 @@ void BlockCipherAbstract::decryptBlock(const byte *block, byte *output, const si
     if (length != blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not equal to cipher block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that the key is valid

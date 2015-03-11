@@ -38,5 +38,5 @@ TEST(RandomByteGeneratorTest, testGenerate) {
 
 TEST(RandomByteGeneratorTest, testGenerateZero) {
     CryptoppApi::RandomByteGenerator rbg;
-    EXPECT_THROW(rbg.generate(NULL, 0), CryptoppApi::Exception*);
+    EXPECT_THROW(rbg.generate(NULL, 0), CryptoppApi::Exception);
 }

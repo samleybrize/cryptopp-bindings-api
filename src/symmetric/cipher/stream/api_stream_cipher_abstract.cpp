@@ -80,7 +80,7 @@ void StreamCipherAbstract::encrypt(const byte *input, byte *output, const size_t
     if (0 != length % blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that key/iv are valid
@@ -99,7 +99,7 @@ void StreamCipherAbstract::decrypt(const byte *input, byte *output, const size_t
     if (0 != length % blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that key/iv are valid

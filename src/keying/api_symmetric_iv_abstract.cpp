@@ -24,11 +24,11 @@ bool SymmetricIvAbstract::isValidIvLength(size_t length, bool throwIfFalse) cons
 
     if (!isValid && throwIfFalse) {
         if (0 == length) {
-            throw new Exception("an initialization vector is required");
+            throw Exception("an initialization vector is required");
         } else {
             std::stringstream msg;
             msg << length << " is not a valid initialization vector length";
-            throw new Exception(msg.str());
+            throw Exception(msg.str());
         }
     }
 

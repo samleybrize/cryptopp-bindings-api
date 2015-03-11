@@ -24,11 +24,11 @@ bool SymmetricKeyAbstract::isValidKeyLength(size_t length, bool throwIfFalse) co
 
     if (!isValid && throwIfFalse) {
         if (0 == length) {
-            throw new Exception("a key is required");
+            throw Exception("a key is required");
         } else {
             std::stringstream msg;
             msg << length << " is not a valid key length";
-            throw new Exception(msg.str());
+            throw Exception(msg.str());
         }
     }
 

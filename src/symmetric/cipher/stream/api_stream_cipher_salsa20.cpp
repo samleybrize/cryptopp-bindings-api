@@ -27,7 +27,7 @@ void StreamCipherSalsa20::setRounds(int rounds)
 {
     // verify number of rounds
     if (8 != rounds && 12 != rounds && 20 != rounds) {
-        throw new Exception("number of rounds must be one of 8, 12 or 20");
+        throw Exception("number of rounds must be one of 8, 12 or 20");
     }
 
     m_rounds = rounds;

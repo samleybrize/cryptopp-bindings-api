@@ -25,11 +25,11 @@ MacHmac::MacHmac(HashAbstract *hash)
 
     // ensure that the hash algorithm is compatible
     if (0 == hash->getBlockSize()) {
-        throw new Exception("HMAC can only be used with a block-based hash function (block size > 0)");
+        throw Exception("HMAC can only be used with a block-based hash function (block size > 0)");
     } else if (hash->getBlockSize() < hash->getDigestSize()) {
         std::stringstream msg;
         msg << "hash block size (" << hash->getBlockSize() << ") cannot be lower than digest size (" << hash->getDigestSize() << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // create mac object

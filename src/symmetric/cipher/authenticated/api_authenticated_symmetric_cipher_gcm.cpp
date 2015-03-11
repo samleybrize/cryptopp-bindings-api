@@ -24,7 +24,7 @@ AuthenticatedSymmetricCipherGcm::AuthenticatedSymmetricCipherGcm(BlockCipherInte
 
     // check cipher block size
     if (16 != cipher->getBlockSize()) {
-        throw new Exception("GCM require a block cipher with a block size of 128 bits (16 bytes)");
+        throw Exception("GCM require a block cipher with a block size of 128 bits (16 bytes)");
     }
 
     // create cipher object

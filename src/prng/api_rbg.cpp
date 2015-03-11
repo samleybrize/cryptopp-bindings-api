@@ -16,7 +16,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 void RandomByteGenerator::generate(byte *output, size_t size)
 {
     if (size <= 0) {
-        throw new Exception("Size must be a positive integer, 0 given");
+        throw Exception("Size must be a positive integer, 0 given");
     }
 
     m_rbg.GenerateBlock(output, size);

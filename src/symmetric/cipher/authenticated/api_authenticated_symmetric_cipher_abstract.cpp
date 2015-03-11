@@ -82,7 +82,7 @@ void AuthenticatedSymmetricCipherAbstract::setName(const std::string name)
 void AuthenticatedSymmetricCipherAbstract::addEncryptionAdditionalData(byte *data, size_t dataLength)
 {
     if (m_encryptionStarted) {
-        throw new Exception("additional authenticated data must be added before any encryption");
+        throw Exception("additional authenticated data must be added before any encryption");
     }
 
     m_encryptor->Update(data, dataLength);
@@ -91,7 +91,7 @@ void AuthenticatedSymmetricCipherAbstract::addEncryptionAdditionalData(byte *dat
 void AuthenticatedSymmetricCipherAbstract::addDecryptionAdditionalData(byte *data, size_t dataLength)
 {
     if (m_decryptionStarted) {
-        throw new Exception("additional authenticated data must be added before any decryption");
+        throw Exception("additional authenticated data must be added before any decryption");
     }
 
     m_decryptor->Update(data, dataLength);
@@ -105,7 +105,7 @@ void AuthenticatedSymmetricCipherAbstract::encrypt(const byte *input, byte *outp
     if (0 != length % blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that key/iv are valid
@@ -125,7 +125,7 @@ void AuthenticatedSymmetricCipherAbstract::decrypt(const byte *input, byte *outp
     if (0 != length % blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that key/iv are valid

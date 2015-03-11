@@ -63,6 +63,10 @@ TEST(PaddingPkcs7Test, pad) {
     EXPECT_BYTE_ARRAY_EQ(expected3, expected3Length, output3, output3Length);
     EXPECT_BYTE_ARRAY_EQ(expected4, expected4Length, output4, output4Length);
 
+    delete[] expected1;
+    delete[] expected2;
+    delete[] expected3;
+    delete[] expected4;
     delete[] output1;
     delete[] output2;
     delete[] output3;
@@ -118,6 +122,10 @@ TEST(PaddingPkcs7Test, unpad) {
     EXPECT_BYTE_ARRAY_EQ(expected3, expected3Length, output3, output3Length);
     EXPECT_BYTE_ARRAY_EQ(expected4, expected4Length, output4, output4Length);
 
+    delete[] input1;
+    delete[] input2;
+    delete[] input3;
+    delete[] input4;
     delete[] output1;
     delete[] output2;
     delete[] output3;

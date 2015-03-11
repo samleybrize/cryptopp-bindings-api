@@ -22,10 +22,10 @@ void PaddingPkcs7::pad(const size_t blockSize, const byte *input, const size_t i
     if (blockSize < 1) {
         std::stringstream msg;
         msg << "block size cannot be lower than 1, " << blockSize << " given";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     } else if (blockSize > 256) {
         // PKCS7 does not handle block sizes higher than 256
-        throw new Exception("PKCS #7 padding does not handle block sizes higher than 256");
+        throw Exception("PKCS #7 padding does not handle block sizes higher than 256");
     } else if (alignedSize == inputLength) {
         // if input size is a multiple of block size, pad on an additional block size
         alignedSize += blockSize;
@@ -44,21 +44,21 @@ void PaddingPkcs7::unpad(const size_t blockSize, const byte *input, const size_t
     if (blockSize < 1) {
         std::stringstream msg;
         msg << "block size cannot be lower than 1, " << blockSize << " given";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     } else if (blockSize > 256) {
         // PKCS7 does not handle block sizes higher than 256
-        throw new Exception("PKCS #7 padding does not handle block sizes higher than 256");
+        throw Exception("PKCS #7 padding does not handle block sizes higher than 256");
     } else if (0 != inputLength % blockSize) {
         std::stringstream msg;
         msg << "data length is not a multiple of block size (block size is " << blockSize << ", data size is " << inputLength << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // retrieve the pad character
     byte pad = input[inputLength - 1];
 
     if (pad < 1 || pad > blockSize || std::find_if(input + inputLength - pad, input + inputLength, std::bind2nd(std::not_equal_to<byte>(), pad)) != input + inputLength) {
-        throw new Exception("invalid PKCS #7 block padding found");
+        throw Exception("invalid PKCS #7 block padding found");
     }
 
     // unpad

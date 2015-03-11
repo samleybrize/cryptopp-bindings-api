@@ -89,7 +89,7 @@ void SymmetricModeAbstract::encrypt(const byte *input, byte *output, const size_
     if (0 != length % blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that key/iv are valid
@@ -108,7 +108,7 @@ void SymmetricModeAbstract::decrypt(const byte *input, byte *output, const size_
     if (0 != length % blockSize) {
         std::stringstream msg;
         msg << "data size (" << length << ") is not a multiple of block size (" << blockSize << ")";
-        throw new Exception(msg.str());
+        throw Exception(msg.str());
     }
 
     // verify that key/iv are valid

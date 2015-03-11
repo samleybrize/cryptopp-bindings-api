@@ -236,8 +236,8 @@ TEST(MacTtmacTest, setInvalidKey) {
     CryptoppApi::MacTtmac mac;
 
     byte key[3];
-    EXPECT_THROW(mac.setKey(key, 3), CryptoppApi::Exception*);
-    EXPECT_THROW(mac.setKey(NULL, 0), CryptoppApi::Exception*);
+    EXPECT_THROW(mac.setKey(key, 3), CryptoppApi::Exception);
+    EXPECT_THROW(mac.setKey(NULL, 0), CryptoppApi::Exception);
 }
 
 TEST(MacTtmacTest, calculateDigestWithoutKey) {
@@ -248,7 +248,7 @@ TEST(MacTtmacTest, calculateDigestWithoutKey) {
     const char *input   = "qwerty";
     byte actual[digestSize];
 
-    EXPECT_THROW(mac.calculateDigest(reinterpret_cast<const byte*>(input), strlen(input), actual), CryptoppApi::Exception*);
-    EXPECT_THROW(mac.update(reinterpret_cast<const byte*>(input), strlen(input)), CryptoppApi::Exception*);
-    EXPECT_THROW(mac.finalize(actual), CryptoppApi::Exception*);
+    EXPECT_THROW(mac.calculateDigest(reinterpret_cast<const byte*>(input), strlen(input), actual), CryptoppApi::Exception);
+    EXPECT_THROW(mac.update(reinterpret_cast<const byte*>(input), strlen(input)), CryptoppApi::Exception);
+    EXPECT_THROW(mac.finalize(actual), CryptoppApi::Exception);
 }
