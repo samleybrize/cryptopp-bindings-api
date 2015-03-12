@@ -4,6 +4,8 @@ add_executable(
     cryptopp-bindings-api-tests
     test_api_assertions.cpp
 
+    utils/test_api_hex_utils.cpp
+
     padding/test_api_padding_no_padding.cpp
     padding/test_api_padding_pkcs7.cpp
 
