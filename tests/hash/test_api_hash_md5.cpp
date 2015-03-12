@@ -8,6 +8,7 @@
  */
 
 #include "src/hash/api_hash_md5.h"
+#include "src/mac/api_mac_hmac.h"
 #include "src/utils/api_hex_utils.h"
 #include "tests/test_api_assertions.h"
 #include <gtest/gtest.h>
@@ -158,4 +159,31 @@ TEST(HashMd5Test, largeData) {
     hash.finalize(output);
 
     delete[] input;
+}
+
+TEST(HashMd5Test, hmac) {
+    CryptoppApi::HashMd5 hash;
+    CryptoppApi::MacHmac mac(&hash);
+
+    // build expected digest
+    byte *expected;
+    size_t expectedLength = 0;
+    CryptoppApi::HexUtils::hex2bin("9294727a3638bb1c13f48ef8158bfc9d", 32, &expected, expectedLength);
+
+    // calculate digest
+    std::string inputStr("Hi There");
+    const byte *input   = reinterpret_cast<const byte*>(inputStr.c_str());
+    size_t inputLength  = inputStr.length();
+
+    byte *key;
+    size_t keyLength    = 0;
+    CryptoppApi::HexUtils::hex2bin("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b", 32, &key, keyLength);
+    mac.setKey(key, keyLength);
+
+    byte actual[mac.getDigestSize()];
+    mac.calculateDigest(input, inputLength, actual);
+    EXPECT_BYTE_ARRAY_EQ(expected, expectedLength, actual, mac.getDigestSize());
+
+    delete[] expected;
+    delete[] key;
 }

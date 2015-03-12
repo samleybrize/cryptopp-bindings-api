@@ -8,6 +8,7 @@
  */
 
 #include "src/hash/api_hash_sha3.h"
+#include "src/mac/api_mac_hmac.h"
 #include "src/utils/api_hex_utils.h"
 #include "tests/test_api_assertions.h"
 #include <gtest/gtest.h>
@@ -160,6 +161,33 @@ TEST(HashSha3_384Test, largeData) {
     hash.finalize(output);
 
     delete[] input;
+}
+
+TEST(HashSha3_384Test, hmac) {
+    CryptoppApi::HashSha3_384 hash;
+    CryptoppApi::MacHmac mac(&hash);
+
+    // build expected digest
+    byte *expected;
+    size_t expectedLength = 0;
+    CryptoppApi::HexUtils::hex2bin("6ebf2f3c1fcb9bb69d427fceb5fac55f2782a5137cc551f92da0565215bf56511c758cd175df564c40844371ed3eefce", 96, &expected, expectedLength);
+
+    // calculate digest
+    std::string inputStr("Hi There");
+    const byte *input   = reinterpret_cast<const byte*>(inputStr.c_str());
+    size_t inputLength  = inputStr.length();
+
+    byte *key;
+    size_t keyLength    = 0;
+    CryptoppApi::HexUtils::hex2bin("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b", 32, &key, keyLength);
+    mac.setKey(key, keyLength);
+
+    byte actual[mac.getDigestSize()];
+    mac.calculateDigest(input, inputLength, actual);
+    EXPECT_BYTE_ARRAY_EQ(expected, expectedLength, actual, mac.getDigestSize());
+
+    delete[] expected;
+    delete[] key;
 }
 
 #endif /* CRYPTOPP_SHA3_ENABLED == 1 */
