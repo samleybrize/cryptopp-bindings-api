@@ -377,6 +377,7 @@ TEST(BlockCipherAesTest, largeData) {
     size_t dataSize = 10485760;
     byte *input     = new byte[dataSize];
     byte *output    = new byte[dataSize];
+    memset(input, 125, dataSize);
     cipher.encrypt(input, output, dataSize);
     cipher.decrypt(input, output, dataSize);
 
