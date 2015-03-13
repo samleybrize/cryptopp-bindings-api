@@ -184,9 +184,11 @@ TEST(PaddingPkcs7Test, unpadErrors) {
     std::string input2  = "1234";
     byte *input3        = NULL;
     size_t input1Length = 0;
-    CryptoppApi::HexUtils::hex2bin("04040304", 4, &input3, input1Length);
+    CryptoppApi::HexUtils::hex2bin("04040304", 8, &input3, input1Length);
 
     EXPECT_THROW_MSG(padding.unpad(4, reinterpret_cast<const byte*>(input1.c_str()), input1.length(), &output, outputLength), CryptoppApi::Exception, "data length is not a multiple of block size (block size is 4, data size is 3)");
     EXPECT_THROW_MSG(padding.unpad(4, reinterpret_cast<const byte*>(input2.c_str()), input2.length(), &output, outputLength), CryptoppApi::Exception, "invalid PKCS #7 block padding found");
     EXPECT_THROW_MSG(padding.unpad(4, input3, 4, &output, outputLength), CryptoppApi::Exception, "invalid PKCS #7 block padding found");
+
+    delete[] input3;
 }
