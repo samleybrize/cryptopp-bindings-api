@@ -22,44 +22,64 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+class CryptoppSha3_224 : public CryptoPP::SHA3_224
+{
+public:
+    unsigned int BlockSize() const {return 72;}
+};
+
+class CryptoppSha3_256 : public CryptoPP::SHA3_256
+{
+public:
+    unsigned int BlockSize() const {return 104;}
+};
+
+class CryptoppSha3_384 : public CryptoPP::SHA3_384
+{
+public:
+    unsigned int BlockSize() const {return 136;}
+};
+
+class CryptoppSha3_512 : public CryptoPP::SHA3_512
+{
+public:
+    unsigned int BlockSize() const {return 144;}
+};
+
 class HashSha3_224 : public HashAbstract
 {
 public:
     HashSha3_224();
-    size_t getBlockSize() const {return 72;}
 
 private:
-    CryptoPP::SHA3_224 m_hash;
+    CryptoppSha3_224 m_hash;
 };
 
 class HashSha3_256 : public HashAbstract
 {
 public:
     HashSha3_256();
-    size_t getBlockSize() const {return 104;}
 
 private:
-    CryptoPP::SHA3_256 m_hash;
+    CryptoppSha3_256 m_hash;
 };
 
 class HashSha3_384 : public HashAbstract
 {
 public:
     HashSha3_384();
-    size_t getBlockSize() const {return 136;}
 
 private:
-    CryptoPP::SHA3_384 m_hash;
+    CryptoppSha3_384 m_hash;
 };
 
 class HashSha3_512 : public HashAbstract
 {
 public:
     HashSha3_512();
-    size_t getBlockSize() const {return 144;}
 
 private:
-    CryptoPP::SHA3_512 m_hash;
+    CryptoppSha3_512 m_hash;
 };
 
 NAMESPACE_END
