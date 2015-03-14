@@ -22,7 +22,7 @@ TEST(BlockCipherAesTest, inheritance) {
     EXPECT_TRUE(0 != dynamic_cast<CryptoppApi::SymmetricKeyAbstract*>(&cipher));
 }
 
-TEST(BlockCipherAesTest, infosSha1) {
+TEST(BlockCipherAesTest, infos) {
     CryptoppApi::BlockCipherAes cipher;
 
     EXPECT_STREQ("aes", cipher.getName());

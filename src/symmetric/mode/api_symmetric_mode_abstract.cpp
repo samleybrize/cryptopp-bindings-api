@@ -130,8 +130,17 @@ void SymmetricModeAbstract::restart()
 
     byte key[keyLength];
     byte iv[ivLength];
-    m_encryptor->SetKeyWithIV(key, keyLength, iv, ivLength);
-    m_decryptor->SetKeyWithIV(key, keyLength, iv, ivLength);
+    getKey(key);
+    getIv(iv);
+
+    if (m_encryptor->IsResynchronizable()) {
+        m_encryptor->SetKeyWithIV(key, keyLength, iv, ivLength);
+        m_decryptor->SetKeyWithIV(key, keyLength, iv, ivLength);
+    } else {
+        // mode does not need an IV
+        m_encryptor->SetKey(key, keyLength);
+        m_decryptor->SetKey(key, keyLength);
+    }
 }
 
 NAMESPACE_END

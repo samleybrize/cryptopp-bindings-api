@@ -22,6 +22,8 @@ add_executable(
     mac/test_api_mac_ttmac.cpp
 
     symmetric/cipher/block/test_api_block_cipher_aes.cpp
+
+    symmetric/mode/test_api_symmetric_mode_ecb.cpp
 )
 
 target_link_libraries(cryptopp-bindings-api-tests cryptopp-bindings-api)
