@@ -24,6 +24,7 @@ add_executable(
     symmetric/cipher/block/test_api_block_cipher_aes.cpp
 
     symmetric/mode/test_api_symmetric_mode_ecb.cpp
+    symmetric/mode/test_api_symmetric_mode_cbc.cpp
 )
 
 target_link_libraries(cryptopp-bindings-api-tests cryptopp-bindings-api)
