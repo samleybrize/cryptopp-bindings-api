@@ -206,9 +206,9 @@ TEST(SymmetricModeEcbTest, decrypt) {
     // aes128
     CryptoppApi::HexUtils::hex2bin("3ad77bb40d7a3660a89ecaf32466ef97f5d3d58503b9699de785895a96fdbaaf", 64, &block1, dummyLength);
     CryptoppApi::HexUtils::hex2bin("43b1cd7f598ece23881b00e3ed0306887b0c785e27e8ad3f8223207104725dd4", 64, &block2, dummyLength);
-    cipher.setKey(key128, key128Length);
-    cipher.decrypt(block1, output1, dataSize);
-    cipher.decrypt(block2, output2, dataSize);
+    mode.setKey(key128, key128Length);
+    mode.decrypt(block1, output1, dataSize);
+    mode.decrypt(block2, output2, dataSize);
     EXPECT_BYTE_ARRAY_EQ(expected1, dataSize, output1, dataSize);
     EXPECT_BYTE_ARRAY_EQ(expected2, dataSize, output2, dataSize);
 
@@ -218,9 +218,9 @@ TEST(SymmetricModeEcbTest, decrypt) {
     // aes192
     CryptoppApi::HexUtils::hex2bin("bd334f1d6e45f25ff712a214571fa5cc974104846d0ad3ad7734ecb3ecee4eef", 64, &block1, dummyLength);
     CryptoppApi::HexUtils::hex2bin("ef7afd2270e2e60adce0ba2face6444e9a4b41ba738d6c72fb16691603c18e0e", 64, &block2, dummyLength);
-    cipher.setKey(key192, key192Length);
-    cipher.decrypt(block1, output1, dataSize);
-    cipher.decrypt(block2, output2, dataSize);
+    mode.setKey(key192, key192Length);
+    mode.decrypt(block1, output1, dataSize);
+    mode.decrypt(block2, output2, dataSize);
     EXPECT_BYTE_ARRAY_EQ(expected1, dataSize, output1, dataSize);
     EXPECT_BYTE_ARRAY_EQ(expected2, dataSize, output2, dataSize);
 
@@ -230,9 +230,9 @@ TEST(SymmetricModeEcbTest, decrypt) {
     // aes256
     CryptoppApi::HexUtils::hex2bin("f3eed1bdb5d2a03c064b5a7e3db181f8591ccb10d410ed26dc5ba74a31362870", 64, &block1, dummyLength);
     CryptoppApi::HexUtils::hex2bin("b6ed21b99ca6f4f9f153e7b1beafed1d23304b7a39f9f3ff067d8d8f9e24ecc7", 64, &block2, dummyLength);
-    cipher.setKey(key256, key256Length);
-    cipher.decrypt(block1, output1, dataSize);
-    cipher.decrypt(block2, output2, dataSize);
+    mode.setKey(key256, key256Length);
+    mode.decrypt(block1, output1, dataSize);
+    mode.decrypt(block2, output2, dataSize);
     EXPECT_BYTE_ARRAY_EQ(expected1, dataSize, output1, dataSize);
     EXPECT_BYTE_ARRAY_EQ(expected2, dataSize, output2, dataSize);
 
