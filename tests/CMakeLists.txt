@@ -25,6 +25,7 @@ add_executable(
 
     symmetric/mode/test_api_symmetric_mode_ecb.cpp
     symmetric/mode/test_api_symmetric_mode_cbc.cpp
+    symmetric/mode/test_api_symmetric_mode_ofb.cpp
     symmetric/mode/test_api_symmetric_mode_ctr.cpp
 )
 
