@@ -18,10 +18,17 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-class CryptoppCfb : public CryptoPP::CFB_Mode_ExternalCipher::Encryption
+class CryptoppCfbEncryption : public CryptoPP::CFB_Mode_ExternalCipher::Encryption
 {
 public:
-    CryptoppCfb();
+    CryptoppCfbEncryption(){}
+    void SetCipher(CryptoPP::BlockCipher &cipher);
+};
+
+class CryptoppCfbDecryption : public CryptoPP::CFB_Mode_ExternalCipher::Decryption
+{
+public:
+    CryptoppCfbDecryption(){}
     void SetCipher(CryptoPP::BlockCipher &cipher);
 };
 
@@ -32,8 +39,8 @@ public:
     ~SymmetricModeCfb();
 
 private:
-    CryptoppCfb *m_encryptor;
-    CryptoppCfb *m_decryptor;
+    CryptoppCfbEncryption *m_encryptor;
+    CryptoppCfbDecryption *m_decryptor;
 };
 
 NAMESPACE_END
