@@ -56,4 +56,27 @@ void SymmetricKeyAbstract::setKey(const byte *key, const size_t keyLength)
     memcpy(m_key, key, keyLength);
 }
 
+bool SymmetricKeyAbstract::isKeyEqualsTo(SymmetricKeyAbstract *compare)
+{
+    // compare keys lengths
+    size_t keyLength        = getKeyLength();
+    size_t compareKeyLength = compare->getKeyLength();
+
+    if (keyLength != compareKeyLength) {
+        return false;
+    }
+
+    // compare keys
+    byte compareKey[compareKeyLength];
+    compare->getKey(compareKey);
+
+    for (int i = 0; i < keyLength; i++) {
+        if (m_key[i] != compareKey[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 NAMESPACE_END

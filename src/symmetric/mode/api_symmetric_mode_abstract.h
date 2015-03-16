@@ -12,6 +12,7 @@
 #define API_CRYPTOPP_SYMMETRIC_MODE_ABSTRACT_H
 
 #include "src/api_cryptopp.h"
+#include "src/symmetric/cipher/block/api_block_cipher_interface.h"
 #include "api_symmetric_mode_interface.h"
 #include <string>
 
@@ -35,12 +36,13 @@ public:
 
 protected:
     SymmetricModeAbstract();
-    void setCryptoppObjects(CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor);
+    void setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor);
     void setName(const std::string name);
     void setName(const std::string modeName, const std::string cipherName);
 
 private:
     std::string m_name;
+    BlockCipherInterface *m_cipher;
     CryptoPP::SymmetricCipher *m_encryptor;
     CryptoPP::SymmetricCipher *m_decryptor;
 };

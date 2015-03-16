@@ -31,6 +31,7 @@ protected:
         : m_key(NULL)
         , m_keyLength(0) {}
     bool hasValidKey(bool throwIfFalse);
+    bool isKeyEqualsTo(SymmetricKeyAbstract *compare);
 
 private:
     byte *m_key;

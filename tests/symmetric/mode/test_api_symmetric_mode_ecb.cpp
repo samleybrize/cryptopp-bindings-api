@@ -391,3 +391,24 @@ TEST(SymmetricModeEcbTest, cryptWithoutKey) {
     EXPECT_THROW_MSG(mode.encrypt(input, output, inputLength), CryptoppApi::Exception, "a key is required");
     EXPECT_THROW_MSG(mode.decrypt(input, output, inputLength), CryptoppApi::Exception, "a key is required");
 }
+
+TEST(SymmetricModeEcbTest, keyNotMatchingUnderlyingOne) {
+    CryptoppApi::BlockCipherAes cipher;
+    CryptoppApi::SymmetricModeEcb mode1(&cipher);
+    CryptoppApi::SymmetricModeEcb mode2(&cipher);
+
+    std::string key1("1234567890123456");
+    std::string key2("azertyuiopqwerty");
+    std::string key3("wxcvbnqsdfghjklm");
+    mode1.setKey(reinterpret_cast<const byte*>(key1.c_str()), key1.length());
+
+    size_t inputLength = mode1.getBlockSize();
+    byte input[inputLength];
+    byte output[inputLength];
+
+    mode2.setKey(reinterpret_cast<const byte*>(key2.c_str()), key2.length());
+    EXPECT_THROW_MSG(mode1.encrypt(input, output, inputLength), CryptoppApi::Exception, "key is not matching the one owned by the underlying cipher object");
+
+    cipher.setKey(reinterpret_cast<const byte*>(key3.c_str()), key3.length());
+    EXPECT_THROW_MSG(mode1.encrypt(input, output, inputLength), CryptoppApi::Exception, "key is not matching the one owned by the underlying cipher object");
+}

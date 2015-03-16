@@ -15,14 +15,16 @@
 NAMESPACE_BEGIN(CryptoppApi)
 
 SymmetricModeAbstract::SymmetricModeAbstract()
-    : m_encryptor(NULL)
+    : m_cipher(NULL)
+    , m_encryptor(NULL)
     , m_decryptor(NULL)
     , m_name("")
 {
 }
 
-void SymmetricModeAbstract::setCryptoppObjects(CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor)
+void SymmetricModeAbstract::setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor)
 {
+    m_cipher    = cipher;
     m_encryptor = encryptor;
     m_decryptor = decryptor;
 }
@@ -58,6 +60,7 @@ bool SymmetricModeAbstract::isValidIvLength(size_t length) const
 void SymmetricModeAbstract::setKey(const byte *key, const size_t keyLength)
 {
     SymmetricKeyAbstract::setKey(key, keyLength);
+    m_cipher->setKey(key, keyLength);
     restart();
 }
 
@@ -96,6 +99,11 @@ void SymmetricModeAbstract::encrypt(const byte *input, byte *output, const size_
     hasValidKey(true);
     hasValidIv(true);
 
+    // verify that key is equals to underlying cipher key
+    if (!isKeyEqualsTo(m_cipher)) {
+        throw Exception("key is not matching the one owned by the underlying cipher object");
+    }
+
     // encrypt
     m_encryptor->ProcessData(output, input, length);
 }
@@ -114,6 +122,11 @@ void SymmetricModeAbstract::decrypt(const byte *input, byte *output, const size_
     // verify that key/iv are valid
     hasValidKey(true);
     hasValidIv(true);
+
+    // verify that key is equals to underlying cipher key
+    if (!isKeyEqualsTo(m_cipher)) {
+        throw Exception("key is not matching the one owned by the underlying cipher object");
+    }
 
     // decrypt
     m_decryptor->ProcessData(output, input, length);

@@ -24,7 +24,7 @@ SymmetricModeCfb::SymmetricModeCfb(BlockCipherInterface *cipher)
     m_decryptor = new CryptoppCfbDecryption();
     m_encryptor->SetCipher(*cipher->getEncryptor());
     m_decryptor->SetCipher(*cipher->getEncryptor());
-    setCryptoppObjects(m_encryptor, m_decryptor);
+    setCryptoppObjects(cipher, m_encryptor, m_decryptor);
 }
 
 SymmetricModeCfb::~SymmetricModeCfb()

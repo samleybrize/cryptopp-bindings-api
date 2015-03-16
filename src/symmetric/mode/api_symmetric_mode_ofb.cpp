@@ -25,7 +25,7 @@ SymmetricModeOfb::SymmetricModeOfb(BlockCipherInterface *cipher)
 
     m_encryptor = new CryptoPP::OFB_Mode_ExternalCipher::Encryption(*cipher->getEncryptor(), dummyIv, blockSize);
     m_decryptor = new CryptoPP::OFB_Mode_ExternalCipher::Decryption(*cipher->getEncryptor(), dummyIv, blockSize);
-    setCryptoppObjects(m_encryptor, m_decryptor);
+    setCryptoppObjects(cipher, m_encryptor, m_decryptor);
 }
 
 SymmetricModeOfb::~SymmetricModeOfb()

@@ -25,7 +25,7 @@ SymmetricModeCtr::SymmetricModeCtr(BlockCipherInterface *cipher)
 
     m_encryptor = new CryptoPP::CTR_Mode_ExternalCipher::Encryption(*cipher->getEncryptor(), dummyIv, blockSize);
     m_decryptor = new CryptoPP::CTR_Mode_ExternalCipher::Decryption(*cipher->getEncryptor(), dummyIv, blockSize);
-    setCryptoppObjects(m_encryptor, m_decryptor);
+    setCryptoppObjects(cipher, m_encryptor, m_decryptor);
 }
 
 SymmetricModeCtr::~SymmetricModeCtr()
