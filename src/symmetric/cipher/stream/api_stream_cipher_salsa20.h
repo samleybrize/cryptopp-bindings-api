@@ -17,16 +17,30 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+class CryptoppSalsa20Encryption : public CryptoPP::Salsa20::Encryption
+{
+public:
+    void SetRounds(int rounds);
+    void CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length);
+};
+
+class CryptoppSalsa20Decryption : public CryptoPP::Salsa20::Decryption
+{
+public:
+    void SetRounds(int rounds);
+    void CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length);
+};
+
 class StreamCipherSalsa20 : public StreamCipherAbstract
 {
 public:
+    StreamCipherSalsa20() : StreamCipherSalsa20(20) {}
     StreamCipherSalsa20(int rounds);
     void setRounds(int rounds);
-    void restart();
 
 private:
-    CryptoPP::Salsa20::Encryption m_encryptor;
-    CryptoPP::Salsa20::Decryption m_decryptor;
+    CryptoppSalsa20Encryption m_encryptor;
+    CryptoppSalsa20Decryption m_decryptor;
     int m_rounds;
 };
 

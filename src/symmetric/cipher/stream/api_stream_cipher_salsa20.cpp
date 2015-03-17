@@ -31,21 +31,41 @@ void StreamCipherSalsa20::setRounds(int rounds)
     }
 
     m_rounds = rounds;
+    m_encryptor.SetRounds(rounds);
+    m_decryptor.SetRounds(rounds);
 
     // restart
     restart();
 }
 
-void StreamCipherSalsa20::restart()
+void CryptoppSalsa20Encryption::SetRounds(int rounds)
 {
-    StreamCipherAbstract::restart();
+    m_rounds = rounds;
+}
 
-    // set the number of rounds
-    size_t keyLength = getKeyLength();
-    byte key[keyLength];
-    getKey(key);
-    m_encryptor.SetKeyWithRounds(key, keyLength, m_rounds);
-    m_decryptor.SetKeyWithRounds(key, keyLength, m_rounds);
+void CryptoppSalsa20Decryption::SetRounds(int rounds)
+{
+    m_rounds = rounds;
+}
+
+void CryptoppSalsa20Encryption::CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length)
+{
+    int rounds = m_rounds;
+    CryptoPP::Salsa20::Encryption::CipherSetKey(params, key, length);
+
+    if (rounds > 0) {
+        m_rounds = rounds;
+    }
+}
+
+void CryptoppSalsa20Decryption::CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length)
+{
+    int rounds = m_rounds;
+    CryptoPP::Salsa20::Decryption::CipherSetKey(params, key, length);
+
+    if (rounds > 0) {
+        m_rounds = rounds;
+    }
 }
 
 NAMESPACE_END
