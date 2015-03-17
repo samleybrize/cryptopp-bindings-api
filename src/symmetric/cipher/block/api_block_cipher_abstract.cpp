@@ -48,7 +48,7 @@ void BlockCipherAbstract::setKey(const byte *key, const size_t keyLength)
 
     // copy key
     byte keyCopy[keyLength];
-    memcpy(keyCopy, key, keyLength);
+    getKey(keyCopy);
 
     m_encryptor->SetKey(keyCopy, keyLength);
     m_decryptor->SetKey(keyCopy, keyLength);
