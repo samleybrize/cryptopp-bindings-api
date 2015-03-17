@@ -23,6 +23,7 @@ add_executable(
 
     symmetric/cipher/block/test_api_block_cipher_aes.cpp
 
+    symmetric/cipher/stream/test_api_stream_cipher_panama.cpp
     symmetric/cipher/stream/test_api_stream_cipher_sosemanuk.cpp
 
     symmetric/mode/test_api_symmetric_mode_ecb.cpp

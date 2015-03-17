@@ -20,6 +20,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 class StreamCipherPanama : public StreamCipherAbstract
 {
 public:
+    StreamCipherPanama() : StreamCipherPanama(Endianness::E_LITTLE_ENDIAN) {}
     StreamCipherPanama(Endianness endianness);
     ~StreamCipherPanama();
 
