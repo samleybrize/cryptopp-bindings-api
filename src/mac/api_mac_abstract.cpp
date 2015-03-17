@@ -36,7 +36,12 @@ bool MacAbstract::isValidKeyLength(size_t length) const
 void MacAbstract::setKey(const byte *key, const size_t keyLength)
 {
     SymmetricKeyAbstract::setKey(key, keyLength);
-    m_mac->SetKey(key, keyLength);
+
+    // copy key
+    byte keyCopy[keyLength];
+    memcpy(keyCopy, key, keyLength);
+
+    m_mac->SetKey(keyCopy, keyLength);
 }
 
 void MacAbstract::setName(const std::string name)
