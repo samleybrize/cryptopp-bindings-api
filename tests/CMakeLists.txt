@@ -26,6 +26,7 @@ add_executable(
     symmetric/cipher/stream/test_api_stream_cipher_panama.cpp
     symmetric/cipher/stream/test_api_stream_cipher_salsa20.cpp
     symmetric/cipher/stream/test_api_stream_cipher_sosemanuk.cpp
+    symmetric/cipher/stream/test_api_stream_cipher_xsalsa20.cpp
 
     symmetric/mode/test_api_symmetric_mode_ecb.cpp
     symmetric/mode/test_api_symmetric_mode_cbc.cpp
