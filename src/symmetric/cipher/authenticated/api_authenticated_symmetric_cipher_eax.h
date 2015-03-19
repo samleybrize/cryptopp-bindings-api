@@ -41,20 +41,19 @@ public:
     class Base : public CryptoPP::EAX_Base
     {
     public:
-        ~Base();
+        ~Base() {delete m_cmac;}
         static std::string StaticAlgorithmName() {return std::string("EAX");}
 
     protected:
         Base(CryptoPP::BlockCipher *cipher)
-            : m_cipher(cipher)
-            , m_cmac(cipher) {}
+            : m_cipher(cipher) {m_cmac = new CryptoppEaxCmac(cipher);}
 
     private:
         CryptoPP::BlockCipher & AccessBlockCipher() {return *m_cipher;}
-        CryptoPP::CMAC_Base & AccessMAC() {return m_cmac;}
+        CryptoPP::CMAC_Base & AccessMAC() {return *m_cmac;}
 
         CryptoPP::BlockCipher *m_cipher;
-        CryptoppEaxCmac m_cmac;
+        CryptoppEaxCmac *m_cmac;
     };
 
     /* encryption class */
