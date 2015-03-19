@@ -38,6 +38,9 @@ public:
     void finalizeDecryption(byte *output);
     void restart();
 
+    virtual CryptoPP::AuthenticatedSymmetricCipher *getEncryptor() {return m_encryptor;};
+    virtual CryptoPP::AuthenticatedSymmetricCipher *getDecryptor() {return m_decryptor;};
+
 protected:
     AuthenticatedSymmetricCipherAbstract();
     void setCryptoppObjects(CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor);

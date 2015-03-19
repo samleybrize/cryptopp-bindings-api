@@ -160,6 +160,8 @@ void AuthenticatedSymmetricCipherAbstract::restart()
 
     byte key[keyLength];
     byte iv[ivLength];
+    getKey(key);
+    getIv(iv);
     m_encryptor->SetKeyWithIV(key, keyLength, iv, ivLength);
     m_decryptor->SetKeyWithIV(key, keyLength, iv, ivLength);
     m_encryptionStarted = false;
