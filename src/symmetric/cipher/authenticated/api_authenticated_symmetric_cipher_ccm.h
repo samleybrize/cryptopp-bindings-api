@@ -25,7 +25,6 @@ public:
     class Base : public CryptoPP::CCM_Base
     {
     public:
-        ~Base();
         void SetDigestSize(int digestSize);
         static std::string StaticAlgorithmName() {return std::string("CCM");}
 

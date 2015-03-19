@@ -21,6 +21,7 @@ add_executable(
     mac/test_api_mac_hmac.cpp
     mac/test_api_mac_ttmac.cpp
 
+    symmetric/cipher/authenticated/test_api_authenticated_symmetric_cipher_ccm.cpp
     symmetric/cipher/authenticated/test_api_authenticated_symmetric_cipher_eax.cpp
     symmetric/cipher/authenticated/test_api_authenticated_symmetric_cipher_gcm.cpp
 
