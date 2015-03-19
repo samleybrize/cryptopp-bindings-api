@@ -30,7 +30,7 @@ AuthenticatedSymmetricCipherGcm::AuthenticatedSymmetricCipherGcm(BlockCipherInte
     // create cipher object
     m_encryptor = new CryptoppGcm::Encryption(cipher->getEncryptor());
     m_decryptor = new CryptoppGcm::Decryption(cipher->getEncryptor());
-    setCryptoppObjects(m_encryptor, m_decryptor);
+    setCryptoppObjects(cipher, m_encryptor, m_decryptor);
 }
 
 AuthenticatedSymmetricCipherGcm::~AuthenticatedSymmetricCipherGcm()

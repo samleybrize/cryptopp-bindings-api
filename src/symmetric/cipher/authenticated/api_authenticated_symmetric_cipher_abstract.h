@@ -12,6 +12,7 @@
 #define API_CRYPTOPP_AUTHENTICATED_SYMMETRIC_CIPHER_ABSTRACT_H
 
 #include "src/api_cryptopp.h"
+#include "src/symmetric/cipher/block/api_block_cipher_interface.h"
 #include "api_authenticated_symmetric_cipher_interface.h"
 #include <string>
 
@@ -43,13 +44,14 @@ public:
 
 protected:
     AuthenticatedSymmetricCipherAbstract();
-    void setCryptoppObjects(CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor);
+    void setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor);
     void setName(const std::string name);
 
 private:
     std::string m_name;
     bool m_encryptionStarted;
     bool m_decryptionStarted;
+    BlockCipherInterface *m_cipher;
     CryptoPP::AuthenticatedSymmetricCipher *m_encryptor;
     CryptoPP::AuthenticatedSymmetricCipher *m_decryptor;
 };

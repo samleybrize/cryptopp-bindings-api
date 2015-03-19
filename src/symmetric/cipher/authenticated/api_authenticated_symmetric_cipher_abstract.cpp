@@ -15,7 +15,8 @@
 NAMESPACE_BEGIN(CryptoppApi)
 
 AuthenticatedSymmetricCipherAbstract::AuthenticatedSymmetricCipherAbstract()
-    : m_encryptor(NULL)
+    : m_cipher(NULL)
+    , m_encryptor(NULL)
     , m_decryptor(NULL)
     , m_encryptionStarted(false)
     , m_decryptionStarted(false)
@@ -23,8 +24,9 @@ AuthenticatedSymmetricCipherAbstract::AuthenticatedSymmetricCipherAbstract()
 {
 }
 
-void AuthenticatedSymmetricCipherAbstract::setCryptoppObjects(CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor)
+void AuthenticatedSymmetricCipherAbstract::setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor)
 {
+    m_cipher    = cipher;
     m_encryptor = encryptor;
     m_decryptor = decryptor;
 }
@@ -65,6 +67,7 @@ bool AuthenticatedSymmetricCipherAbstract::isValidIvLength(size_t length) const
 void AuthenticatedSymmetricCipherAbstract::setKey(const byte *key, const size_t keyLength)
 {
     SymmetricKeyAbstract::setKey(key, keyLength);
+    m_cipher->setKey(key, keyLength);
     restart();
 }
 
@@ -85,6 +88,11 @@ void AuthenticatedSymmetricCipherAbstract::addEncryptionAdditionalData(byte *dat
         throw Exception("additional authenticated data must be added before any encryption");
     }
 
+    // verify that key/iv are valid
+    hasValidKey(true);
+    hasValidIv(true);
+
+    // add AAD
     m_encryptor->Update(data, dataLength);
 }
 
@@ -94,6 +102,11 @@ void AuthenticatedSymmetricCipherAbstract::addDecryptionAdditionalData(byte *dat
         throw Exception("additional authenticated data must be added before any decryption");
     }
 
+    // verify that key/iv are valid
+    hasValidKey(true);
+    hasValidIv(true);
+
+    // add AAD
     m_decryptor->Update(data, dataLength);
 }
 
@@ -111,6 +124,11 @@ void AuthenticatedSymmetricCipherAbstract::encrypt(const byte *input, byte *outp
     // verify that key/iv are valid
     hasValidKey(true);
     hasValidIv(true);
+
+    // verify that key is equals to underlying cipher key
+    if (!isKeyEqualsTo(m_cipher)) {
+        throw Exception("key is not matching the one owned by the underlying cipher object");
+    }
 
     // encrypt
     m_encryptor->ProcessData(output, input, length);
@@ -132,6 +150,11 @@ void AuthenticatedSymmetricCipherAbstract::decrypt(const byte *input, byte *outp
     hasValidKey(true);
     hasValidIv(true);
 
+    // verify that key is equals to underlying cipher key
+    if (!isKeyEqualsTo(m_cipher)) {
+        throw Exception("key is not matching the one owned by the underlying cipher object");
+    }
+
     // decrypt
     m_decryptor->ProcessData(output, input, length);
     m_decryptionStarted = true;
@@ -139,12 +162,22 @@ void AuthenticatedSymmetricCipherAbstract::decrypt(const byte *input, byte *outp
 
 void AuthenticatedSymmetricCipherAbstract::finalizeEncryption(byte *output)
 {
+    // verify that key/iv are valid
+    hasValidKey(true);
+    hasValidIv(true);
+
+    // calculate MAC tag
     m_encryptor->Final(output);
     restart();
 }
 
 void AuthenticatedSymmetricCipherAbstract::finalizeDecryption(byte *output)
 {
+    // verify that key/iv are valid
+    hasValidKey(true);
+    hasValidIv(true);
+
+    // calculate MAC tag
     m_decryptor->Final(output);
     restart();
 }

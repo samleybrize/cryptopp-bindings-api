@@ -38,7 +38,7 @@ AuthenticatedSymmetricCipherCcm::AuthenticatedSymmetricCipherCcm(BlockCipherInte
     // create cipher object
     m_encryptor = new CryptoppCcm::Encryption(cipher->getEncryptor());
     m_decryptor = new CryptoppCcm::Decryption(cipher->getEncryptor());
-    setCryptoppObjects(m_encryptor, m_decryptor);
+    setCryptoppObjects(cipher, m_encryptor, m_decryptor);
 }
 
 AuthenticatedSymmetricCipherCcm::~AuthenticatedSymmetricCipherCcm()

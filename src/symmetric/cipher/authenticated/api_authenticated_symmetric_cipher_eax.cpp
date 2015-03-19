@@ -24,7 +24,7 @@ AuthenticatedSymmetricCipherEax::AuthenticatedSymmetricCipherEax(BlockCipherInte
     // create cipher object
     m_encryptor = new CryptoppEax::Encryption(cipher->getEncryptor());
     m_decryptor = new CryptoppEax::Decryption(cipher->getEncryptor());
-    setCryptoppObjects(m_encryptor, m_decryptor);
+    setCryptoppObjects(cipher, m_encryptor, m_decryptor);
 }
 
 AuthenticatedSymmetricCipherEax::~AuthenticatedSymmetricCipherEax()
