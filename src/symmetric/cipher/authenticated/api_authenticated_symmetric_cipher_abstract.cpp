@@ -82,7 +82,7 @@ void AuthenticatedSymmetricCipherAbstract::setName(const std::string name)
     m_name.assign(name);
 }
 
-void AuthenticatedSymmetricCipherAbstract::addEncryptionAdditionalData(byte *data, size_t dataLength)
+void AuthenticatedSymmetricCipherAbstract::addEncryptionAdditionalData(const byte *data, size_t dataLength)
 {
     if (m_encryptionStarted) {
         throw Exception("additional authenticated data must be added before any encryption");
@@ -96,7 +96,7 @@ void AuthenticatedSymmetricCipherAbstract::addEncryptionAdditionalData(byte *dat
     m_encryptor->Update(data, dataLength);
 }
 
-void AuthenticatedSymmetricCipherAbstract::addDecryptionAdditionalData(byte *data, size_t dataLength)
+void AuthenticatedSymmetricCipherAbstract::addDecryptionAdditionalData(const byte *data, size_t dataLength)
 {
     if (m_decryptionStarted) {
         throw Exception("additional authenticated data must be added before any decryption");

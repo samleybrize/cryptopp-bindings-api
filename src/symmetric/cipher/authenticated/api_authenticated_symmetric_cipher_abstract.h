@@ -31,8 +31,8 @@ public:
     bool isValidIvLength(size_t length) const;
     void setKey(const byte *key, const size_t keyLength);
     void setIv(const byte *iv, const size_t ivLength);
-    void addEncryptionAdditionalData(byte *data, size_t dataLength);
-    void addDecryptionAdditionalData(byte *data, size_t dataLength);
+    void addEncryptionAdditionalData(const byte *data, size_t dataLength);
+    void addDecryptionAdditionalData(const byte *data, size_t dataLength);
     void encrypt(const byte *input, byte *output, const size_t length);
     void decrypt(const byte *input, byte *output, const size_t length);
     void finalizeEncryption(byte *output);

@@ -22,8 +22,8 @@ public:
     virtual ~AuthenticatedSymmetricCipherInterface() {}
 
     virtual size_t getDigestSize() const =0;
-    virtual void addEncryptionAdditionalData(byte *data, size_t dataLength) =0;
-    virtual void addDecryptionAdditionalData(byte *data, size_t dataLength) =0;
+    virtual void addEncryptionAdditionalData(const byte *data, size_t dataLength) =0;
+    virtual void addDecryptionAdditionalData(const byte *data, size_t dataLength) =0;
     virtual void finalizeEncryption(byte *output) =0;
     virtual void finalizeDecryption(byte *output) =0;
 

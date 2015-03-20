@@ -134,15 +134,6 @@ TEST(AuthenticatedSymmetricCipherCcmTest, setGetIv) {
 TEST(AuthenticatedSymmetricCipherCcmTest, encrypt) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
-    size_t dataSize     = 32;
-    size_t digestSize   = mode.getDigestSize();
-
-    byte output1[dataSize];
-    byte output2[dataSize];
-    byte output3[digestSize];
-    byte *expected1;
-    byte *expected2;
-    byte *expected3;
 
     // build key
     byte *key;
@@ -158,23 +149,34 @@ TEST(AuthenticatedSymmetricCipherCcmTest, encrypt) {
     // build blocks
     byte *block1;
     byte *block2;
-    size_t dummyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("08090a0b0c0d0e0f101112", 22, &block1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("131415161718191a1b1c1d1e", 24, &block2, dummyLength);
+    size_t block1Length = 0;
+    size_t block2Length = 0;
+    CryptoppApi::HexUtils::hex2bin("08090a0b0c0d0e0f101112", 22, &block1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("131415161718191a1b1c1d1e", 24, &block2, block2Length);
 
     // aes128
-    CryptoppApi::HexUtils::hex2bin("588c979a61c663d2f066d0", 22, &expected1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("c2c0f989806d5f6b61dac384", 24, &expected2, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("7c2051a7ae200bcf", 16, &expected3, dummyLength);
-    mode.setDigestSize(8);
+    size_t digestLength = 0;
+    byte *expected1;
+    byte *expected2;
+    byte *expected3;
+
+    CryptoppApi::HexUtils::hex2bin("588c979a61c663d2f066d0", 22, &expected1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("c2c0f989806d5f6b61dac384", 24, &expected2, block2Length);
+    CryptoppApi::HexUtils::hex2bin("7c2051a7ae200bcf", 16, &expected3, digestLength);
+
+    byte output1[block1Length];
+    byte output2[block2Length];
+    byte output3[digestLength];
+
+    mode.setDigestSize(digestLength);
     mode.specifyDataSize(23, 0);
     mode.setKey(key, keyLength);
-    mode.encrypt(block1, output1, dataSize);
-    mode.encrypt(block2, output2, dataSize);
+    mode.encrypt(block1, output1, block1Length);
+    mode.encrypt(block2, output2, block2Length);
     mode.finalizeEncryption(output3);
-    EXPECT_BYTE_ARRAY_EQ(expected1, dataSize, output1, dataSize);
-    EXPECT_BYTE_ARRAY_EQ(expected2, dataSize, output2, dataSize);
-    EXPECT_BYTE_ARRAY_EQ(expected3, digestSize, output3, digestSize);
+    EXPECT_BYTE_ARRAY_EQ(expected1, block1Length, output1, block1Length);
+    EXPECT_BYTE_ARRAY_EQ(expected2, block2Length, output2, block2Length);
+    EXPECT_BYTE_ARRAY_EQ(expected3, digestLength, output3, digestLength);
 
     delete[] expected1;
     delete[] expected2;
@@ -188,14 +190,6 @@ TEST(AuthenticatedSymmetricCipherCcmTest, encrypt) {
 TEST(AuthenticatedSymmetricCipherCcmTest, decrypt) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
-    size_t dataSize     = 32;
-    size_t digestSize   = mode.getDigestSize();
-
-    byte output1[dataSize];
-    byte output2[dataSize];
-    byte output3[digestSize];
-    byte *block1;
-    byte *block2;
 
     // build key
     byte *key;
@@ -212,23 +206,31 @@ TEST(AuthenticatedSymmetricCipherCcmTest, decrypt) {
     byte *expected1;
     byte *expected2;
     byte *expected3;
-    size_t dummyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("08090a0b0c0d0e0f101112", 22, &expected1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("c2c0f989806d5f6b61dac384", 24, &expected2, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("7c2051a7ae200bcf", 16, &expected3, dummyLength);
+    size_t block1Length = 0;
+    size_t block2Length = 0;
+    size_t digestLength = 0;
+    CryptoppApi::HexUtils::hex2bin("08090a0b0c0d0e0f101112", 22, &expected1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("131415161718191a1b1c1d1e", 24, &expected2, block2Length);
+    CryptoppApi::HexUtils::hex2bin("7c2051a7ae200bcf", 16, &expected3, digestLength);
 
     // aes128
-    CryptoppApi::HexUtils::hex2bin("588c979a61c663d2f066d0", 22, &block1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("c2c0f989806d5f6b61dac384", 24, &block2, dummyLength);
-    mode.setDigestSize(8);
+    byte *block1;
+    byte *block2;
+    byte output1[block1Length];
+    byte output2[block2Length];
+    byte output3[digestLength];
+    CryptoppApi::HexUtils::hex2bin("588c979a61c663d2f066d0", 22, &block1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("c2c0f989806d5f6b61dac384", 24, &block2, block2Length);
+
+    mode.setDigestSize(digestLength);
     mode.specifyDataSize(23, 0);
     mode.setKey(key, keyLength);
-    mode.decrypt(block1, output1, dataSize);
-    mode.decrypt(block2, output2, dataSize);
+    mode.decrypt(block1, output1, block1Length);
+    mode.decrypt(block2, output2, block2Length);
     mode.finalizeDecryption(output3);
-    EXPECT_BYTE_ARRAY_EQ(expected1, dataSize, output1, dataSize);
-    EXPECT_BYTE_ARRAY_EQ(expected2, dataSize, output2, dataSize);
-    EXPECT_BYTE_ARRAY_EQ(expected3, digestSize, output3, digestSize);
+    EXPECT_BYTE_ARRAY_EQ(expected1, block1Length, output1, block1Length);
+    EXPECT_BYTE_ARRAY_EQ(expected2, block2Length, output2, block2Length);
+    EXPECT_BYTE_ARRAY_EQ(expected3, digestLength, output3, digestLength);
 
     delete[] block1;
     delete[] block2;
@@ -239,50 +241,52 @@ TEST(AuthenticatedSymmetricCipherCcmTest, decrypt) {
     delete[] expected3;
 }
 
-/*
 TEST(AuthenticatedSymmetricCipherCcmTest, restartEncryption) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
-    size_t dataSize     = 32;
-    size_t digestSize   = mode.getDigestSize();
-
-    byte output1[dataSize];
-    byte output2[dataSize];
-    byte output3[digestSize];
-    byte *expected1;
-    byte *expected2;
-    byte *expected3;
 
     // build key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("feffe9928665731c6d6a8f9467308308", 32, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("c0c1c2c3c4c5c6c7c8c9cacbcccdcecf", 32, &key, keyLength);
 
     // build iv
     byte *iv;
     size_t ivLength;
-    CryptoppApi::HexUtils::hex2bin("cafebabefacedbaddecaf888", 24, &iv, ivLength);
+    CryptoppApi::HexUtils::hex2bin("00000003020100a0a1a2a3a4a5", 26, &iv, ivLength);
     mode.setIv(iv, ivLength);
 
     // build blocks
     byte *block1;
     byte *block2;
-    size_t dummyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72", 64, &block1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72", 64, &block2, dummyLength);
+    size_t block1Length = 0;
+    size_t block2Length = 0;
+    CryptoppApi::HexUtils::hex2bin("08090a0b0c0d0e0f101112", 22, &block1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("131415161718191a1b1c1d1e", 24, &block2, block2Length);
 
     // calculate actual data
-    CryptoppApi::HexUtils::hex2bin("42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e", 64, &expected1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e", 64, &expected2, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("67383e3899332afdd4d83a204575a052", 32, &expected3, dummyLength);
+    size_t digestLength = 0;
+    byte *expected1;
+    byte *expected2;
+    byte *expected3;
+    CryptoppApi::HexUtils::hex2bin("588c979a61c663d2f066d0", 22, &expected1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("439188877ad374c7fb6bdfcf", 24, &expected2, block2Length);
+    CryptoppApi::HexUtils::hex2bin("e8599abbfb0fa24247ceb346d0e68532", 32, &expected3, digestLength);
+
+    byte output1[block1Length];
+    byte output2[block2Length];
+    byte output3[digestLength];
+
     mode.setKey(key, keyLength);
-    mode.encrypt(block1, output1, dataSize);
+    mode.specifyDataSize(11, 0);
+    mode.encrypt(block1, output1, block1Length);
     mode.restart();
-    mode.encrypt(block2, output2, dataSize);
+    mode.specifyDataSize(12, 0);
+    mode.encrypt(block2, output2, block2Length);
     mode.finalizeEncryption(output3);
-    EXPECT_BYTE_ARRAY_EQ(expected1, dataSize, output1, dataSize);
-    EXPECT_BYTE_ARRAY_EQ(expected2, dataSize, output2, dataSize);
-    EXPECT_BYTE_ARRAY_EQ(expected3, digestSize, output3, digestSize);
+    EXPECT_BYTE_ARRAY_EQ(expected1, block1Length, output1, block1Length);
+    EXPECT_BYTE_ARRAY_EQ(expected2, block2Length, output2, block2Length);
+    EXPECT_BYTE_ARRAY_EQ(expected3, digestLength, output3, digestLength);
 
     delete[] expected1;
     delete[] expected2;
@@ -296,46 +300,49 @@ TEST(AuthenticatedSymmetricCipherCcmTest, restartEncryption) {
 TEST(AuthenticatedSymmetricCipherCcmTest, restartDecryption) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
-    size_t dataSize     = 32;
-    size_t digestSize   = mode.getDigestSize();
-
-    byte output1[dataSize];
-    byte output2[dataSize];
-    byte output3[digestSize];
-    byte *expected1;
-    byte *expected2;
-    byte *expected3;
 
     // build key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("feffe9928665731c6d6a8f9467308308", 32, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("c0c1c2c3c4c5c6c7c8c9cacbcccdcecf", 32, &key, keyLength);
 
     // build iv
     byte *iv;
     size_t ivLength;
-    CryptoppApi::HexUtils::hex2bin("cafebabefacedbaddecaf888", 24, &iv, ivLength);
+    CryptoppApi::HexUtils::hex2bin("00000003020100a0a1a2a3a4a5", 26, &iv, ivLength);
     mode.setIv(iv, ivLength);
 
     // build blocks
     byte *block1;
     byte *block2;
-    size_t dummyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e", 64, &block1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e", 64, &block2, dummyLength);
+    size_t block1Length = 0;
+    size_t block2Length = 0;
+    size_t digestLength = 0;
+    CryptoppApi::HexUtils::hex2bin("588c979a61c663d2f066d0", 22, &block1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("c2c0f989806d5f6b61dac384", 24, &block2, block2Length);
 
     // calculate actual data
-    CryptoppApi::HexUtils::hex2bin("d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72", 64, &expected1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72", 64, &expected2, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("67383e3899332afdd4d83a204575a052", 32, &expected3, dummyLength);
+    byte *expected1;
+    byte *expected2;
+    byte *expected3;
+    CryptoppApi::HexUtils::hex2bin("08090a0b0c0d0e0f101112", 22, &expected1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("92456418eda632b681ad0155", 24, &expected2, block2Length);
+    CryptoppApi::HexUtils::hex2bin("dab641c7493a27b8127514bd5f423b23", 32, &expected3, digestLength);
+
+    byte output1[block1Length];
+    byte output2[block2Length];
+    byte output3[digestLength];
+
     mode.setKey(key, keyLength);
-    mode.decrypt(block1, output1, dataSize);
+    mode.specifyDataSize(11, 0);
+    mode.decrypt(block1, output1, block1Length);
     mode.restart();
-    mode.decrypt(block2, output2, dataSize);
+    mode.specifyDataSize(12, 0);
+    mode.decrypt(block2, output2, block2Length);
     mode.finalizeDecryption(output3);
-    EXPECT_BYTE_ARRAY_EQ(expected1, dataSize, output1, dataSize);
-    EXPECT_BYTE_ARRAY_EQ(expected2, dataSize, output2, dataSize);
-    EXPECT_BYTE_ARRAY_EQ(expected3, digestSize, output3, digestSize);
+    EXPECT_BYTE_ARRAY_EQ(expected1, block1Length, output1, block1Length);
+    EXPECT_BYTE_ARRAY_EQ(expected2, block2Length, output2, block2Length);
+    EXPECT_BYTE_ARRAY_EQ(expected3, digestLength, output3, digestLength);
 
     delete[] expected1;
     delete[] expected2;
@@ -349,32 +356,22 @@ TEST(AuthenticatedSymmetricCipherCcmTest, restartDecryption) {
 TEST(AuthenticatedSymmetricCipherCcmTest, encryptWithAad) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
-    size_t dataSize     = 32;
-    size_t digestSize   = mode.getDigestSize();
-
-    byte output1[dataSize];
-    byte output2[dataSize];
-    byte output3[digestSize];
-    byte *expected1;
-    byte *expected2;
-    byte *expected3;
 
     // build key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("feffe9928665731c6d6a8f9467308308", 32, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("c0c1c2c3c4c5c6c7c8c9cacbcccdcecf", 32, &key, keyLength);
 
     // build iv
     byte *iv;
     size_t ivLength;
-    CryptoppApi::HexUtils::hex2bin("cafebabefacedbaddecaf888", 24, &iv, ivLength);
+    CryptoppApi::HexUtils::hex2bin("00000003020100a0a1a2a3a4a5", 26, &iv, ivLength);
     mode.setIv(iv, ivLength);
 
     // build blocks
     byte *block1;
     byte *block2;
     byte *aad;
-    size_t dummyLength  = 0;
     size_t block1Length = 0;
     size_t block2Length = 0;
     size_t aadLength    = 0;
@@ -383,17 +380,28 @@ TEST(AuthenticatedSymmetricCipherCcmTest, encryptWithAad) {
     CryptoppApi::HexUtils::hex2bin("feedfacedeadbeeffeedfacedeadbeefabaddad2", 40, &aad, aadLength);
 
     // aes128
-    CryptoppApi::HexUtils::hex2bin("42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e", 64, &expected1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("21d514b25466931c7d8f6a5aac84aa051ba30b396a0aac973d58e091", 56, &expected2, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("5bc94fbc3221a5db94fae95ae7121a47", 32, &expected3, dummyLength);
+    byte *expected1;
+    byte *expected2;
+    byte *expected3;
+    size_t digestLength = 0;
+    CryptoppApi::HexUtils::hex2bin("89b4afb4954f6b38452ecb147b19b90df3e1d829d3ea6d254a40ac3b545c87fd", 64, &expected1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("021e99bf795762d89d611c7bbe452d49ddde077fff1c34366f875232", 56, &expected2, block2Length);
+    CryptoppApi::HexUtils::hex2bin("fc738cbb02a4a7a8972fc20d", 24, &expected3, digestLength);
+
+    byte output1[block1Length];
+    byte output2[block2Length];
+    byte output3[digestLength];
+
     mode.setKey(key, keyLength);
+    mode.specifyDataSize(60, 20);
+    mode.setDigestSize(digestLength);
     mode.addEncryptionAdditionalData(aad, aadLength);
     mode.encrypt(block1, output1, block1Length);
     mode.encrypt(block2, output2, block2Length);
     mode.finalizeEncryption(output3);
     EXPECT_BYTE_ARRAY_EQ(expected1, block1Length, output1, block1Length);
     EXPECT_BYTE_ARRAY_EQ(expected2, block2Length, output2, block2Length);
-    EXPECT_BYTE_ARRAY_EQ(expected3, digestSize, output3, digestSize);
+    EXPECT_BYTE_ARRAY_EQ(expected3, digestLength, output3, digestLength);
 
     delete[] expected1;
     delete[] expected2;
@@ -408,51 +416,52 @@ TEST(AuthenticatedSymmetricCipherCcmTest, encryptWithAad) {
 TEST(AuthenticatedSymmetricCipherCcmTest, decryptWithAad) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
-    size_t dataSize     = 32;
-    size_t digestSize   = mode.getDigestSize();
-
-    byte output1[dataSize];
-    byte output2[dataSize];
-    byte output3[digestSize];
-    byte *block1;
-    byte *block2;
-    byte *aad;
 
     // build key
     byte *key;
     size_t keyLength = 0;
-    CryptoppApi::HexUtils::hex2bin("feffe9928665731c6d6a8f9467308308", 32, &key, keyLength);
+    CryptoppApi::HexUtils::hex2bin("c0c1c2c3c4c5c6c7c8c9cacbcccdcecf", 32, &key, keyLength);
 
     // build iv
     byte *iv;
     size_t ivLength;
-    CryptoppApi::HexUtils::hex2bin("cafebabefacedbaddecaf888", 24, &iv, ivLength);
+    CryptoppApi::HexUtils::hex2bin("00000003020100a0a1a2a3a4a5", 26, &iv, ivLength);
     mode.setIv(iv, ivLength);
 
     // build expected data
     byte *expected1;
     byte *expected2;
     byte *expected3;
-    size_t dummyLength      = 0;
-    size_t expected1Length  = 0;
-    size_t expected2Length  = 0;
-    CryptoppApi::HexUtils::hex2bin("d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72", 64, &expected1, expected1Length);
-    CryptoppApi::HexUtils::hex2bin("1c3c0c95956809532fcf0e2449a6b525b16aedf5aa0de657ba637b39", 56, &expected2, expected2Length);
-    CryptoppApi::HexUtils::hex2bin("5bc94fbc3221a5db94fae95ae7121a47", 32, &expected3, dummyLength);
+    size_t block1Length = 0;
+    size_t block2Length = 0;
+    size_t digestLength = 0;
+    CryptoppApi::HexUtils::hex2bin("d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72", 64, &expected1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("1c3c0c95956809532fcf0e2449a6b525b16aedf5aa0de657ba637b39", 56, &expected2, block2Length);
+    CryptoppApi::HexUtils::hex2bin("fc738cbb02a4a7a8972fc20d", 24, &expected3, digestLength);
 
     // aes128
     size_t aadLength = 0;
-    CryptoppApi::HexUtils::hex2bin("42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e", 64, &block1, dummyLength);
-    CryptoppApi::HexUtils::hex2bin("21d514b25466931c7d8f6a5aac84aa051ba30b396a0aac973d58e091", 56, &block2, dummyLength);
+    byte *block1;
+    byte *block2;
+    byte *aad;
+    CryptoppApi::HexUtils::hex2bin("89b4afb4954f6b38452ecb147b19b90df3e1d829d3ea6d254a40ac3b545c87fd", 64, &block1, block1Length);
+    CryptoppApi::HexUtils::hex2bin("021e99bf795762d89d611c7bbe452d49ddde077fff1c34366f875232", 56, &block2, block2Length);
     CryptoppApi::HexUtils::hex2bin("feedfacedeadbeeffeedfacedeadbeefabaddad2", 40, &aad, aadLength);
+
+    byte output1[block1Length];
+    byte output2[block2Length];
+    byte output3[digestLength];
+
     mode.setKey(key, keyLength);
+    mode.specifyDataSize(60, 20);
+    mode.setDigestSize(digestLength);
     mode.addDecryptionAdditionalData(aad, aadLength);
-    mode.decrypt(block1, output1, expected1Length);
-    mode.decrypt(block2, output2, expected2Length);
+    mode.decrypt(block1, output1, block1Length);
+    mode.decrypt(block2, output2, block2Length);
     mode.finalizeDecryption(output3);
-    EXPECT_BYTE_ARRAY_EQ(expected1, expected1Length, output1, expected1Length);
-    EXPECT_BYTE_ARRAY_EQ(expected2, expected2Length, output2, expected2Length);
-    EXPECT_BYTE_ARRAY_EQ(expected3, digestSize, output3, digestSize);
+    EXPECT_BYTE_ARRAY_EQ(expected1, block1Length, output1, block1Length);
+    EXPECT_BYTE_ARRAY_EQ(expected2, block2Length, output2, block2Length);
+    EXPECT_BYTE_ARRAY_EQ(expected3, digestLength, output3, digestLength);
 
     delete[] block1;
     delete[] block2;
@@ -467,10 +476,6 @@ TEST(AuthenticatedSymmetricCipherCcmTest, decryptWithAad) {
 TEST(AuthenticatedSymmetricCipherCcmTest, encryptAadOnly) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
-    size_t digestSize = mode.getDigestSize();
-
-    byte output[digestSize];
-    byte *expected;
 
     // build key
     byte *key;
@@ -489,11 +494,18 @@ TEST(AuthenticatedSymmetricCipherCcmTest, encryptAadOnly) {
     CryptoppApi::HexUtils::hex2bin("7a43ec1d9c0a5a78a0b16533a6213cab", 32, &aad, aadLength);
 
     // aes128
-    CryptoppApi::HexUtils::hex2bin("209fcc8d3675ed938e9c7166709dd946", 32, &expected, digestSize);
+    size_t digestLength = 0;
+    byte *expected;
+    CryptoppApi::HexUtils::hex2bin("b07790c26ada0c6b28576fc70234", 28, &expected, digestLength);
+
+    byte output[digestLength];
+
     mode.setKey(key, keyLength);
+    mode.setDigestSize(digestLength);
+    mode.specifyDataSize(0, aadLength);
     mode.addEncryptionAdditionalData(aad, aadLength);
     mode.finalizeEncryption(output);
-    EXPECT_BYTE_ARRAY_EQ(expected, digestSize, output, digestSize);
+    EXPECT_BYTE_ARRAY_EQ(expected, digestLength, output, digestLength);
 
     delete[] expected;
     delete[] iv;
@@ -504,10 +516,6 @@ TEST(AuthenticatedSymmetricCipherCcmTest, encryptAadOnly) {
 TEST(AuthenticatedSymmetricCipherCcmTest, decryptAadOnly) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
-    size_t digestSize = mode.getDigestSize();
-
-    byte output[digestSize];
-    byte *expected;
 
     // build key
     byte *key;
@@ -526,11 +534,18 @@ TEST(AuthenticatedSymmetricCipherCcmTest, decryptAadOnly) {
     CryptoppApi::HexUtils::hex2bin("7a43ec1d9c0a5a78a0b16533a6213cab", 32, &aad, aadLength);
 
     // aes128
-    CryptoppApi::HexUtils::hex2bin("209fcc8d3675ed938e9c7166709dd946", 32, &expected, digestSize);
+    size_t digestLength = 0;
+    byte *expected;
+    CryptoppApi::HexUtils::hex2bin("b07790c26ada0c6b28576fc70234", 28, &expected, digestLength);
+
+    byte output[digestLength];
+
     mode.setKey(key, keyLength);
+    mode.setDigestSize(digestLength);
+    mode.specifyDataSize(0, aadLength);
     mode.addDecryptionAdditionalData(aad, aadLength);
     mode.finalizeDecryption(output);
-    EXPECT_BYTE_ARRAY_EQ(expected, digestSize, output, digestSize);
+    EXPECT_BYTE_ARRAY_EQ(expected, digestLength, output, digestLength);
 
     delete[] expected;
     delete[] iv;
@@ -543,7 +558,7 @@ TEST(AuthenticatedSymmetricCipherCcmTest, largeData) {
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
 
     std::string key("1234567890123456");
-    std::string iv("1234567890123456");
+    std::string iv("123456789012");
     mode.setKey(reinterpret_cast<const byte*>(key.c_str()), key.length());
     mode.setIv(reinterpret_cast<const byte*>(iv.c_str()), iv.length());
 
@@ -551,6 +566,9 @@ TEST(AuthenticatedSymmetricCipherCcmTest, largeData) {
     byte *input     = new byte[dataSize];
     byte *output    = new byte[dataSize];
     memset(input, 125, dataSize);
+    mode.specifyDataSize(dataSize, dataSize);
+    mode.addEncryptionAdditionalData(input, dataSize);
+    mode.addDecryptionAdditionalData(input, dataSize);
     mode.encrypt(input, output, dataSize);
     mode.decrypt(input, output, dataSize);
 
@@ -558,22 +576,32 @@ TEST(AuthenticatedSymmetricCipherCcmTest, largeData) {
     delete[] output;
 }
 
-TEST(AuthenticatedSymmetricCipherCcmTest, isStream) {
+TEST(AuthenticatedSymmetricCipherCcmTest, badSpecifiedLength) {
     CryptoppApi::BlockCipherAes cipher;
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
 
     std::string key("1234567890123456");
-    std::string iv("1234567890123456");
+    std::string iv("123456789012");
     mode.setKey(reinterpret_cast<const byte*>(key.c_str()), key.length());
     mode.setIv(reinterpret_cast<const byte*>(iv.c_str()), iv.length());
 
     std::string dataStr("12345678901234567");
+    std::string data2Str("1234567890");
     const byte *data    = reinterpret_cast<const byte*>(dataStr.c_str());
+    const byte *data2   = reinterpret_cast<const byte*>(data2Str.c_str());
     size_t dataLength   = dataStr.length();
+    size_t data2Length  = data2Str.length();
     byte output[dataLength];
 
-    mode.encrypt(data, output, dataLength);
-    mode.decrypt(data, output, dataLength);
+    mode.specifyDataSize(data2Length, data2Length);
+    EXPECT_THROW_MSG(mode.addEncryptionAdditionalData(data, dataLength), CryptoppApi::Exception, "AAD length doesn't match that given in specifyDataSize (10 expected, 17 given)");
+    EXPECT_THROW_MSG(mode.addDecryptionAdditionalData(data, dataLength), CryptoppApi::Exception, "AAD length doesn't match that given in specifyDataSize (10 expected, 17 given)");
+
+    mode.restart();
+    mode.addEncryptionAdditionalData(data2, data2Length);
+    mode.addDecryptionAdditionalData(data2, data2Length);
+    EXPECT_THROW_MSG(mode.encrypt(data, output, dataLength), CryptoppApi::Exception, "message length doesn't match that given in specifyDataSize (10 expected, 17 given)");
+    EXPECT_THROW_MSG(mode.decrypt(data, output, dataLength), CryptoppApi::Exception, "message length doesn't match that given in specifyDataSize (10 expected, 17 given)");
 }
 
 TEST(AuthenticatedSymmetricCipherCcmTest, invalidKey) {
@@ -602,6 +630,7 @@ TEST(AuthenticatedSymmetricCipherCcmTest, cryptWithoutKey) {
     size_t inputLength = mode.getBlockSize();
     byte input[inputLength];
     byte output[inputLength];
+    mode.specifyDataSize(inputLength, 0);
 
     EXPECT_THROW_MSG(mode.encrypt(input, output, inputLength), CryptoppApi::Exception, "a key is required");
     EXPECT_THROW_MSG(mode.decrypt(input, output, inputLength), CryptoppApi::Exception, "a key is required");
@@ -617,6 +646,7 @@ TEST(AuthenticatedSymmetricCipherCcmTest, cryptWithoutIv) {
     size_t inputLength = mode.getBlockSize();
     byte input[inputLength];
     byte output[inputLength];
+    mode.specifyDataSize(inputLength, 0);
 
     EXPECT_THROW_MSG(mode.encrypt(input, output, inputLength), CryptoppApi::Exception, "an initialization vector is required");
     EXPECT_THROW_MSG(mode.decrypt(input, output, inputLength), CryptoppApi::Exception, "an initialization vector is required");
@@ -627,6 +657,7 @@ TEST(AuthenticatedSymmetricCipherCcmTest, cryptAadWithoutKey) {
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
 
     byte input[10];
+    mode.specifyDataSize(0, 10);
 
     EXPECT_THROW_MSG(mode.addEncryptionAdditionalData(input, 10), CryptoppApi::Exception, "a key is required");
     EXPECT_THROW_MSG(mode.addDecryptionAdditionalData(input, 10), CryptoppApi::Exception, "a key is required");
@@ -647,19 +678,17 @@ TEST(AuthenticatedSymmetricCipherCcmTest, cryptBeforeAad) {
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode(&cipher);
 
     std::string key("1234567890123456");
-    std::string iv("1234567890123456");
+    std::string iv("123456789012");
     mode.setKey(reinterpret_cast<const byte*>(key.c_str()), key.length());
     mode.setIv(reinterpret_cast<const byte*>(iv.c_str()), iv.length());
 
     size_t inputLength = mode.getBlockSize();
     byte input[inputLength];
     byte output[inputLength];
+    mode.specifyDataSize(inputLength, inputLength);
 
-    mode.encrypt(input, output, inputLength);
-    mode.decrypt(input, output, inputLength);
-
-    EXPECT_THROW_MSG(mode.addEncryptionAdditionalData(input, inputLength), CryptoppApi::Exception, "additional authenticated data must be added before any encryption");
-    EXPECT_THROW_MSG(mode.addDecryptionAdditionalData(input, inputLength), CryptoppApi::Exception, "additional authenticated data must be added before any decryption");
+    EXPECT_THROW_MSG(mode.encrypt(input, output, inputLength), CryptoppApi::Exception, "AAD length doesn't match that given in specifyDataSize (1 expected, 0 given)");
+    EXPECT_THROW_MSG(mode.decrypt(input, output, inputLength), CryptoppApi::Exception, "AAD length doesn't match that given in specifyDataSize (1 expected, 0 given)");
 }
 
 TEST(AuthenticatedSymmetricCipherCcmTest, keyNotMatchingUnderlyingOne) {
@@ -667,7 +696,7 @@ TEST(AuthenticatedSymmetricCipherCcmTest, keyNotMatchingUnderlyingOne) {
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode1(&cipher);
     CryptoppApi::AuthenticatedSymmetricCipherCcm mode2(&cipher);
 
-    std::string iv("1234567890123456");
+    std::string iv("123456789012");
     mode1.setIv(reinterpret_cast<const byte*>(iv.c_str()), iv.length());
 
     std::string key1("1234567890123456");
@@ -678,6 +707,8 @@ TEST(AuthenticatedSymmetricCipherCcmTest, keyNotMatchingUnderlyingOne) {
     size_t inputLength = mode1.getBlockSize();
     byte input[inputLength];
     byte output[inputLength];
+    mode1.specifyDataSize(inputLength, 0);
+    mode2.specifyDataSize(inputLength, 0);
 
     mode2.setKey(reinterpret_cast<const byte*>(key2.c_str()), key2.length());
     EXPECT_THROW_MSG(mode1.encrypt(input, output, inputLength), CryptoppApi::Exception, "key is not matching the one owned by the underlying cipher object");
@@ -685,6 +716,3 @@ TEST(AuthenticatedSymmetricCipherCcmTest, keyNotMatchingUnderlyingOne) {
     cipher.setKey(reinterpret_cast<const byte*>(key3.c_str()), key3.length());
     EXPECT_THROW_MSG(mode1.encrypt(input, output, inputLength), CryptoppApi::Exception, "key is not matching the one owned by the underlying cipher object");
 }
-*/
-
-// TODO ccm errors

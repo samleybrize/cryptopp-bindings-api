@@ -64,8 +64,8 @@ public:
 
     void setDigestSize(size_t digestSize);
     void specifyDataSize(size_t dataSize, size_t aadSize);
-    void addEncryptionAdditionalData(byte *data, size_t dataLength);
-    void addDecryptionAdditionalData(byte *data, size_t dataLength);
+    void addEncryptionAdditionalData(const byte *data, size_t dataLength);
+    void addDecryptionAdditionalData(const byte *data, size_t dataLength);
     void encrypt(const byte *input, byte *output, const size_t length);
     void decrypt(const byte *input, byte *output, const size_t length);
     void finalizeEncryption(byte *output);

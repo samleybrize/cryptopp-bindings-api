@@ -18,7 +18,7 @@ AuthenticatedSymmetricCipherCcm::AuthenticatedSymmetricCipherCcm(BlockCipherInte
     : AuthenticatedSymmetricCipherAbstract()
     , m_dataSize(0)
     , m_aadSize(0)
-    , m_digestSize(20)
+    , m_digestSize(16)
     , m_processedEncryptionDataSize(0)
     , m_processedDecryptionDataSize(0)
     , m_processedEncryptionAadSize(0)
@@ -39,6 +39,10 @@ AuthenticatedSymmetricCipherCcm::AuthenticatedSymmetricCipherCcm(BlockCipherInte
     m_encryptor = new CryptoppCcm::Encryption(cipher->getEncryptor());
     m_decryptor = new CryptoppCcm::Decryption(cipher->getEncryptor());
     setCryptoppObjects(cipher, m_encryptor, m_decryptor);
+
+    // default digest size
+    m_encryptor->SetDigestSize(m_digestSize);
+    m_decryptor->SetDigestSize(m_digestSize);
 }
 
 AuthenticatedSymmetricCipherCcm::~AuthenticatedSymmetricCipherCcm()
@@ -60,7 +64,7 @@ void AuthenticatedSymmetricCipherCcm::specifyDataSize(size_t dataSize, size_t aa
     restart();
 }
 
-void AuthenticatedSymmetricCipherCcm::addEncryptionAdditionalData(byte *data, size_t dataLength)
+void AuthenticatedSymmetricCipherCcm::addEncryptionAdditionalData(const byte *data, size_t dataLength)
 {
     if (m_processedEncryptionAadSize + dataLength > m_aadSize) {
         std::stringstream msg;
@@ -72,7 +76,7 @@ void AuthenticatedSymmetricCipherCcm::addEncryptionAdditionalData(byte *data, si
     m_processedEncryptionAadSize += dataLength;
 }
 
-void AuthenticatedSymmetricCipherCcm::addDecryptionAdditionalData(byte *data, size_t dataLength)
+void AuthenticatedSymmetricCipherCcm::addDecryptionAdditionalData(const byte *data, size_t dataLength)
 {
     if (m_processedDecryptionAadSize + dataLength > m_aadSize) {
         std::stringstream msg;
@@ -90,6 +94,10 @@ void AuthenticatedSymmetricCipherCcm::encrypt(const byte *input, byte *output, c
         std::stringstream msg;
         msg << "message length doesn't match that given in specifyDataSize (" << m_dataSize << " expected, " << (m_processedEncryptionDataSize + length) << " given)";
         throw Exception(msg.str());
+    } else if (m_processedEncryptionAadSize != m_aadSize) {
+        std::stringstream msg;
+        msg << "AAD length doesn't match that given in specifyDataSize (" << m_aadSize << " expected, " << m_processedEncryptionAadSize << " given)";
+        throw Exception(msg.str());
     }
 
     AuthenticatedSymmetricCipherAbstract::encrypt(input, output, length);
@@ -101,6 +109,10 @@ void AuthenticatedSymmetricCipherCcm::decrypt(const byte *input, byte *output, c
     if (m_processedDecryptionDataSize + length > m_dataSize) {
         std::stringstream msg;
         msg << "message length doesn't match that given in specifyDataSize (" << m_dataSize << " expected, " << (m_processedDecryptionDataSize + length) << " given)";
+        throw Exception(msg.str());
+    } else if (m_processedDecryptionAadSize != m_aadSize) {
+        std::stringstream msg;
+        msg << "AAD length doesn't match that given in specifyDataSize (" << m_aadSize << " expected, " << m_processedDecryptionAadSize << " given)";
         throw Exception(msg.str());
     }
 
@@ -144,11 +156,12 @@ void AuthenticatedSymmetricCipherCcm::restart()
         return;
     }
 
+    AuthenticatedSymmetricCipherAbstract::restart();
+
     m_encryptor->SetDigestSize(m_digestSize);
     m_decryptor->SetDigestSize(m_digestSize);
     m_encryptor->SpecifyDataLengths(m_aadSize, m_dataSize);
     m_decryptor->SpecifyDataLengths(m_aadSize, m_dataSize);
-    AuthenticatedSymmetricCipherAbstract::restart();
 
     m_processedEncryptionDataSize   = 0;
     m_processedDecryptionDataSize   = 0;

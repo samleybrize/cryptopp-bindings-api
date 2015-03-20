@@ -546,6 +546,8 @@ TEST(AuthenticatedSymmetricCipherGcmTest, largeData) {
     byte *input     = new byte[dataSize];
     byte *output    = new byte[dataSize];
     memset(input, 125, dataSize);
+    mode.addEncryptionAdditionalData(input, dataSize);
+    mode.addDecryptionAdditionalData(input, dataSize);
     mode.encrypt(input, output, dataSize);
     mode.decrypt(input, output, dataSize);
 
