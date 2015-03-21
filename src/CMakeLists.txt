@@ -9,6 +9,7 @@ SET(CRYPTOPP_API_SRC
     hash/api_hash_sha3.cpp
 
     mac/api_mac_abstract.cpp
+    mac/api_mac_cmac.cpp
     mac/api_mac_hmac.cpp
     mac/api_mac_ttmac.cpp
 
