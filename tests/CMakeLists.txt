@@ -18,6 +18,7 @@ add_executable(
     hash/test_api_hash_sha3_384.cpp
     hash/test_api_hash_sha3_512.cpp
 
+    mac/test_api_mac_cmac.cpp
     mac/test_api_mac_hmac.cpp
     mac/test_api_mac_ttmac.cpp
 
