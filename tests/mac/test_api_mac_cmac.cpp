@@ -239,6 +239,7 @@ TEST(MacCmacTest, largeData) {
     size_t digestSize   = mac.getDigestSize();
     byte *input         = new byte[10485760];
     byte output[digestSize];
+    memset(input, 0, 10485760);
 
     mac.calculateDigest(input, 10485760, output);
     mac.update(input, 10485760);
