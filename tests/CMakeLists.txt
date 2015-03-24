@@ -25,6 +25,7 @@ add_executable(
     symmetric/cipher/authenticated/test_api_authenticated_symmetric_cipher_ccm.cpp
     symmetric/cipher/authenticated/test_api_authenticated_symmetric_cipher_eax.cpp
     symmetric/cipher/authenticated/test_api_authenticated_symmetric_cipher_gcm.cpp
+    symmetric/cipher/authenticated/test_api_authenticated_symmetric_cipher_generic.cpp
 
     symmetric/cipher/block/test_api_block_cipher_aes.cpp
 
