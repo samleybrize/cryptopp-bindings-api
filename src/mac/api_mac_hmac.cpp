@@ -14,7 +14,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-MacHmac::MacHmac(HashAbstract *hash)
+MacHmac::MacHmac(HashInterface *hash)
     : MacAbstract()
 {
     // name

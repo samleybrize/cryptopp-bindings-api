@@ -25,6 +25,9 @@ public:
     virtual void encrypt(const byte *input, byte *output, const size_t length) =0;
     virtual void decrypt(const byte *input, byte *output, const size_t length) =0;
     virtual void restart() =0;
+
+    virtual CryptoPP::StreamTransformation *getEncryptor() =0;
+    virtual CryptoPP::StreamTransformation *getDecryptor() =0;
 };
 
 NAMESPACE_END

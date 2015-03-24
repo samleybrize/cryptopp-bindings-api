@@ -24,11 +24,15 @@ AuthenticatedSymmetricCipherAbstract::AuthenticatedSymmetricCipherAbstract()
 {
 }
 
-void AuthenticatedSymmetricCipherAbstract::setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor)
+void AuthenticatedSymmetricCipherAbstract::setCryptoppObjects(CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor)
 {
-    m_cipher    = cipher;
     m_encryptor = encryptor;
     m_decryptor = decryptor;
+}
+
+void AuthenticatedSymmetricCipherAbstract::setCipherObject(BlockCipherInterface *cipher)
+{
+    m_cipher = cipher;
 }
 
 const char *AuthenticatedSymmetricCipherAbstract::getName() const
@@ -67,7 +71,11 @@ bool AuthenticatedSymmetricCipherAbstract::isValidIvLength(size_t length) const
 void AuthenticatedSymmetricCipherAbstract::setKey(const byte *key, const size_t keyLength)
 {
     SymmetricKeyAbstract::setKey(key, keyLength);
-    m_cipher->setKey(key, keyLength);
+
+    if (NULL != m_cipher) {
+        m_cipher->setKey(key, keyLength);
+    }
+
     restart();
 }
 
@@ -126,7 +134,7 @@ void AuthenticatedSymmetricCipherAbstract::encrypt(const byte *input, byte *outp
     hasValidIv(true);
 
     // verify that key is equals to underlying cipher key
-    if (!isKeyEqualsTo(m_cipher)) {
+    if (NULL != m_cipher && !isKeyEqualsTo(m_cipher)) {
         throw Exception("key is not matching the one owned by the underlying cipher object");
     }
 
@@ -151,7 +159,7 @@ void AuthenticatedSymmetricCipherAbstract::decrypt(const byte *input, byte *outp
     hasValidIv(true);
 
     // verify that key is equals to underlying cipher key
-    if (!isKeyEqualsTo(m_cipher)) {
+    if (NULL != m_cipher && !isKeyEqualsTo(m_cipher)) {
         throw Exception("key is not matching the one owned by the underlying cipher object");
     }
 

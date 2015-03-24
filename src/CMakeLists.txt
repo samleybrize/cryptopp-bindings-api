@@ -26,6 +26,7 @@ SET(CRYPTOPP_API_SRC
     symmetric/cipher/authenticated/api_authenticated_symmetric_cipher_ccm.cpp
     symmetric/cipher/authenticated/api_authenticated_symmetric_cipher_eax.cpp
     symmetric/cipher/authenticated/api_authenticated_symmetric_cipher_gcm.cpp
+    symmetric/cipher/authenticated/api_authenticated_symmetric_cipher_generic.cpp
 
     symmetric/mode/api_symmetric_mode_abstract.cpp
     symmetric/mode/api_symmetric_mode_ecb.cpp

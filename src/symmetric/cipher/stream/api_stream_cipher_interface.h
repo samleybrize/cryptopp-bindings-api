@@ -20,6 +20,9 @@ class StreamCipherInterface : public SymmetricTransformationInterface
 {
 public:
     virtual ~StreamCipherInterface() {}
+
+    virtual CryptoPP::SymmetricCipher *getEncryptor() =0;
+    virtual CryptoPP::SymmetricCipher *getDecryptor() =0;
 };
 
 NAMESPACE_END

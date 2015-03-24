@@ -39,12 +39,13 @@ public:
     void finalizeDecryption(byte *output);
     void restart();
 
-    virtual CryptoPP::AuthenticatedSymmetricCipher *getEncryptor() {return m_encryptor;};
-    virtual CryptoPP::AuthenticatedSymmetricCipher *getDecryptor() {return m_decryptor;};
+    virtual CryptoPP::AuthenticatedSymmetricCipher *getEncryptor() {return m_encryptor;}
+    virtual CryptoPP::AuthenticatedSymmetricCipher *getDecryptor() {return m_decryptor;}
 
 protected:
     AuthenticatedSymmetricCipherAbstract();
-    void setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor);
+    void setCryptoppObjects(CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor);
+    void setCipherObject(BlockCipherInterface *cipher);
     void setName(const std::string name);
 
 private:

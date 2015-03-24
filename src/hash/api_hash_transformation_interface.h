@@ -27,6 +27,8 @@ public:
     virtual void update(const byte *input, size_t inputLength) =0;
     virtual void finalize(byte *output) =0;
     virtual void restart() =0;
+
+    virtual CryptoPP::HashTransformation *getCryptoppObject() =0;
 };
 
 NAMESPACE_END

@@ -38,7 +38,8 @@ AuthenticatedSymmetricCipherCcm::AuthenticatedSymmetricCipherCcm(BlockCipherInte
     // create cipher object
     m_encryptor = new CryptoppCcm::Encryption(cipher->getEncryptor());
     m_decryptor = new CryptoppCcm::Decryption(cipher->getEncryptor());
-    setCryptoppObjects(cipher, m_encryptor, m_decryptor);
+    setCryptoppObjects(m_encryptor, m_decryptor);
+    setCipherObject(cipher);
 
     // default digest size
     m_encryptor->SetDigestSize(m_digestSize);

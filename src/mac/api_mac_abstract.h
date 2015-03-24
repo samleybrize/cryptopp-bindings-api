@@ -32,6 +32,8 @@ public:
     void finalize(byte *output);
     void restart();
 
+    CryptoPP::MessageAuthenticationCode *getCryptoppObject() {return m_mac;}
+
 protected:
     MacAbstract();
     void setCryptoppObject(CryptoPP::MessageAuthenticationCode *mac);

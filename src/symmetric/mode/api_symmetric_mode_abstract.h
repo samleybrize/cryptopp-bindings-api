@@ -34,6 +34,9 @@ public:
     void decrypt(const byte *input, byte *output, const size_t length);
     void restart();
 
+    virtual CryptoPP::SymmetricCipher *getEncryptor() {return m_encryptor;}
+    virtual CryptoPP::SymmetricCipher *getDecryptor() {return m_decryptor;}
+
 protected:
     SymmetricModeAbstract();
     void setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor);

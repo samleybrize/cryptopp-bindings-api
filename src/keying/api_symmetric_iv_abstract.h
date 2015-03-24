@@ -21,10 +21,10 @@ public:
     virtual ~SymmetricIvAbstract() {delete[] m_iv;}
 
     virtual bool isValidIvLength(size_t length) const =0;
-    bool isValidIvLength(size_t length, bool throwIfFalse) const;
+    virtual bool isValidIvLength(size_t length, bool throwIfFalse) const;
     virtual void setIv(const byte *iv, const size_t ivLength);
-    void getIv(byte *iv);
-    size_t getIvLength() {return m_ivLength;}
+    virtual void getIv(byte *iv);
+    virtual size_t getIvLength() {return m_ivLength;}
 
 protected:
     SymmetricIvAbstract()

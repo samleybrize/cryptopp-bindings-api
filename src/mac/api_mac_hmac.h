@@ -12,7 +12,7 @@
 #define API_CRYPTOPP_MAC_HMAC_H
 
 #include "src/api_cryptopp.h"
-#include "src/hash/api_hash_abstract.h"
+#include "src/hash/api_hash_interface.h"
 #include "api_mac_abstract.h"
 #include <hmac.h>
 
@@ -36,7 +36,7 @@ private:
 class MacHmac : public MacAbstract
 {
 public:
-    MacHmac(HashAbstract *hash);
+    MacHmac(HashInterface *hash);
     ~MacHmac();
 
 private:

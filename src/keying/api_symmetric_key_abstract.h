@@ -21,10 +21,10 @@ public:
     virtual ~SymmetricKeyAbstract() {delete[] m_key;}
 
     virtual bool isValidKeyLength(size_t length) const =0;
-    bool isValidKeyLength(size_t length, bool throwIfFalse) const;
+    virtual bool isValidKeyLength(size_t length, bool throwIfFalse) const;
     virtual void setKey(const byte *key, const size_t keyLength);
-    void getKey(byte *key);
-    size_t getKeyLength() {return m_keyLength;}
+    virtual void getKey(byte *key);
+    virtual size_t getKeyLength() {return m_keyLength;}
 
 protected:
     SymmetricKeyAbstract()
