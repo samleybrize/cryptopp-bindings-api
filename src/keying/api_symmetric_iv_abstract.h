@@ -30,7 +30,7 @@ protected:
     SymmetricIvAbstract()
         : m_iv(NULL)
         , m_ivLength(0) {}
-    bool hasValidIv(bool throwIfFalse);
+    virtual bool hasValidIv(bool throwIfFalse);
 
 private:
     byte *m_iv;

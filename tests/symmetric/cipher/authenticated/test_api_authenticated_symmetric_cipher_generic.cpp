@@ -10,6 +10,7 @@
 #include "src/exception/api_exception.h"
 #include "src/hash/api_hash_sha1.h"
 #include "src/mac/api_mac_hmac.h"
+#include "src/mac/api_mac_ttmac.h"
 #include "src/symmetric/cipher/authenticated/api_authenticated_symmetric_cipher_generic.h"
 #include "src/symmetric/cipher/stream/api_stream_cipher_sosemanuk.h"
 #include "src/utils/api_hex_utils.h"
@@ -195,6 +196,7 @@ TEST(AuthenticatedSymmetricCipherGenericTest, encrypt) {
     CryptoppApi::HexUtils::hex2bin("be6a431a935cb90e2221ebb7ef502328", 32, &expected2, dummyLength);
     CryptoppApi::HexUtils::hex2bin("15cbfe20bb447711c2700b5eddada57323007973", 40, &expected3, dummyLength);
     mode.setKey(key, keyLength);
+    mode.setMacKey(macKey, macKeyLength);
     mode.encrypt(block1, output1, dataSize);
     mode.encrypt(block2, output2, dataSize);
     mode.finalizeEncryption(output3);
@@ -255,6 +257,7 @@ TEST(AuthenticatedSymmetricCipherGenericTest, decrypt) {
     CryptoppApi::HexUtils::hex2bin("fe81d2162c9a100d04895c454a77515b", 32, &block1, dummyLength);
     CryptoppApi::HexUtils::hex2bin("be6a431a935cb90e2221ebb7ef502328", 32, &block2, dummyLength);
     mode.setKey(key, keyLength);
+    mode.setMacKey(macKey, macKeyLength);
     mode.decrypt(block1, output1, dataSize);
     mode.decrypt(block2, output2, dataSize);
     mode.finalizeDecryption(output3);
@@ -315,6 +318,7 @@ TEST(AuthenticatedSymmetricCipherGenericTest, restartEncryption) {
     CryptoppApi::HexUtils::hex2bin("fe81d2162c9a100d04895c454a77515b", 32, &expected2, dummyLength);
     CryptoppApi::HexUtils::hex2bin("9fc9456bb645743c404a85619a2f0f6fe754791b", 40, &expected3, dummyLength);
     mode.setKey(key, keyLength);
+    mode.setMacKey(macKey, macKeyLength);
     mode.encrypt(block1, output1, dataSize);
     mode.restart();
     mode.encrypt(block2, output2, dataSize);
@@ -376,6 +380,7 @@ TEST(AuthenticatedSymmetricCipherGenericTest, restartDecryption) {
     CryptoppApi::HexUtils::hex2bin("40eb910cbfc6a90326a8b7f2a5277273", 32, &expected2, dummyLength);
     CryptoppApi::HexUtils::hex2bin("f044210a699da578851f2a700205218fc03a6e9d", 40, &expected3, dummyLength);
     mode.setKey(key, keyLength);
+    mode.setMacKey(macKey, macKeyLength);
     mode.decrypt(block1, output1, dataSize);
     mode.restart();
     mode.decrypt(block2, output2, dataSize);
@@ -442,6 +447,7 @@ TEST(AuthenticatedSymmetricCipherGenericTest, encryptWithAad) {
     CryptoppApi::HexUtils::hex2bin("be6a431a935cb90e2221ebb7ef502328", 32, &expected2, dummyLength);
     CryptoppApi::HexUtils::hex2bin("ccc6f4a1ccb0c3e03a0b3e103613bef65d5f61de", 40, &expected3, dummyLength);
     mode.setKey(key, keyLength);
+    mode.setMacKey(macKey, macKeyLength);
     mode.addEncryptionAdditionalData(aad, aadLength);
     mode.encrypt(block1, output1, block1Length);
     mode.encrypt(block2, output2, block2Length);
@@ -509,6 +515,7 @@ TEST(AuthenticatedSymmetricCipherGenericTest, decryptWithAad) {
     CryptoppApi::HexUtils::hex2bin("be6a431a935cb90e2221ebb7ef502328", 32, &block2, dummyLength);
     CryptoppApi::HexUtils::hex2bin("feedfacedeadbeeffeedfacedeadbeefabaddad2", 40, &aad, aadLength);
     mode.setKey(key, keyLength);
+    mode.setMacKey(macKey, macKeyLength);
     mode.addDecryptionAdditionalData(aad, aadLength);
     mode.decrypt(block1, output1, expected1Length);
     mode.decrypt(block2, output2, expected2Length);
@@ -562,6 +569,7 @@ TEST(AuthenticatedSymmetricCipherGenericTest, encryptAadOnly) {
     // sosemanuk
     CryptoppApi::HexUtils::hex2bin("02a2913e1a34d07005ebf2ba59a1008ba1f1307f", 40, &expected, digestSize);
     mode.setKey(key, keyLength);
+    mode.setMacKey(macKey, macKeyLength);
     mode.addEncryptionAdditionalData(aad, aadLength);
     mode.finalizeEncryption(output);
     EXPECT_BYTE_ARRAY_EQ(expected, digestSize, output, digestSize);
@@ -607,6 +615,7 @@ TEST(AuthenticatedSymmetricCipherGenericTest, decryptAadOnly) {
     // sosemanuk
     CryptoppApi::HexUtils::hex2bin("02a2913e1a34d07005ebf2ba59a1008ba1f1307f", 40, &expected, digestSize);
     mode.setKey(key, keyLength);
+    mode.setMacKey(macKey, macKeyLength);
     mode.addDecryptionAdditionalData(aad, aadLength);
     mode.finalizeDecryption(output);
     EXPECT_BYTE_ARRAY_EQ(expected, digestSize, output, digestSize);
@@ -644,7 +653,6 @@ TEST(AuthenticatedSymmetricCipherGenericTest, largeData) {
     delete[] output;
 }
 
-// TODO
 TEST(AuthenticatedSymmetricCipherGenericTest, isStream) {
     CryptoppApi::StreamCipherSosemanuk cipher;
     CryptoppApi::HashSha1 hash;
@@ -721,7 +729,23 @@ TEST(AuthenticatedSymmetricCipherGenericTest, cryptWithoutIv) {
     EXPECT_THROW_MSG(mode.decrypt(input, output, inputLength), CryptoppApi::Exception, "an initialization vector is required");
 }
 
-// TODO cryptWithoutMacKey
+TEST(AuthenticatedSymmetricCipherGenericTest, cryptWithoutMacKey) {
+    CryptoppApi::StreamCipherSosemanuk cipher;
+    CryptoppApi::MacTtmac mac;
+    CryptoppApi::AuthenticatedSymmetricCipherGeneric mode(&cipher, &mac);
+
+    std::string key("1234567890123456");
+    std::string iv("1234567890123456");
+    mode.setKey(reinterpret_cast<const byte*>(key.c_str()), key.length());
+    mode.setIv(reinterpret_cast<const byte*>(iv.c_str()), iv.length());
+
+    size_t inputLength = mode.getBlockSize();
+    byte input[inputLength];
+    byte output[inputLength];
+
+    EXPECT_THROW_MSG(mode.encrypt(input, output, inputLength), CryptoppApi::Exception, "a MAC key is required");
+    EXPECT_THROW_MSG(mode.decrypt(input, output, inputLength), CryptoppApi::Exception, "a MAC key is required");
+}
 
 TEST(AuthenticatedSymmetricCipherGenericTest, cryptAadWithoutKey) {
     CryptoppApi::StreamCipherSosemanuk cipher;
@@ -769,7 +793,6 @@ TEST(AuthenticatedSymmetricCipherGenericTest, cryptBeforeAad) {
     EXPECT_THROW_MSG(mode.addDecryptionAdditionalData(input, inputLength), CryptoppApi::Exception, "additional authenticated data must be added before any decryption");
 }
 
-// TODO
 TEST(AuthenticatedSymmetricCipherGenericTest, keyNotMatchingUnderlyingOne) {
     CryptoppApi::StreamCipherSosemanuk cipher;
     CryptoppApi::HashSha1 hash;
@@ -790,8 +813,8 @@ TEST(AuthenticatedSymmetricCipherGenericTest, keyNotMatchingUnderlyingOne) {
     byte output[inputLength];
 
     mode2.setKey(reinterpret_cast<const byte*>(key2.c_str()), key2.length());
-    EXPECT_THROW_MSG(mode1.encrypt(input, output, inputLength), CryptoppApi::Exception, "key is not matching the one owned by the underlying cipher object");
+    mode1.encrypt(input, output, inputLength); // throws nothing
 
     cipher.setKey(reinterpret_cast<const byte*>(key3.c_str()), key3.length());
-    EXPECT_THROW_MSG(mode1.encrypt(input, output, inputLength), CryptoppApi::Exception, "key is not matching the one owned by the underlying cipher object");
+    mode1.encrypt(input, output, inputLength); // throws nothing
 }

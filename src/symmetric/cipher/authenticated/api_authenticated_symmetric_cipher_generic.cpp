@@ -45,43 +45,6 @@ void CryptoppAuthenticatedSymmetricCipherGeneric::Base::ProcessData(byte *outStr
     }
 }
 
-// TODO
-void CryptoppAuthenticatedSymmetricCipherGeneric::Base::SetKeyWithIV(const byte *key, size_t length, const byte *iv, size_t ivLength)
-{
-    m_cipher->SetKeyWithIV(key, length, iv, ivLength);
-    m_mac->Restart();
-}
-
-// TODO
-void CryptoppAuthenticatedSymmetricCipherGeneric::Base::SetKey(const byte *key, size_t length, const CryptoPP::NameValuePairs &params)
-{
-    m_cipher->SetKey(key, length, params);
-    m_mac->Restart();
-}
-
-// TODO
-void CryptoppAuthenticatedSymmetricCipherGeneric::Base::Resynchronize(const byte *iv, int ivLength)
-{
-    m_cipher->Resynchronize(iv, ivLength);
-    m_mac->Restart();
-}
-
-// TODO
-bool CryptoppAuthenticatedSymmetricCipherGeneric::Base::IsValidKeyLength(size_t n) const
-{
-    return m_cipher->IsValidKeyLength(n);
-}
-
-// TODO
-void CryptoppAuthenticatedSymmetricCipherGeneric::Base::Restart()
-{
-    m_mac->Restart();
-
-//    if (0 != dynamic_cast<SymmetricTransformationUserInterface*>(m_cipher)) {
-//        dynamic_cast<SymmetricTransformationUserInterface*>(m_cipher)->Restart();
-//    }
-}
-
 AuthenticatedSymmetricCipherGeneric::AuthenticatedSymmetricCipherGeneric(SymmetricModeInterface *mode, MacInterface *mac)
     : AuthenticatedSymmetricCipherAbstract()
     , m_cipher(mode)
@@ -130,6 +93,29 @@ void AuthenticatedSymmetricCipherGeneric::restart()
 
     m_cipher->restart();
     m_mac->restart();
+}
+
+bool AuthenticatedSymmetricCipherGeneric::hasValidMacKey(bool throwIfFalse)
+{
+    try {
+        return m_mac->isValidKeyLength(m_mac->getKeyLength(), true);
+    } catch (Exception &e) {
+        // replace "key" with "MAC key" and re-throw
+        std::string msg = e.getMessage();
+        msg.replace(msg.find("key"), 3, "MAC key");
+        throw Exception(msg);
+    }
+
+    return false;
+}
+
+bool AuthenticatedSymmetricCipherGeneric::hasValidKey(bool throwIfFalse)
+{
+    if (!m_cipher->isValidKeyLength(m_cipher->getKeyLength(), true) || !hasValidMacKey(true)) {
+        return false;
+    }
+
+    return true;
 }
 
 NAMESPACE_END

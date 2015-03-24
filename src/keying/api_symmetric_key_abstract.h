@@ -30,7 +30,7 @@ protected:
     SymmetricKeyAbstract()
         : m_key(NULL)
         , m_keyLength(0) {}
-    bool hasValidKey(bool throwIfFalse);
+    virtual bool hasValidKey(bool throwIfFalse);
     bool isKeyEqualsTo(SymmetricKeyAbstract *compare);
 
 private:

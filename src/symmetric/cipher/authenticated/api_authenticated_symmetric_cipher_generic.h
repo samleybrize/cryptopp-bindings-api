@@ -28,12 +28,7 @@ public:
     class Base : public CryptoPP::AuthenticatedSymmetricCipher
     {
     public:
-        void ProcessData(byte *outString, const byte *inString, size_t length); // TODO ?
-        void SetKeyWithIV(const byte *key, size_t length, const byte *iv, size_t ivLength); // TODO ?
-        void SetKey(const byte *key, size_t length, const CryptoPP::NameValuePairs &params = CryptoPP::g_nullNameValuePairs); // TODO ?
-        void Resynchronize(const byte *iv, int ivLength=-1); // TODO ?
-        bool IsValidKeyLength(size_t n) const; // TODO ?
-        void Restart(); // TODO ?
+        void ProcessData(byte *outString, const byte *inString, size_t length);
 
         std::string AlgorithmName() const {return "generic";}
 
@@ -128,12 +123,11 @@ public:
     size_t getMacKeyLength() {return m_mac->getKeyLength();}
     void setMacKey(const byte *key, const size_t keyLength) {m_mac->setKey(key, keyLength);}
 
-    // TODO
-    // TODO encrypt & co => hasMacKey()
     void restart();
 
 protected:
-    bool hasValidMacKey(bool throwIfFalse) {return m_mac->isValidKeyLength(m_mac->getKeyLength(), true);}
+    bool hasValidMacKey(bool throwIfFalse);
+    bool hasValidKey(bool throwIfFalse);
 
 private:
     SymmetricTransformationInterface *m_cipher;
