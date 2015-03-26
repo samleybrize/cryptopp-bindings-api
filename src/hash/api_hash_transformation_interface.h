@@ -15,11 +15,13 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for classes that performs a hash transformation
 class HashTransformationInterface
 {
 public:
     virtual ~HashTransformationInterface() {}
 
+    // TODO comments
     virtual const char *getName() const =0;
     virtual size_t getDigestSize() const =0;
     virtual size_t getBlockSize() const =0;

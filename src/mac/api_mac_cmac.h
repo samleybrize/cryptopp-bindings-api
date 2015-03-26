@@ -21,6 +21,8 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
+// Fork of the Crypto++ implementation of CMAC
+// Allow to give a cipher as a constructor argument
 class CryptoppCmac : public CryptoPP::CMAC_Base
 {
 public:
@@ -48,9 +50,11 @@ private:
 
 NAMESPACE_END // CryptoppApiInternal
 
+// CMAC MAC algorithm implementation
 class MacCmac : public MacAbstract
 {
 public:
+    // TODO comment
     MacCmac(BlockCipherAbstract *cipher);
     ~MacCmac();
 
@@ -60,6 +64,7 @@ public:
     void finalize(byte *output);
 
 private:
+    // TODO comment
     CryptoppApiInternal::CryptoppCmac *m_mac;
     BlockCipherAbstract *m_cipher;
 };

@@ -18,13 +18,16 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// CTR cipher mode of operation implementation
 class SymmetricModeCtr : public SymmetricModeAbstract
 {
 public:
+    // TODO comments
     SymmetricModeCtr(BlockCipherInterface *cipher);
     ~SymmetricModeCtr();
 
 private:
+    // TODO comments
     CryptoPP::CTR_Mode_ExternalCipher::Encryption *m_encryptor;
     CryptoPP::CTR_Mode_ExternalCipher::Decryption *m_decryptor;
 };

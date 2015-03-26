@@ -17,6 +17,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Two-Track-MAC algorithm implementation
 class MacTtmac : public MacAbstract
 {
 public:

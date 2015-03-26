@@ -18,13 +18,16 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// ECB cipher mode of operation implementation
 class SymmetricModeEcb : public SymmetricModeAbstract
 {
 public:
+    // TODO comments
     SymmetricModeEcb(BlockCipherInterface *cipher);
     ~SymmetricModeEcb();
 
 private:
+    // TODO comments
     CryptoPP::ECB_Mode_ExternalCipher::Encryption *m_encryptor;
     CryptoPP::ECB_Mode_ExternalCipher::Decryption *m_decryptor;
 };

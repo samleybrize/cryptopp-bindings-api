@@ -21,6 +21,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
+// TODO comments
 class CryptoppCcm
 {
 public:

@@ -16,9 +16,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for classes that implements a cipher mode of operation
 class SymmetricModeInterface : public SymmetricTransformationInterface
 {
 public:
+    // TODO comments
     virtual CryptoPP::SymmetricCipher *getEncryptor() =0;
     virtual CryptoPP::SymmetricCipher *getDecryptor() =0;
 };

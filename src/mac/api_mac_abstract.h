@@ -17,9 +17,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Abstract class for MAC classes that implements common tasks
 class MacAbstract : public MacInterface
 {
 public:
+    // TODO comments
     using SymmetricKeyAbstract::isValidKeyLength;
 
     const char *getName() const;
@@ -35,11 +37,13 @@ public:
     CryptoPP::MessageAuthenticationCode *getCryptoppObject() {return m_mac;}
 
 protected:
+    // TODO comments
     MacAbstract();
     void setCryptoppObject(CryptoPP::MessageAuthenticationCode *mac);
     void setName(const std::string name);
 
 private:
+    // TODO comments
     std::string m_name;
     CryptoPP::MessageAuthenticationCode *m_mac;
 };

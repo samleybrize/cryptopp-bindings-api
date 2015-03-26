@@ -17,9 +17,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Abstract class for Hash classes that implements common tasks
 class HashAbstract : public HashInterface
 {
 public:
+    // TODO comments
     const char *getName() const;
     size_t getDigestSize() const;
     size_t getBlockSize() const;
@@ -31,9 +33,11 @@ public:
     CryptoPP::HashTransformation *getCryptoppObject() {return m_hash;}
 
 protected:
+    // TODO comments
     HashAbstract(CryptoPP::HashTransformation *hash, const std::string name);
 
 private:
+    // TODO comments
     std::string m_name;
     CryptoPP::HashTransformation *m_hash;
 };

@@ -25,24 +25,32 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
+// Fork of the Crypto++ implementation of Sha3-224
+// Adds the block size used by the HMAC algorithm
 class CryptoppSha3_224 : public CryptoPP::SHA3_224
 {
 public:
     unsigned int BlockSize() const {return 72;}
 };
 
+// Fork of the Crypto++ implementation of Sha3-256
+// Adds the block size used by the HMAC algorithm
 class CryptoppSha3_256 : public CryptoPP::SHA3_256
 {
 public:
     unsigned int BlockSize() const {return 104;}
 };
 
+// Fork of the Crypto++ implementation of Sha3-384
+// Adds the block size used by the HMAC algorithm
 class CryptoppSha3_384 : public CryptoPP::SHA3_384
 {
 public:
     unsigned int BlockSize() const {return 136;}
 };
 
+// Fork of the Crypto++ implementation of Sha3-512
+// Adds the block size used by the HMAC algorithm
 class CryptoppSha3_512 : public CryptoPP::SHA3_512
 {
 public:
@@ -51,6 +59,7 @@ public:
 
 NAMESPACE_END // CryptoppApiInternal
 
+// Sha3-224 hash function implementation
 class HashSha3_224 : public HashAbstract
 {
 public:
@@ -60,6 +69,7 @@ private:
     CryptoppApiInternal::CryptoppSha3_224 m_hash;
 };
 
+// Sha3-256 hash function implementation
 class HashSha3_256 : public HashAbstract
 {
 public:
@@ -69,6 +79,7 @@ private:
     CryptoppApiInternal::CryptoppSha3_256 m_hash;
 };
 
+// Sha3-384 hash function implementation
 class HashSha3_384 : public HashAbstract
 {
 public:
@@ -78,6 +89,7 @@ private:
     CryptoppApiInternal::CryptoppSha3_384 m_hash;
 };
 
+// Sha3-512 hash function implementation
 class HashSha3_512 : public HashAbstract
 {
 public:

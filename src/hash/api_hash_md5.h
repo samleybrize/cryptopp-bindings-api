@@ -17,6 +17,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// MD5 hash function implementation
 class HashMd5 : public HashAbstract
 {
 public:

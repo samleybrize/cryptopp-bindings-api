@@ -17,9 +17,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for symmetric cipher implementations that require a key and an IV
 class SymmetricTransformationInterface : public SymmetricCipherInterface, public SymmetricIvAbstract
 {
 public:
+    // TODO comment
     virtual ~SymmetricTransformationInterface() {}
 
     virtual void encrypt(const byte *input, byte *output, const size_t length) =0;

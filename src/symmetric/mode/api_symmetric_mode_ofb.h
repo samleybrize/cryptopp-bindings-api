@@ -18,13 +18,16 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// OFB cipher mode of operation implementation
 class SymmetricModeOfb : public SymmetricModeAbstract
 {
 public:
+    // TODO comments
     SymmetricModeOfb(BlockCipherInterface *cipher);
     ~SymmetricModeOfb();
 
 private:
+    // TODO comments
     CryptoPP::OFB_Mode_ExternalCipher::Encryption *m_encryptor;
     CryptoPP::OFB_Mode_ExternalCipher::Decryption *m_decryptor;
 };

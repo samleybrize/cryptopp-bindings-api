@@ -16,6 +16,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for Hash classes
 class HashInterface : public HashTransformationInterface
 {
 };

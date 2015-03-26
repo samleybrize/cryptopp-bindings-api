@@ -16,9 +16,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for block cipher implementations
 class BlockCipherInterface : public SymmetricCipherInterface
 {
 public:
+    // TODO comment
     virtual ~BlockCipherInterface() {}
 
     virtual void encrypt(const byte *input, byte *output, const size_t length) =0;

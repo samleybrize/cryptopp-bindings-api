@@ -17,9 +17,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Abstract class for block cipher classes that define common tasks
 class BlockCipherAbstract : public BlockCipherInterface
 {
 public:
+    // TODO comments
     using SymmetricKeyAbstract::isValidKeyLength;
 
     const char *getName() const;
@@ -35,11 +37,13 @@ public:
     CryptoPP::BlockCipher *getDecryptor() {return m_decryptor;}
 
 protected:
+    // TODO comments
     BlockCipherAbstract();
     void setCryptoppObjects(CryptoPP::BlockCipher *encryptor, CryptoPP::BlockCipher *decryptor);
     void setName(const std::string name);
 
 private:
+    // TODO comments
     std::string m_name;
     CryptoPP::BlockCipher *m_encryptor;
     CryptoPP::BlockCipher *m_decryptor;

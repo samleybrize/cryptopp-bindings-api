@@ -17,9 +17,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for classes that implements MAC algorithms
 class MacInterface : public HashTransformationInterface, public SymmetricKeyAbstract
 {
 public:
+    // TODO comment
     virtual CryptoPP::MessageAuthenticationCode *getCryptoppObject() =0;
 };
 

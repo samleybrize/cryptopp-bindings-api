@@ -15,9 +15,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Utility class that take care of hex encoding/decoding
 class HexUtils
 {
 public:
+    // TODO comments
     static void bin2hex(const byte *input, const size_t inputLength, char **output, size_t &outputLength);
     static void hex2bin(const char *input, const size_t inputLength, byte **output, size_t &outputLength);
 };

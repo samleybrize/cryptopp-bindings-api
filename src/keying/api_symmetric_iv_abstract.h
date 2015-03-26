@@ -15,9 +15,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Abstract class that implements IV related tasks
 class SymmetricIvAbstract
 {
 public:
+    // TODO comments
     virtual ~SymmetricIvAbstract() {delete[] m_iv;}
 
     virtual bool isValidIvLength(size_t length) const =0;
@@ -27,12 +29,14 @@ public:
     virtual size_t getIvLength() {return m_ivLength;}
 
 protected:
+    // TODO comments
     SymmetricIvAbstract()
         : m_iv(NULL)
         , m_ivLength(0) {}
     virtual bool hasValidIv(bool throwIfFalse);
 
 private:
+    // TODO comments
     byte *m_iv;
     size_t m_ivLength;
 };

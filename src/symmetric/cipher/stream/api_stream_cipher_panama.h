@@ -17,6 +17,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// TODO comments
 class StreamCipherPanama : public StreamCipherAbstract
 {
 public:

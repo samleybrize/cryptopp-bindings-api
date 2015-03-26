@@ -18,6 +18,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// TODO comments
 class AuthenticatedSymmetricCipherAbstract : public AuthenticatedSymmetricCipherInterface
 {
 public:

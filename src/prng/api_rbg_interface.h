@@ -15,9 +15,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for classes that implements a pseudo-random byte generator
 class RandomByteGeneratorInterface
 {
 public:
+    // TODO comment
     virtual ~RandomByteGeneratorInterface() {}
     virtual void generate(byte *output, size_t size) =0;
 };

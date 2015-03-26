@@ -16,6 +16,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// PKCS#7 padding scheme implementation
 class PaddingPkcs7 : public PaddingInterface
 {
 public:

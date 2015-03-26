@@ -15,9 +15,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Abstract class that implements symmetric key related tasks
 class SymmetricKeyAbstract
 {
 public:
+    // TODO comments
     virtual ~SymmetricKeyAbstract() {delete[] m_key;}
 
     virtual bool isValidKeyLength(size_t length) const =0;
@@ -27,6 +29,7 @@ public:
     virtual size_t getKeyLength() {return m_keyLength;}
 
 protected:
+    // TODO comments
     SymmetricKeyAbstract()
         : m_key(NULL)
         , m_keyLength(0) {}
@@ -34,6 +37,7 @@ protected:
     bool isKeyEqualsTo(SymmetricKeyAbstract *compare);
 
 private:
+    // TODO comments
     byte *m_key;
     size_t m_keyLength;
 };

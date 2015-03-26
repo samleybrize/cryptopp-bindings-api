@@ -17,6 +17,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Sha1 hash function implementation
 class HashSha1 : public HashAbstract
 {
 public:

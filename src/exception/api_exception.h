@@ -1,6 +1,6 @@
 
 /*
- * This file is part of cryptopp-bindings-api.
+ * This file is part of cryptopp-bin+dings-api.
  *
  * (c) Stephen Berquet <stephen.berquet@gmail.com>
  *
@@ -17,6 +17,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// API Exception class
 class Exception : public std::exception
 {
 public:
@@ -27,12 +28,19 @@ public:
         : m_msg(message)
         , m_code(code) {}
 
+    // returns exception message
     std::string getMessage() {return m_msg;}
+
+    // returns exception code
     int getCode() {return m_code;}
+
     virtual const char* what() const throw() {return m_msg.c_str();}
 
 protected:
+    // exception message
     std::string m_msg;
+
+    // exception code
     int m_code;
 };
 

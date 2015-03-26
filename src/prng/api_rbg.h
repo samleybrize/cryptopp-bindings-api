@@ -17,6 +17,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Implementation of a pseudo-random byte generator
 class RandomByteGenerator : public RandomByteGeneratorInterface
 {
 public:

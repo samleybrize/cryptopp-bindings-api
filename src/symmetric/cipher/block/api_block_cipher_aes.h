@@ -17,6 +17,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// AES block cipher implementation
 class BlockCipherAes : public BlockCipherAbstract
 {
 public:

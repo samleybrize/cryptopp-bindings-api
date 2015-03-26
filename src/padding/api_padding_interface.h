@@ -15,9 +15,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for classes that implements a padding scheme
 class PaddingInterface
 {
 public:
+    // TODO comment
     virtual ~PaddingInterface() {}
     virtual void pad(const size_t blockSize, const byte *input, const size_t inputLength, byte **output, size_t &outputLength) =0;
     virtual void unpad(const size_t blockSize, const byte *input, const size_t inputLength, byte **output, size_t &outputLength) =0;

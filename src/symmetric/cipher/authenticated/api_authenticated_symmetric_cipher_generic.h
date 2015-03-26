@@ -23,6 +23,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
+// TODO comments
 // AuthenticatedSymmetricCipher that take an instance of CryptoPP::SymmetricCipher and an instance of CryptoPP::MessageAuthenticationCode
 class CryptoppAuthenticatedSymmetricCipherGeneric
 {

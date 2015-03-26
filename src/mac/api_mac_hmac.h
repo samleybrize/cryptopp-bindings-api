@@ -21,6 +21,8 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
+// Fork of the Crypto++ implementation of HMAC
+// Allow to give a Hash object as a constructor argument
 class CryptoppHmac : public CryptoPP::MessageAuthenticationCodeImpl<CryptoPP::HMAC_Base, CryptoppHmac>
 {
 public:
@@ -38,9 +40,11 @@ private:
 
 NAMESPACE_END // CryptoppApiInternal
 
+// HMAC MAC algorithm implementation
 class MacHmac : public MacAbstract
 {
 public:
+    // TODO comment
     MacHmac(HashInterface *hash);
     ~MacHmac();
 

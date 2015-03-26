@@ -21,6 +21,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
+// TODO comments
 class CryptoppEaxCmac : public CryptoPP::CMAC_Base
 {
 public:

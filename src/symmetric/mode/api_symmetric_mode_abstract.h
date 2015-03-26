@@ -18,9 +18,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Abstract class for cipher mode of operation classes that define common tasks
 class SymmetricModeAbstract : public SymmetricModeInterface
 {
 public:
+    // TODO comments
     using SymmetricKeyAbstract::isValidKeyLength;
     using SymmetricIvAbstract::isValidIvLength;
 
@@ -38,12 +40,14 @@ public:
     virtual CryptoPP::SymmetricCipher *getDecryptor() {return m_decryptor;}
 
 protected:
+    // TODO comments
     SymmetricModeAbstract();
     void setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor);
     void setName(const std::string name);
     void setName(const std::string modeName, const std::string cipherName);
 
 private:
+    // TODO comments
     std::string m_name;
     BlockCipherInterface *m_cipher;
     CryptoPP::SymmetricCipher *m_encryptor;

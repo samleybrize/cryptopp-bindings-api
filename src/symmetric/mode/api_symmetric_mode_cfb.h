@@ -21,6 +21,8 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
+// Fork of the Crypto++ implementation of CFB (encryption part)
+// Allow to give a cipher as a constructor argument
 class CryptoppCfbEncryption : public CryptoPP::CFB_Mode_ExternalCipher::Encryption
 {
 public:
@@ -28,6 +30,8 @@ public:
     void SetCipher(CryptoPP::BlockCipher &cipher);
 };
 
+// Fork of the Crypto++ implementation of CFB (decryption part)
+// Allow to give a cipher as a constructor argument
 class CryptoppCfbDecryption : public CryptoPP::CFB_Mode_ExternalCipher::Decryption
 {
 public:
@@ -37,13 +41,16 @@ public:
 
 NAMESPACE_END // CryptoppApiInternal
 
+// CFB cipher mode of operation implementation
 class SymmetricModeCfb : public SymmetricModeAbstract
 {
 public:
+    // TODO comments
     SymmetricModeCfb(BlockCipherInterface *cipher);
     ~SymmetricModeCfb();
 
 private:
+    // TODO comments
     CryptoppApiInternal::CryptoppCfbEncryption *m_encryptor;
     CryptoppApiInternal::CryptoppCfbDecryption *m_decryptor;
 };

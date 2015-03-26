@@ -20,6 +20,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
+// TODO comments
 class CryptoppSalsa20Encryption : public CryptoPP::Salsa20::Encryption
 {
 public:

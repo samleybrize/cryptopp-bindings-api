@@ -16,9 +16,11 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Interface for symmetric cipher implementations that require a key
 class SymmetricCipherInterface : public SymmetricKeyAbstract
 {
 public:
+    // TODO comments
     virtual ~SymmetricCipherInterface() {}
 
     virtual const char *getName() const =0;

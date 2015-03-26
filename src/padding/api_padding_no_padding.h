@@ -16,6 +16,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
+// Implementation of a padding scheme that does nothing
 class PaddingNoPadding : public PaddingInterface
 {
 public:
