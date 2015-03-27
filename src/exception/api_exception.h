@@ -26,6 +26,7 @@ public:
     Exception(const std::string message, const int code)
         : m_msg(message)
         , m_code(code) {}
+    ~Exception() throw() {}
 
     std::string getMessage() {return m_msg;}
     int getCode() {return m_code;}
