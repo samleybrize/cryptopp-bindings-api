@@ -7057,7 +7057,7 @@ GTEST_TEST(AlternativeNameTest, Works) {  // GTEST_TEST is the same as TEST.
 
 // Tests for internal utilities necessary for implementation of the universal
 // printing.
-// TODO(vladl@google.com): Find a better home for them.
+// (vladl@google.com): Find a better home for them.
 
 class ConversionHelperBase {};
 class ConversionHelperDerived : public ConversionHelperBase {};

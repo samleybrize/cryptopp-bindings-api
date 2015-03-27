@@ -1,0 +1,32 @@
+language: cpp
+compiler: gcc
+
+install:
+    - sudo apt-get update -qq
+    - sudo apt-get install -qq build-essential python unzip
+    - mkdir libcryptopp
+    - cd libcryptopp
+    - wget http://www.cryptopp.com/cryptopp562.zip
+    - unzip cryptopp562.zip
+    - sed -i -e 's/^CXXFLAGS/#CXXFLAGS/' GNUmakefile
+    - export CXXFLAGS="${CXXFLAGS} -DNDEBUG -fPIC"
+    - make -f GNUmakefile
+    - make libcryptopp.so
+    - sudo make install
+    - cd ..
+
+before_script:
+    - ulimit -c unlimited || true
+    - cmake .
+    - make
+
+script:
+    - make check
+
+after_failure:
+    - sudo apt-get install -qq gdb
+    - for i in $(find . -name 'core*' -print); do gdb -c "$i" ./build/test/cryptopp-bindings-api-tests -ex "thread apply all bt" -ex "set pagination 0" -ex "backtrace full" -ex "info registers" -ex "x/16i \$pc" -batch; done;
+
+notifications:
+    email:
+        - stephen.berquet@gmail.com

@@ -116,7 +116,7 @@ def VerifyOutputFile(output_dir, relative_path):
   # Makes sure the output file either doesn't exist or can be overwritten.
   output_file = os.path.join(output_dir, relative_path)
   if os.path.exists(output_file):
-    # TODO(wan@google.com): The following user-interaction doesn't
+    # (wan@google.com): The following user-interaction doesn't
     # work with automated processes.  We should provide a way for the
     # Makefile to force overwriting the files.
     print ('%s already exists in directory %s - overwrite it? (y/N) ' %
