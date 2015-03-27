@@ -103,7 +103,7 @@ class GTestXMLOutFilesTest(gtest_xml_test_utils.GTestXMLTestCase):
     self.assert_(p.exited)
     self.assertEquals(0, p.exit_code)
 
-    # TODO(wan@google.com): libtool causes the built test binary to be
+    # (wan@google.com): libtool causes the built test binary to be
     #   named lt-gtest_xml_outfiles_test_ instead of
     #   gtest_xml_outfiles_test_.  To account for this possibillity, we
     #   allow both names in the following code.  We should remove this

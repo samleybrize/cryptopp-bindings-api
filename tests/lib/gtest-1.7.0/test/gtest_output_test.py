@@ -52,7 +52,7 @@ CATCH_EXCEPTIONS_ENV_VAR_NAME = 'GTEST_CATCH_EXCEPTIONS'
 
 IS_WINDOWS = os.name == 'nt'
 
-# TODO(vladl@google.com): remove the _lin suffix.
+# (vladl@google.com): remove the _lin suffix.
 GOLDEN_NAME = 'gtest_output_test_golden_lin.txt'
 
 PROGRAM_PATH = gtest_test_utils.GetTestExecutablePath('gtest_output_test_')

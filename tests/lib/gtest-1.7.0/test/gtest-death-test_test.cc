@@ -316,7 +316,7 @@ void DieWithEmbeddedNul() {
 // Tests that EXPECT_DEATH and ASSERT_DEATH work when the error
 // message has a NUL character in it.
 TEST_F(TestForDeathTest, EmbeddedNulInMessage) {
-  // TODO(wan@google.com): <regex.h> doesn't support matching strings
+  // (wan@google.com): <regex.h> doesn't support matching strings
   // with embedded NUL characters - find a way to workaround it.
   EXPECT_DEATH(DieWithEmbeddedNul(), "my null world");
   ASSERT_DEATH(DieWithEmbeddedNul(), "my null world");
@@ -1218,7 +1218,7 @@ TEST(ParseNaturalNumberTest, WorksForShorterIntegers) {
 
 # if GTEST_OS_WINDOWS
 TEST(EnvironmentTest, HandleFitsIntoSizeT) {
-  // TODO(vladl@google.com): Remove this test after this condition is verified
+  // (vladl@google.com): Remove this test after this condition is verified
   // in a static assertion in gtest-death-test.cc in the function
   // GetStatusFileDescriptor.
   ASSERT_TRUE(sizeof(HANDLE) <= sizeof(size_t));
