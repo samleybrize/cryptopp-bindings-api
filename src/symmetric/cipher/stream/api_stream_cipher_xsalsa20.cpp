@@ -14,9 +14,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-StreamCipherXSalsa20::StreamCipherXSalsa20(int rounds)
-    : StreamCipherAbstract()
-    , m_rounds(20)
+void StreamCipherXSalsa20::init(int rounds)
 {
     setName("xsalsa20");
     setCryptoppObjects(&m_encryptor, &m_decryptor);

@@ -21,11 +21,15 @@ NAMESPACE_BEGIN(CryptoppApi)
 class StreamCipherPanama : public StreamCipherAbstract
 {
 public:
-    StreamCipherPanama() : StreamCipherPanama(Endianness::E_LITTLE_ENDIAN) {}
-    StreamCipherPanama(Endianness endianness);
+    StreamCipherPanama() : StreamCipherAbstract()
+        {init(Endianness::E_LITTLE_ENDIAN);}
+    StreamCipherPanama(Endianness endianness) : StreamCipherAbstract()
+        {init(endianness);}
     ~StreamCipherPanama();
 
 private:
+    void init(Endianness endianness);
+
     CryptoPP::SymmetricCipher *m_encryptor;
     CryptoPP::SymmetricCipher *m_decryptor;
 };

@@ -40,11 +40,15 @@ NAMESPACE_END // CryptoppApiInternal
 class StreamCipherSalsa20 : public StreamCipherAbstract
 {
 public:
-    StreamCipherSalsa20() : StreamCipherSalsa20(20) {}
-    StreamCipherSalsa20(int rounds);
+    StreamCipherSalsa20() : StreamCipherAbstract()
+        {init(20);}
+    StreamCipherSalsa20(int rounds) : StreamCipherAbstract()
+        {init(rounds);}
     void setRounds(int rounds);
 
 private:
+    void init(int rounds);
+
     CryptoppApiInternal::CryptoppSalsa20Encryption m_encryptor;
     CryptoppApiInternal::CryptoppSalsa20Decryption m_decryptor;
     int m_rounds;

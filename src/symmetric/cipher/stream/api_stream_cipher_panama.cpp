@@ -14,8 +14,7 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-StreamCipherPanama::StreamCipherPanama(Endianness endianness)
-    : StreamCipherAbstract()
+void StreamCipherPanama::init(Endianness endianness)
 {
     setName("panama");
 
