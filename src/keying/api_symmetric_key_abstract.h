@@ -38,11 +38,16 @@ public:
     // returns the key length
     virtual size_t getKeyLength() {return m_keyLength;}
 
+    // indicates if a valid key has been setted
+    // the 'throwIfFalse' argument indicates if an exception should be thrown in case the method return false
+    virtual bool hasValidKey(bool throwIfFalse);
+
 protected:
     SymmetricKeyAbstract()
         : m_key(NULL)
         , m_keyLength(0) {}
-    virtual bool hasValidKey(bool throwIfFalse);
+
+    // indicates if another instance of SymmetricKeyAbstract hold a key identical to the one owned by this instance
     bool isKeyEqualsTo(SymmetricKeyAbstract *compare);
 
 private:

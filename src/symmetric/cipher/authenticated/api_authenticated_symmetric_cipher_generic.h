@@ -139,12 +139,12 @@ public:
     // proxy to the MAC's 'setKey()' method
     void setMacKey(const byte *key, const size_t keyLength) {m_mac->setKey(key, keyLength);}
 
+    // call cipher's 'hasValidKey()' and MAC's 'hasValidKey()' methods
+    bool hasValidKey(bool throwIfFalse);
+
 protected:
     // proxy to the MAC's 'hasValidKey()' method
     bool hasValidMacKey(bool throwIfFalse);
-
-    // call cipher's 'hasValidKey()' and MAC's 'hasValidKey()' methods
-    bool hasValidKey(bool throwIfFalse);
 
 private:
     SymmetricTransformationInterface *m_cipher;

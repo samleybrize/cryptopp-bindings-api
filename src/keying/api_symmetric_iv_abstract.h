@@ -38,13 +38,14 @@ public:
     // returns the IV length
     virtual size_t getIvLength() {return m_ivLength;}
 
+    // indicates if a valid IV has been setted
+    // the 'throwIfFalse' argument indicates if an exception should be thrown in case the method return false
+    virtual bool hasValidIv(bool throwIfFalse);
+
 protected:
     SymmetricIvAbstract()
         : m_iv(NULL)
         , m_ivLength(0) {}
-
-    // indicates if a valid IV has been setted
-    virtual bool hasValidIv(bool throwIfFalse);
 
 private:
     byte *m_iv;
