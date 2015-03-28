@@ -54,7 +54,6 @@ NAMESPACE_END // CryptoppApiInternal
 class MacCmac : public MacAbstract
 {
 public:
-    // TODO comment
     MacCmac(BlockCipherAbstract *cipher);
     ~MacCmac();
 
@@ -64,7 +63,6 @@ public:
     void finalize(byte *output);
 
 private:
-    // TODO comment
     CryptoppApiInternal::CryptoppCmac *m_mac;
     BlockCipherAbstract *m_cipher;
 };

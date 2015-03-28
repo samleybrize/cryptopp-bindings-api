@@ -22,12 +22,10 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricModeCbc : public SymmetricModeAbstract
 {
 public:
-    // TODO comments
     SymmetricModeCbc(BlockCipherInterface *cipher);
     ~SymmetricModeCbc();
 
 private:
-    // TODO comments
     CryptoPP::CBC_Mode_ExternalCipher::Encryption *m_encryptor;
     CryptoPP::CBC_Mode_ExternalCipher::Decryption *m_decryptor;
 };

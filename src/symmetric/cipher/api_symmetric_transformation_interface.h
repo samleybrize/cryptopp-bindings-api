@@ -21,13 +21,20 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricTransformationInterface : public SymmetricCipherInterface, public SymmetricIvAbstract
 {
 public:
-    // TODO comment
     virtual ~SymmetricTransformationInterface() {}
 
+    // encrypts data
+    // output length is equal to input length
     virtual void encrypt(const byte *input, byte *output, const size_t length) =0;
+
+    // decrypts data
+    // output length is equal to input length
     virtual void decrypt(const byte *input, byte *output, const size_t length) =0;
+
+    // resets encryption/decryption state
     virtual void restart() =0;
 
+    // returns Crypto++ objects used
     virtual CryptoPP::StreamTransformation *getEncryptor() =0;
     virtual CryptoPP::StreamTransformation *getDecryptor() =0;
 };

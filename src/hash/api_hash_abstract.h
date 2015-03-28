@@ -21,7 +21,6 @@ NAMESPACE_BEGIN(CryptoppApi)
 class HashAbstract : public HashInterface
 {
 public:
-    // TODO comments
     const char *getName() const;
     size_t getDigestSize() const;
     size_t getBlockSize() const;
@@ -33,12 +32,16 @@ public:
     CryptoPP::HashTransformation *getCryptoppObject() {return m_hash;}
 
 protected:
-    // TODO comments
+    // Constructor
+    // first argument is the Crypto++ hash object
+    // second argument is the algorithm name
     HashAbstract(CryptoPP::HashTransformation *hash, const std::string name);
 
 private:
-    // TODO comments
+    // algorithm name
     std::string m_name;
+
+    // Crypto++ hash object used
     CryptoPP::HashTransformation *m_hash;
 };
 

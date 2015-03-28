@@ -21,7 +21,6 @@ NAMESPACE_BEGIN(CryptoppApi)
 class BlockCipherAbstract : public BlockCipherInterface
 {
 public:
-    // TODO comments
     using SymmetricKeyAbstract::isValidKeyLength;
 
     const char *getName() const;
@@ -37,14 +36,19 @@ public:
     CryptoPP::BlockCipher *getDecryptor() {return m_decryptor;}
 
 protected:
-    // TODO comments
     BlockCipherAbstract();
+
+    // sets Crypto++ objects used
     void setCryptoppObjects(CryptoPP::BlockCipher *encryptor, CryptoPP::BlockCipher *decryptor);
+
+    // sets cipher name
     void setName(const std::string name);
 
 private:
-    // TODO comments
+    // cipher name
     std::string m_name;
+
+    // Crypto++ objects used
     CryptoPP::BlockCipher *m_encryptor;
     CryptoPP::BlockCipher *m_decryptor;
 };

@@ -20,7 +20,8 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
-// TODO comments
+// Fork of the Crypto++ implementation of Salsa20 (encryption part)
+// Allow to set the number of rounds
 class CryptoppSalsa20Encryption : public CryptoPP::Salsa20::Encryption
 {
 public:
@@ -28,6 +29,8 @@ public:
     void CipherSetKey(const CryptoPP::NameValuePairs &params, const byte *key, size_t length);
 };
 
+// Fork of the Crypto++ implementation of Salsa20 (decryption part)
+// Allow to set the number of rounds
 class CryptoppSalsa20Decryption : public CryptoPP::Salsa20::Decryption
 {
 public:
@@ -40,17 +43,30 @@ NAMESPACE_END // CryptoppApiInternal
 class StreamCipherSalsa20 : public StreamCipherAbstract
 {
 public:
+    // default constructor
+    // init the object with 20 rounds
     StreamCipherSalsa20() : StreamCipherAbstract()
         {init(20);}
+
+    // constructor that allow to specify the numer of rounds
+    // must be one of 8, 12 or 20
     StreamCipherSalsa20(int rounds) : StreamCipherAbstract()
         {init(rounds);}
+
+    // sets the number of rounds
+    // must be one of 8, 12 or 20
     void setRounds(int rounds);
 
 private:
+    // inits the object
+    // 'rounds' must be one of 8, 12 or 20
     void init(int rounds);
 
+    // Crypto++ objects used
     CryptoppApiInternal::CryptoppSalsa20Encryption m_encryptor;
     CryptoppApiInternal::CryptoppSalsa20Decryption m_decryptor;
+
+    // number of rounds
     int m_rounds;
 };
 

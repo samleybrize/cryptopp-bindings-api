@@ -21,15 +21,30 @@ class HashTransformationInterface
 public:
     virtual ~HashTransformationInterface() {}
 
-    // TODO comments
+    // return algorithm name
     virtual const char *getName() const =0;
+
+    // returns digest size (in bytes)
     virtual size_t getDigestSize() const =0;
+
+    // returns block size (in bytes)
     virtual size_t getBlockSize() const =0;
+
+    // calculate the digest of a given input
+    // output size is equal to the digest size
     virtual void calculateDigest(const byte *input, size_t inputLength, byte *output) =0;
+
+    // adds data to current incremental digest calculation
     virtual void update(const byte *input, size_t inputLength) =0;
+
+    // finalize current incremental digest calculation
+    // output size is equal to the digest size
     virtual void finalize(byte *output) =0;
+
+    // resets current incremental digest calculation
     virtual void restart() =0;
 
+    // returns the Crypto++ object used
     virtual CryptoPP::HashTransformation *getCryptoppObject() =0;
 };
 

@@ -20,10 +20,12 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricCipherInterface : public SymmetricKeyAbstract
 {
 public:
-    // TODO comments
     virtual ~SymmetricCipherInterface() {}
 
+    // returns cipher name
     virtual const char *getName() const =0;
+
+    // returns cipher block size (in bytes)
     virtual size_t getBlockSize() const =0;
 };
 

@@ -23,7 +23,6 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
-// TODO comments
 // AuthenticatedSymmetricCipher that take an instance of CryptoPP::SymmetricCipher and an instance of CryptoPP::MessageAuthenticationCode
 class CryptoppAuthenticatedSymmetricCipherGeneric
 {
@@ -105,6 +104,7 @@ public:
 
 NAMESPACE_END // CryptoppApiInternal
 
+// Custom authenticated cipher mode scheme that work with a cipher and a MAC
 class AuthenticatedSymmetricCipherGeneric : public AuthenticatedSymmetricCipherAbstract
 {
 public:
@@ -122,17 +122,28 @@ public:
     size_t getIvLength() {return m_cipher->getIvLength();}
     void setKey(const byte *key, const size_t keyLength) {m_cipher->setKey(key, keyLength);}
     void setIv(const byte *iv, const size_t ivLength) {m_cipher->setIv(iv, ivLength);}
-
-    bool isValidMacKeyLength(size_t length) const {return m_mac->isValidKeyLength(length);}
-    bool isValidMacKeyLength(size_t length, bool throwIfFalse) const {return m_mac->isValidKeyLength(length, throwIfFalse);}
-    void getMacKey(byte *key) {m_mac->getKey(key);}
-    size_t getMacKeyLength() {return m_mac->getKeyLength();}
-    void setMacKey(const byte *key, const size_t keyLength) {m_mac->setKey(key, keyLength);}
-
     void restart();
 
+    // proxy to the MAC's 'isValidKeyLength()' method
+    bool isValidMacKeyLength(size_t length) const {return m_mac->isValidKeyLength(length);}
+
+    // proxy to the MAC's 'isValidKeyLength(bool)' method
+    bool isValidMacKeyLength(size_t length, bool throwIfFalse) const {return m_mac->isValidKeyLength(length, throwIfFalse);}
+
+    // proxy to the MAC's 'getKey()' method
+    void getMacKey(byte *key) {m_mac->getKey(key);}
+
+    // proxy to the MAC's 'getKeyLength()' method
+    size_t getMacKeyLength() {return m_mac->getKeyLength();}
+
+    // proxy to the MAC's 'setKey()' method
+    void setMacKey(const byte *key, const size_t keyLength) {m_mac->setKey(key, keyLength);}
+
 protected:
+    // proxy to the MAC's 'hasValidKey()' method
     bool hasValidMacKey(bool throwIfFalse);
+
+    // call cipher's 'hasValidKey()' and MAC's 'hasValidKey()' methods
     bool hasValidKey(bool throwIfFalse);
 
 private:

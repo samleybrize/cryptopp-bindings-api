@@ -15,7 +15,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 
 bool SymmetricIvAbstract::hasValidIv(bool throwIfFalse)
 {
-    return isValidIvLength(getIvLength(), true);
+    return isValidIvLength(getIvLength(), throwIfFalse);
 }
 
 bool SymmetricIvAbstract::isValidIvLength(size_t length, bool throwIfFalse) const

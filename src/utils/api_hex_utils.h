@@ -19,8 +19,14 @@ NAMESPACE_BEGIN(CryptoppApi)
 class HexUtils
 {
 public:
-    // TODO comments
+    // convert binary data into hexadecimal representation
+    // the 'output' argument is allocated in the method and should be freed
+    // the 'outputLength' argument will be filled with the allocated output size
     static void bin2hex(const byte *input, const size_t inputLength, char **output, size_t &outputLength);
+
+    // decodes a hexadecimally encoded binary string
+    // the 'output' argument is allocated in the method and should be freed
+    // the 'outputLength' argument will be filled with the allocated output size
     static void hex2bin(const char *input, const size_t inputLength, byte **output, size_t &outputLength);
 };
 

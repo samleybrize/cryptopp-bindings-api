@@ -19,24 +19,34 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricIvAbstract
 {
 public:
-    // TODO comments
     virtual ~SymmetricIvAbstract() {delete[] m_iv;}
 
+    // indicates if a given length can be a valid IV
     virtual bool isValidIvLength(size_t length) const =0;
+
+    // indicates if a given length can be a valid IV
+    // the 'throwIfFalse' argument indicates if an exception should be thrown in case the length is not a valid IV length
     virtual bool isValidIvLength(size_t length, bool throwIfFalse) const;
+
+    // sets the IV
     virtual void setIv(const byte *iv, const size_t ivLength);
+
+    // returns the IV
+    // the IV size is the one provided by getIvLength()
     virtual void getIv(byte *iv);
+
+    // returns the IV length
     virtual size_t getIvLength() {return m_ivLength;}
 
 protected:
-    // TODO comments
     SymmetricIvAbstract()
         : m_iv(NULL)
         , m_ivLength(0) {}
+
+    // indicates if a valid IV has been setted
     virtual bool hasValidIv(bool throwIfFalse);
 
 private:
-    // TODO comments
     byte *m_iv;
     size_t m_ivLength;
 };

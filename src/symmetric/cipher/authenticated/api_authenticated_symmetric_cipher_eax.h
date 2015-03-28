@@ -21,7 +21,8 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
-// TODO comments
+// Fork of the Crypto++ implementation of CMAC
+// Allow to give a cipher object as a constructor parameter
 class CryptoppEaxCmac : public CryptoPP::CMAC_Base
 {
 public:
@@ -38,10 +39,12 @@ private:
     CryptoPP::BlockCipher *m_cipher;
 };
 
+// Fork of the Crypto++ implementation of EAX
+// Allow to give a cipher object as a constructor parameter
 class CryptoppEax
 {
 public:
-    /* base class */
+    // base class
     class Base : public CryptoPP::EAX_Base
     {
     public:
@@ -60,7 +63,7 @@ public:
         CryptoppEaxCmac *m_cmac;
     };
 
-    /* encryption class */
+    // encryption class
     class Encryption : public Base
     {
     public:
@@ -68,7 +71,7 @@ public:
         bool IsForwardTransformation() const {return true;}
     };
 
-    /* decryption class */
+    // decryption class
     class Decryption : public Base
     {
     public:
@@ -79,6 +82,7 @@ public:
 
 NAMESPACE_END // CryptoppApiInternal
 
+// EAX authenticated cipher mode scheme implementation
 class AuthenticatedSymmetricCipherEax : public AuthenticatedSymmetricCipherAbstract
 {
 public:

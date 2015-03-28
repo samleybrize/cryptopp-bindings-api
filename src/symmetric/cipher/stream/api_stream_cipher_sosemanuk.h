@@ -17,7 +17,6 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-// TODO comments
 class StreamCipherSosemanuk : public StreamCipherAbstract
 {
 public:

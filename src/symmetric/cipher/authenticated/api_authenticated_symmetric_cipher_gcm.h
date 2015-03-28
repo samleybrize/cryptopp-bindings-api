@@ -21,11 +21,12 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
-// TODO comments
+// Fork of the Crypto++ implementation of GCM
+// Allow to give a cipher object as a constructor parameter
 class CryptoppGcm
 {
 public:
-    /* base class */
+    // base class
     class Base : public CryptoPP::GCM_Base
     {
     public:
@@ -42,7 +43,7 @@ public:
         CryptoPP::BlockCipher *m_cipher;
     };
 
-    /* encryption class */
+    // encryption class
     class Encryption : public Base
     {
     public:
@@ -50,7 +51,7 @@ public:
         bool IsForwardTransformation() const {return true;}
     };
 
-    /* decryption class */
+    // decryption class
     class Decryption : public Base
     {
     public:
@@ -61,6 +62,7 @@ public:
 
 NAMESPACE_END // CryptoppApiInternal
 
+// GCM authenticated cipher mode scheme implementation
 class AuthenticatedSymmetricCipherGcm : public AuthenticatedSymmetricCipherAbstract
 {
 public:

@@ -44,7 +44,6 @@ NAMESPACE_END // CryptoppApiInternal
 class MacHmac : public MacAbstract
 {
 public:
-    // TODO comment
     MacHmac(HashInterface *hash);
     ~MacHmac();
 

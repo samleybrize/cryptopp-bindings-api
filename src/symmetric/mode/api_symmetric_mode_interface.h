@@ -20,7 +20,6 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricModeInterface : public SymmetricTransformationInterface
 {
 public:
-    // TODO comments
     virtual CryptoPP::SymmetricCipher *getEncryptor() =0;
     virtual CryptoPP::SymmetricCipher *getDecryptor() =0;
 };

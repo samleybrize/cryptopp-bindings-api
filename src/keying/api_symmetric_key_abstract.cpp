@@ -15,7 +15,7 @@ NAMESPACE_BEGIN(CryptoppApi)
 
 bool SymmetricKeyAbstract::hasValidKey(bool throwIfFalse)
 {
-    return isValidKeyLength(getKeyLength(), true);
+    return isValidKeyLength(getKeyLength(), throwIfFalse);
 }
 
 bool SymmetricKeyAbstract::isValidKeyLength(size_t length, bool throwIfFalse) const

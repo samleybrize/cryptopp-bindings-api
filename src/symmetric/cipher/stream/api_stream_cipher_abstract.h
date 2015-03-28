@@ -17,7 +17,6 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-// TODO comments
 class StreamCipherAbstract : public StreamCipherInterface
 {
 public:
@@ -39,11 +38,18 @@ public:
 
 protected:
     StreamCipherAbstract();
+
+    // sets Crypto++ objects used
     void setCryptoppObjects(CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor);
+
+    // sets cipher name
     void setName(const std::string name);
 
 private:
+    // cipher name
     std::string m_name;
+
+    // Crypto++ objects used
     CryptoPP::SymmetricCipher *m_encryptor;
     CryptoPP::SymmetricCipher *m_decryptor;
 };

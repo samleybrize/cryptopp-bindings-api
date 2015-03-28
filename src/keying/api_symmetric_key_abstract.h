@@ -19,17 +19,26 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricKeyAbstract
 {
 public:
-    // TODO comments
     virtual ~SymmetricKeyAbstract() {delete[] m_key;}
 
+    // indicates if a given length can be a valid key
     virtual bool isValidKeyLength(size_t length) const =0;
+
+    // indicates if a given length can be a valid key
+    // the 'throwIfFalse' argument indicates if an exception should be thrown in case the length is not a valid key length
     virtual bool isValidKeyLength(size_t length, bool throwIfFalse) const;
+
+    // sets the key
     virtual void setKey(const byte *key, const size_t keyLength);
+
+    // returns the key
+    // the key size is the one provided by getKeyLength()
     virtual void getKey(byte *key);
+
+    // returns the key length
     virtual size_t getKeyLength() {return m_keyLength;}
 
 protected:
-    // TODO comments
     SymmetricKeyAbstract()
         : m_key(NULL)
         , m_keyLength(0) {}
@@ -37,7 +46,6 @@ protected:
     bool isKeyEqualsTo(SymmetricKeyAbstract *compare);
 
 private:
-    // TODO comments
     byte *m_key;
     size_t m_keyLength;
 };

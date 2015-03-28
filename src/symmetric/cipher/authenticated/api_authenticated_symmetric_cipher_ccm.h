@@ -21,11 +21,12 @@ NAMESPACE_BEGIN(CryptoppApi)
 // internal namespace
 NAMESPACE_BEGIN(CryptoppApiInternal)
 
-// TODO comments
+// Fork of the Crypto++ implementation of CCM
+// Allow to give a cipher object as a constructor parameter, and to specify the digest length and data lengths
 class CryptoppCcm
 {
 public:
-    /* base class */
+    // base class
     class Base : public CryptoPP::CCM_Base
     {
     public:
@@ -43,7 +44,7 @@ public:
         CryptoPP::BlockCipher *m_cipher;
     };
 
-    /* encryption class */
+    // encryption class
     class Encryption : public Base
     {
     public:
@@ -51,7 +52,7 @@ public:
         bool IsForwardTransformation() const {return true;}
     };
 
-    /* decryption class */
+    // decryption class
     class Decryption : public Base
     {
     public:
@@ -62,14 +63,13 @@ public:
 
 NAMESPACE_END // CryptoppApiInternal
 
+// CCM authenticated cipher mode scheme implementation
 class AuthenticatedSymmetricCipherCcm : public AuthenticatedSymmetricCipherAbstract
 {
 public:
     AuthenticatedSymmetricCipherCcm(BlockCipherInterface *cipher);
     ~AuthenticatedSymmetricCipherCcm();
 
-    void setDigestSize(size_t digestSize);
-    void specifyDataSize(size_t dataSize, size_t aadSize);
     void addEncryptionAdditionalData(const byte *data, size_t dataLength);
     void addDecryptionAdditionalData(const byte *data, size_t dataLength);
     void encrypt(const byte *input, byte *output, const size_t length);
@@ -78,14 +78,37 @@ public:
     void finalizeDecryption(byte *output);
     void restart();
 
+    // sets the digest size
+    // restarts current encryption/decryption state
+    void setDigestSize(size_t digestSize);
+
+    // specify data and AAD sizes
+    // restarts current encryption/decryption state
+    void specifyDataSize(size_t dataSize, size_t aadSize);
+
 private:
+    // digest size
     size_t m_digestSize;
+
+    // data size
     size_t m_dataSize;
+
+    // AAD size
     size_t m_aadSize;
+
+    // encrypted data length since the last call to 'restart()' (or the construction of the object)
     size_t m_processedEncryptionDataSize;
+
+    // decrypted data length since the last call to 'restart()' (or the construction of the object)
     size_t m_processedDecryptionDataSize;
+
+    // processed AAD length (encryption) since the last call to 'restart()' (or the construction of the object)
     size_t m_processedEncryptionAadSize;
+
+    // processed AAD length (decryption) since the last call to 'restart()' (or the construction of the object)
     size_t m_processedDecryptionAadSize;
+
+    // Crypto++ objects used
     CryptoppApiInternal::CryptoppCcm::Encryption *m_encryptor;
     CryptoppApiInternal::CryptoppCcm::Decryption *m_decryptor;
 };

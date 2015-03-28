@@ -22,7 +22,6 @@ NAMESPACE_BEGIN(CryptoppApi)
 class SymmetricModeAbstract : public SymmetricModeInterface
 {
 public:
-    // TODO comments
     using SymmetricKeyAbstract::isValidKeyLength;
     using SymmetricIvAbstract::isValidIvLength;
 
@@ -40,16 +39,25 @@ public:
     virtual CryptoPP::SymmetricCipher *getDecryptor() {return m_decryptor;}
 
 protected:
-    // TODO comments
     SymmetricModeAbstract();
+
+    // sets Crypto++ objects used
     void setCryptoppObjects(BlockCipherInterface *cipher, CryptoPP::SymmetricCipher *encryptor, CryptoPP::SymmetricCipher *decryptor);
+
+    // sets the cipher mode name
     void setName(const std::string name);
+
+    // sets the cipher mode name from a cipher name
     void setName(const std::string modeName, const std::string cipherName);
 
 private:
-    // TODO comments
+    // cipher mode name
     std::string m_name;
+
+    // cipher used
     BlockCipherInterface *m_cipher;
+
+    // Crypto++ objects used
     CryptoPP::SymmetricCipher *m_encryptor;
     CryptoPP::SymmetricCipher *m_decryptor;
 };

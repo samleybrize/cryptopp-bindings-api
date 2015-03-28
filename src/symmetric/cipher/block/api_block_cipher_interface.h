@@ -20,14 +20,27 @@ NAMESPACE_BEGIN(CryptoppApi)
 class BlockCipherInterface : public SymmetricCipherInterface
 {
 public:
-    // TODO comment
     virtual ~BlockCipherInterface() {}
 
+    // encrypts data
+    // output length is equal to input length
     virtual void encrypt(const byte *input, byte *output, const size_t length) =0;
+
+    // decrypts data
+    // output length is equal to input length
     virtual void decrypt(const byte *input, byte *output, const size_t length) =0;
+
+    // encrypts a data block
+    // input length must be equal to the cipher block size
+    // output length is equal to input length
     virtual void encryptBlock(const byte *input, byte *output, const size_t length) =0;
+
+    // decrypts a data block
+    // input length must be equal to the cipher block size
+    // output length is equal to input length
     virtual void decryptBlock(const byte *input, byte *output, const size_t length) =0;
 
+    // returns Crypto++ objects used
     virtual CryptoPP::BlockCipher *getEncryptor() =0;
     virtual CryptoPP::BlockCipher *getDecryptor() =0;
 };

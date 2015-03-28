@@ -18,7 +18,6 @@
 
 NAMESPACE_BEGIN(CryptoppApi)
 
-// TODO comments
 class AuthenticatedSymmetricCipherAbstract : public AuthenticatedSymmetricCipherInterface
 {
 public:
@@ -45,15 +44,30 @@ public:
 
 protected:
     AuthenticatedSymmetricCipherAbstract();
+
+    // sets Crypto++ objects used
     void setCryptoppObjects(CryptoPP::AuthenticatedSymmetricCipher *encryptor, CryptoPP::AuthenticatedSymmetricCipher *decryptor);
+
+    // sets the cipher used
     void setCipherObject(BlockCipherInterface *cipher);
+
+    // sets algorithm name
     void setName(const std::string name);
 
 private:
+    // algorithm name
     std::string m_name;
+
+    // indicates if an encryption operation has been performed since the last call to 'restart()' (or object construction)
     bool m_encryptionStarted;
+
+    // indicates if a decryption operation has been performed since the last call to 'restart()' (or object construction)
     bool m_decryptionStarted;
+
+    // cipher used
     BlockCipherInterface *m_cipher;
+
+    // Crypto++ objects used
     CryptoPP::AuthenticatedSymmetricCipher *m_encryptor;
     CryptoPP::AuthenticatedSymmetricCipher *m_decryptor;
 };
